@@ -23,16 +23,16 @@ source g4env4lpc.csh
 
 
 ## For loop to run several jobs in parallel.  Set p = 0, f = 1 for first pass fast events (only events w/ hard nuclear interactions are generated).  Set p = 1 second iteration to select out the seeded events:
-
-for i in `seq 0 5`; do python submitProdLPC_v2.py  -r ${i} -o /afs/cern.ch/work/o/ocolegro/test/ -n 1000 -p 0 -f 1; done
+# Setting m = 2, v = 5 should give tracker+ecal+hcal -- needs to be verified
+for i in `seq 0 5`; do python submitProdLPC_v2.py  -r ${i} -o /afs/cern.ch/work/o/ocolegro/test/ -n 1000 -p 0 -f 1 -m 2 - v 5; done
 
 ##Set p = 1 second iteration to select out the seeded events:
 
-for i in `seq 0 5`; do python submitProdLPC_v2.py  -r ${i} -o /afs/cern.ch/work/o/ocolegro/test/ -n 1000 -p 1 -f 1; done
+for i in `seq 0 5`; do python submitProdLPC_v2.py  -r ${i} -o /afs/cern.ch/work/o/ocolegro/test/ -n 1000 -p 1 -f 1 -m 2 - v 5; done
 
 ##To generate full events in one pass set p = 0 and f = 0
 
-for i in `seq 0 5`; do python submitProdLPC_v2.py  -r ${i} -o /afs/cern.ch/work/o/ocolegro/test/ -n 1000 -p 0 -f 0; done
+for i in `seq 0 5`; do python submitProdLPC_v2.py  -r ${i} -o /afs/cern.ch/work/o/ocolegro/test/ -n 1000 -p 0 -f 0 -m 2 - v 5; done
 
 
 ## For loop is to generate several samples with same stat in parallel.  Set p = 0, f = 1 for first pass fast events (only events w/ hard nuclear interactions are generated).  Set p = 1 second iteration to select out the seeded events:
