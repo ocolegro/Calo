@@ -21,7 +21,6 @@ tcsh
 source g4env4lpc.csh
 ./compile.sh
 
-
 ## For loop to run several jobs in parallel.  Set p = 0, f = 1 for first pass fast events (only events w/ hard nuclear interactions are generated).  Set p = 1 second iteration to select out the seeded events:
 # Setting m = 2, v = 5 should give tracker+ecal+hcal -- needs to be verified
 for i in `seq 0 5`; do python submitProdLPC_v2.py  -r ${i} -o /afs/cern.ch/work/o/ocolegro/test/ -n 1000 -p 0 -f 1 -m 2 - v 5; done
