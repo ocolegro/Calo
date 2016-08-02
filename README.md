@@ -37,6 +37,5 @@ for i in `seq 0 5`; do python submitProdLPC_v2.py  -r ${i} -o /afs/cern.ch/work/
 ## For loop is to generate several samples with same stat in parallel.  Set p = 0, f = 1 for first pass fast events (only events w/ hard nuclear interactions are generated).  Set p = 1 second iteration to select out the seeded events:
 
 
-
 ## use option -S to test the script locally
 ## to write to eos, one might replace -o /afs/cern.ch/work/o/ocolegro/test/ with -e /store/user/ocolegro/test.
