@@ -38,6 +38,12 @@ EventAction::EventAction(G4bool doFast) {
 			<< info->model() << std::endl;
 	outF_->WriteObjectAny(info, "HGCSSInfo", "Info");
 
+	//honeycomb
+	geomConv_ = new HGCSSGeometryConversion(info->model(), CELL_SIZE_X);
+	geomConv_->initialiseHoneyComb(xysize, CELL_SIZE_X);
+	//square map for BHCAL
+	geomConv_->initialiseSquareMap(xysize, 10.);
+
 	tree_ = new TTree("HGCSSTree", "HGC Standalone simulation tree");
 	tree_->Branch("HGCSSEvent", "HGCSSEvent", &event_);
 	tree_->Branch("HGCSSSimHitVec", "std::vector<HGCSSSimHit>", &hitvec_);
@@ -85,7 +91,6 @@ void EventAction::Detect(G4double eDepRaw, G4VPhysicalVolume *volume,G4Track* lT
 
 void EventAction::EndOfEventAction(const G4Event* g4evt) {
 	//return;
-
 	event_.eventNumber(evtNb_);
 	event_.steelThick(((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->GetSteelThick());
 	double totalSens = 0;
@@ -126,14 +131,14 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 	for (size_t i =  ((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->initLayer()
 			; i < detector_->size(); i++) {
 		for (unsigned idx(0); idx < (*detector_)[i].n_sens_elements; ++idx) {
-
 					std::map<unsigned, HGCSSSimHit> lHitMap;
 					std::pair<std::map<unsigned, HGCSSSimHit>::iterator, bool> isInserted;
-					for (unsigned iSiHit(0);iSiHit < (*detector_)[i].getSiHitVec(idx).size();++iSiHit) {
 
+					for (unsigned iSiHit(0);iSiHit < (*detector_)[i].getSiHitVec(idx).size();++iSiHit) {
 						G4SiHit lSiHit = (*detector_)[i].getSiHitVec(idx)[iSiHit];
 						bool is_scint = (*detector_)[i].hasScintillator;
-						HGCSSSimHit lHit(lSiHit, idx,geomConv_->hexagonMap());
+						HGCSSSimHit lHit(lSiHit,is_scint ?geomConv_->squareMap() : geomConv_->hexagonMap());
+
 						isInserted = lHitMap.insert(std::pair<unsigned, HGCSSSimHit>(lHit.cellid(), lHit));
 						if (!isInserted.second)
 							isInserted.first->second.Add(lSiHit);
@@ -142,17 +147,13 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 				std::map<unsigned, HGCSSSimHit>::iterator lIter = lHitMap.begin();
 				hitvec_.reserve(hitvec_.size() + lHitMap.size());
 				for (; lIter != lHitMap.end(); ++lIter) {
-
-					(lIter->second).calculateTime();
 					hitvec_.push_back(lIter->second);
 				}
 			}
-
 		(*detector_)[i].resetCounters();
-
 	}
-	std::cout << "The initial layer is i = " << ((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->initLayer() << std::endl;
-	std::cout << "The total deposited energy is " << totalSens << std::endl;
+	//std::cout << "The initial layer is i = " << ((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->initLayer() << std::endl;
+	//std::cout << "The total deposited energy is " << totalSens << std::endl;
 	event_.dep(totalSens);
 	event_.wgtDep(wgtTotalSens);
 	SetWait(false);

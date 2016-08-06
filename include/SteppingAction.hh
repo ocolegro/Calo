@@ -12,25 +12,7 @@ public:
 	virtual ~SteppingAction();
 
 	void UserSteppingAction(const G4Step*);
-	inline unsigned getLayer(std::string astr) {
-		size_t pos = astr.find("phys");
-		unsigned num = 0;
-		if (astr.find("_")== astr.npos) {
-			std::string truncated = astr.substr(0,pos);
-			size_t last_index = truncated.find_last_not_of("0123456789");
-			num = std::atoi(truncated.substr(last_index+1).c_str());
 
-		}
-		else{
-			pos = astr.find("_");
-			std::string truncated = astr.substr(0,pos);
-			size_t last_index = truncated.find_last_not_of("0123456789");
-			num = std::atoi(truncated.substr(last_index+1).c_str());
-		}
-
-		return num;
-
-	};
 	inline bool checkDuplicate(std::vector<double> engVec,double currentEng){
 		for (unsigned i = 0; i < engVec.size(); i++){
 			if ( (engVec.at(i) - currentEng) < .01) return false;

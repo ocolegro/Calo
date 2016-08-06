@@ -16,7 +16,7 @@ parser.add_option('-t', '--git-tag'     ,    dest='gittag'             , help='g
 parser.add_option('-r', '--run'         ,    dest='run'                , help='stat run'                     , default=-1,      type=int)
 parser.add_option('-v', '--version'     ,    dest='version'            , help='detector version'             , default=1,      type=int)
 parser.add_option('-m', '--model'       ,    dest='model'              , help='detector model'               , default=2,      type=int)
-parser.add_option('-s', '--signal'      ,    dest='signal'             , help='signal flag'                  , default=0,      type=int)
+parser.add_option('-f', '--fast'      ,    dest='fast'             , help='fast flag'                  , default=0,      type=int)
 parser.add_option('-n', '--nevts'       ,    dest='nevts'              , help='number of events to generate' , default=1000,    type=int)
 parser.add_option('-o', '--out'         ,    dest='out'                , help='output directory'             , default=os.getcwd() )
 parser.add_option('-e', '--eos'         ,    dest='eos'                , help='eos path to save root file to EOS',         default='')
@@ -41,24 +41,33 @@ for thickness in thickness_:
     outDir='%s/git_%s/version_%d/model_%d'%(opt.out,opt.gittag,opt.version,opt.model)
     outDir='%s/%s'%(outDir,label)
     eosDir='%s/git%s'%(opt.eos,opt.gittag)
-    if opt.signal>0 : outDir='%s/signal_%3.3f/'%(outDir,opt.signal)
+    if opt.fast>0 : outDir='%s/fast_%3.3f/'%(outDir,opt.fast)
     if (opt.run>=0) : outDir='%s/run_%d/'%(outDir,opt.run)
 
     os.system('mkdir -p %s'%outDir)
-    os.system('cp bin/%s %s/' % (opt.macro,outDir))
+    os.system('xrdfs root://cmseos.fnal.gov rm %s/%s' % (outDir,opt.macro))
+
+    os.system('xrdcp bin/%s root://cmseos.fnal.gov/%s ' % (opt.macro,outDir))
+    #os.system('echo "xrdcp bin/%s root://cmseos.fnal.gov/%s" ' % (opt.macro,outDir))
+    os.system('xrdcp ../g4env4lpc.sh root://cmseos.fnal.gov/%s/' % outDir)
+    #os.system('echo "xrdcp g4env4lpc.sh root://cmseos.fnal.gov/%s/" ' % (opt.macro))
+    os.system('xrdcp $HOME/geant4_workdir/tmp/Linux-g++/PFCalEE/libPFCalEE.so root://cmseos.fnal.gov/%s/' % outDir)
+    os.system('xrdcp lib/libPFCalEEuserlib.so root://cmseos.fnal.gov/%s/' % outDir)
+    os.system('echo "xrdcp lib/libPFCalEEuserlib.so root://cmseos.fnal.gov/%s/" ' % (opt.macro))
 
     #wrapper
-    scriptFile = open('%s/runJob.sh'%(outDir), 'w')
+    #scriptFile = open('%s/runJob.sh'%(outDir), 'w')
+    scriptFile = open('runJob.sh', 'w')
     scriptFile.write('#!/bin/bash\n')
     scriptFile.write('source g4env4lpc.sh\n')#%(os.getcwd()))
     outTag='%s_version%d_model%d_thick%s'%(label,opt.version,opt.model,thickness)
     if (opt.run>=0) : outTag='%s_run%d'%(outTag,opt.run)
-    if (opt.signal>0) : outTag = '%s_second' % (outTag)
+    if (opt.fast>0) : outTag = '%s_second' % (outTag)
 
+    if opt.nosubmit   : scriptFile.write('./%s root://cmseos.fnal.gov//%s/HGcal_%s.root  \n'%(opt.macro,outDir,outTag))
+    else: scriptFile.write('./%s HGcal_%s.root  \n'%(opt.macro,outTag))
 
-    scriptFile.write('./%s HGcal_%s.root  \n'%(opt.macro,outTag))
-
-    scriptFile.write('xrdcp -f analyzed_tuple.root root://cmseos.fnal.gov/%s/analyzed_%s.root\n'%(outDir,outTag))
+    #scriptFile.write('xrdcp -f analyzed_tuple.root root://cmseos.fnal.gov/%s/analyzed_%s.root\n'%(outDir,outTag))
 
     scriptFile.write('localdir=`pwd`\n')
     scriptFile.write('echo "--Local directory is " $localdir >> g4.log\n')
@@ -72,21 +81,17 @@ for thickness in thickness_:
     scriptFile.write('echo "All done"\n')
     scriptFile.close()
     print 'submitting to the cluster'
-#write geant 4 macro
-    g4Macro = open('%s/g4steer.mac'%(outDir), 'w')
-    g4Macro.write('/control/verbose 0\n')
-    g4Macro.write('/control/saveHistory\n')
-    g4Macro.write('/run/verbose 0\n')
-    g4Macro.write('/event/verbose 0\n')
-    g4Macro.write('/tracking/verbose 0\n')
-    g4Macro.write('/N03/det/setModel %d\n'%opt.model)
-    g4Macro.write('/random/setSeeds %d %d\n'%( random.uniform(0,100000), random.uniform(0,100000) ) )
-    g4Macro.write('/run/beamOn %d\n'%(nevents))
-    g4Macro.close()
+
 
     #submit
-    os.system('echo %s ' %('chmod 777 %s/runJob.sh'%outDir))
+    #os.system('echo %s ' %('chmod 777 %s/runJob.sh'%outDir))
+    os.system('xrdfs root://cmseos.fnal.gov rm  %s/runJob.sh'%outDir)
+    os.system('xrdcp runJob.sh root://cmseos.fnal.gov/%s' % (outDir))
+    os.system('echo "xrdcp runJob.sh root://cmseos.fnal.gov/%s"' % (outDir))
+
     os.system('chmod 777 %s/runJob.sh'%outDir)
+    os.system('chmod 777 %s/%s'%(outDir,opt.macro))
+
     if opt.nosubmit   :
         os.chdir("%s" % (outDir));
         os.system('echo %s'%(outDir))
@@ -103,9 +108,9 @@ for thickness in thickness_:
         f2.write("Executable = %s \n" % ('%s/runJob.sh'%(outDir)) );
         f2.write('Requirements = OpSys == "LINUX" && (Arch != "DUMMY" )\n');
         f2.write("request_disk = 100000\n");
-        f2.write("request_memory = 10\n");
+        f2.write("request_memory = 100\n");
         f2.write("Should_Transfer_Files = YES \n");
-        f2.write("Transfer_Input_Files = %s,HGcal_%s.root,g4env4lpc.sh,libPFCalEE.so,libPFCalEEuserlib.so,PFCalEE,g4steer.mac \n" % (opt.macro,outTag) );
+        f2.write("Transfer_Input_Files = %s,g4env4lpc.sh,libPFCalEE.so,libPFCalEEuserlib.so,HGcal_%s.root \n" %(opt.macro,outTag) );
         f2.write("WhenToTransferOutput  = ON_EXIT_OR_EVICT \n");
         f2.write("Output = "+outtag+".stdout \n");
         f2.write("Error = "+outtag+".stderr \n");

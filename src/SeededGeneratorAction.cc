@@ -128,8 +128,7 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
 	G4String particleName;
 
-	G4ParticleDefinition* particle = particleTable->FindParticle(particleName =
-			"e-");
+	G4ParticleDefinition* particle = particleTable->FindParticle(22);
 	particleGun->SetParticleDefinition(particle);
 	int currentEvt = anEvent->GetEventID();
 	tree_->GetEntry(currentEvt);
@@ -139,19 +138,18 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 
 	if (inc_->size() >  0){
 		eventAction_->SetWait(true);
-		et = 4.0;
+		et = 2950;
 	}
 	else{
 		eventAction_->SetWait(false);
 	}
 
-	particleGun->SetParticleEnergy(et * GeV);
+	particleGun->SetParticleEnergy(et * MeV);
 	particleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
 
-	G4double y0 = 0;//G4RandFlat::shoot(-10.,10);
-	G4double x0 = 0;//G4RandFlat::shoot(-10.,10);
+	G4double y0 = 0;
+	G4double x0 = 0;
 	G4double z0 = -0.5 * (Detector->GetWorldSizeZ());
-
 
 	particleGun->SetParticlePosition(G4ThreeVector(x0, y0, z0));
 	HGCSSGenParticle genPart;

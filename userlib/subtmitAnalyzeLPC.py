@@ -44,8 +44,8 @@ for thickness in thickness_:
     if opt.signal>0 : outDir='%s/signal_%3.3f/'%(outDir,opt.signal)
     if (opt.run>=0) : outDir='%s/run_%d/'%(outDir,opt.run)
 
-    os.system('mkdir -p %s'%outDir)
-    os.system('cp bin/%s %s/' % (opt.macro,outDir))
+    #os.system('eosmkdir -p %s'%outDir)
+    os.system('xrdcp bin/%s root://cmseos.fnal.gov/%s/' % (opt.macro,outDir))
 
     #wrapper
     scriptFile = open('%s/runJob.sh'%(outDir), 'w')
@@ -55,7 +55,7 @@ for thickness in thickness_:
     outTag='%s_version%d_model%d_thick%s'%(label,opt.version,opt.model,thickness)
     if (opt.run>=0) : outTag='%s_run%d'%(outTag,opt.run)
 
-    scriptFile.write('./%s HGcal_%s_second.root  \n'%(opt.macro,outTag))
+    scriptFile.write('./%s root://cmseos.fnal.gov/%s/HGcal_%s_second.root  \n'%(opt.macro,outDir,outTag))
 
     scriptFile.write('xrdcp -f analyzed_tuple.root root://cmseos.fnal.gov/%s/analyzed_%s.root\n'%(outDir,outTag))
 

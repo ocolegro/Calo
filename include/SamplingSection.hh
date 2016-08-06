@@ -11,7 +11,6 @@
 
 #include <iomanip>
 #include <vector>
-
 #include "G4SiHit.hh"
 //class EventAction;
 class SamplingSection {
@@ -89,6 +88,26 @@ public:
 				}
 
 			}
+
+			inline unsigned getLayer(std::string astr) {
+					size_t pos = astr.find("phys");
+					unsigned num = 0;
+					if (astr.find("_")== astr.npos) {
+						std::string truncated = astr.substr(0,pos);
+						size_t last_index = truncated.find_last_not_of("0123456789");
+						num = std::atoi(truncated.substr(last_index+1).c_str());
+
+					}
+					else{
+						pos = astr.find("_");
+						std::string truncated = astr.substr(0,pos);
+						size_t last_index = truncated.find_last_not_of("0123456789");
+						num = std::atoi(truncated.substr(last_index+1).c_str());
+					}
+
+					return num;
+
+				};
 
 
 			const G4SiHitVec & getSiHitVec(const unsigned & idx) const;

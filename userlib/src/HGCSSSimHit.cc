@@ -4,22 +4,11 @@
 #include <cmath>
 #include <stdlib.h>
 
-HGCSSSimHit::HGCSSSimHit(const G4SiHit & aSiHit, const unsigned & asilayer,
+HGCSSSimHit::HGCSSSimHit(const G4SiHit & aSiHit,
 		TH2Poly* map, const float) {
-	energy_ = aSiHit.energyDep;
-	//energy weighted time
-	//PS: need to call calculateTime() after all hits 
-	//have been added to have divided by totalE!!
-	time_ = aSiHit.time * aSiHit.energyDep;
-	zpos_ = aSiHit.hit_z;
-	setLayer(aSiHit.layer, asilayer);
-	//coordinates in mm
-	//double z = aSiHit.hit_x;
 	double x = aSiHit.hit_x;
 	double y = aSiHit.hit_y;
-
 	assert(map);
-	cellid_ = map->FindBin(x, y);
 
 	nGammas_ = 0;
 	nElectrons_ = 0;
@@ -27,6 +16,7 @@ HGCSSSimHit::HGCSSSimHit(const G4SiHit & aSiHit, const unsigned & asilayer,
 	nNeutrons_ = 0;
 	nProtons_ = 0;
 	nHadrons_ = 0;
+
 	if (abs(aSiHit.pdgId) == 22)
 		nGammas_++;
 	else if (abs(aSiHit.pdgId) == 11)
@@ -40,17 +30,18 @@ HGCSSSimHit::HGCSSSimHit(const G4SiHit & aSiHit, const unsigned & asilayer,
 	else
 		nHadrons_++;
 
-	trackIDMainParent_ = aSiHit.parentId;
-	energyMainParent_ = aSiHit.energyDep;
-	trackID_ = aSiHit.trackId;
-	parentEng_ = aSiHit.parentKE;
+	cellid_ = map->FindBin(x, y);
+	if (cellid_ > 1e5)
+		std::cout << "The cell id = " << cellid_ << ", (x,y) = " << "(" << x << ", " << y << ")" << std::endl;
+	layer_ = aSiHit.layer;
+	energy_ = aSiHit.energyDep;
+	trackIDMainParent_ = aSiHit.trackId;
+	KEMainParent_ = aSiHit.parentKE;
+	pdgIDMainParent_ = aSiHit.pdgId;
+	eDepMainParent_ = aSiHit.energyDep ;
 }
 
 void HGCSSSimHit::Add(const G4SiHit & aSiHit) {
-
-	time_ = time_ + aSiHit.time * aSiHit.energyDep;
-	//PS: need to call calculateTime() after all hits 
-	//have been added to have divided by totalE!!
 
 	if (abs(aSiHit.pdgId) == 22)
 		nGammas_++;
@@ -66,21 +57,18 @@ void HGCSSSimHit::Add(const G4SiHit & aSiHit) {
 		nHadrons_++;
 
 	energy_ += aSiHit.energyDep;
-	if (aSiHit.energyDep > energyMainParent_) {
+
+	if (aSiHit.energyDep > eDepMainParent_) {
 		trackIDMainParent_ = aSiHit.parentId;
-		energyMainParent_ = aSiHit.energyDep;
+		eDepMainParent_ = aSiHit.energyDep;
+		pdgIDMainParent_ = aSiHit.pdgId;
+		KEMainParent_ = aSiHit.parentKE;
+
 	}
 
 }
 
-/*double HGCSSSimHit::eta() const {
- double x = get_x();
- double y = get_y();
- double theta = acos(fabs(zpos_)/sqrt(zpos_*zpos_+x*x+y*y));
- double leta = -log(tan(theta/2.));
- if (zpos_>0) return leta;
- else return -leta;
- }*/
+
 
 std::pair<double, double> HGCSSSimHit::get_xy(const bool isScintillator,
 		const HGCSSGeometryConversion & aGeom) const {

@@ -102,11 +102,10 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(G4int mod, bool signal,
 
 	G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
 	G4String particleName;
-	G4ParticleDefinition* particle = particleTable->FindParticle(particleName =
-			"e-");
+	G4ParticleDefinition* particle = particleTable->FindParticle(13);
 	particleGun->SetParticleDefinition(particle);
 	particleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
-	particleGun->SetParticleEnergy(4. * GeV);
+	particleGun->SetParticleEnergy(2.95 * GeV);
 	G4double position = -0.5 * (Detector->GetWorldSizeZ());
 	particleGun->SetParticlePosition(G4ThreeVector(0. * cm, 0. * cm, position));
 
@@ -130,25 +129,16 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction() {
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
 	G4String particleName;
-
-	G4ParticleDefinition* particle = particleTable->FindParticle(particleName =
-			"e-");
+	G4ParticleDefinition* particle = particleTable->FindParticle(22);
 	particleGun->SetParticleDefinition(particle);
-	G4double et = 4.0;
-	//double engs3[16] = {.25,.5,.75,1.,1.25,1.5,1.75,2,2.25,2.5,2.75,3.,3.25,3.5,3.75,4.0};
-	//unsigned iSecret = rand() % 16 ;
-	//G4double et = engs3[iSecret];
-	particleGun->SetParticleEnergy(et * GeV);
+	G4double et = 2950;
+
+
+	particleGun->SetParticleEnergy(et * MeV);
 	particleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
 
-	G4double phi = (rand() % 314)/200.;
-	//G4double y0 = G4RandFlat::shoot(-10.,10);
-	//G4double x0 = G4RandFlat::shoot(-10.,10);
-	unsigned radId = (rand() % 5);
-	double rads[5] = {0.,5.,10.,15.,20.};
-
-	G4double x0 = 0.0;//rads[radId]*cos(phi);
-	G4double y0 = 0.0;//rads[radId]*sin(phi);
+	G4double x0 = 0.0;
+	G4double y0 = 0.0;
 	G4double z0 = -0.5 * (Detector->GetWorldSizeZ());
 
 	particleGun->SetParticlePosition(G4ThreeVector(x0, y0, z0));
@@ -160,7 +150,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	genPart.pdgid(pdgid);
 
 	if (currentGenerator) {
+
 		currentGenerator->GeneratePrimaryVertex(anEvent);
+
 		eventAction_->genvec_.push_back(genPart);
 	} else
 		G4Exception("PrimaryGeneratorAction::GeneratePrimaries",

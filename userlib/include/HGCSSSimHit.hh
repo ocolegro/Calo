@@ -25,11 +25,11 @@ public:
 	HGCSSSimHit() :
 			energy_(0), time_(0), zpos_(0), layer_(0), cellid_(0), nGammas_(0), nElectrons_(
 					0), nMuons_(0), nNeutrons_(0), nProtons_(0), nHadrons_(0), trackIDMainParent_(
-					0), energyMainParent_(0), trackID_(0), parentEng_(0) {
+					0), eDepMainParent_(0), pdgIDMainParent_(0), parentEng_(0) {
 
 	}
 	;
-	HGCSSSimHit(const G4SiHit & aSiHit, const unsigned & asilayer, TH2Poly* map,
+	HGCSSSimHit(const G4SiHit & aSiHit,  TH2Poly* map,
 			const float cellSize = CELL_SIZE_X);
 
 	~HGCSSSimHit() {
@@ -174,19 +174,19 @@ public:
 	;
 
 	inline double mainParentEfrac() const {
-		return energyMainParent_ / energy_;
+		return eDepMainParent_ / energy_;
 	}
 	;
 
 	void Print(std::ostream & aOs) const;
 
-private:
+public:
 
 	double energy_;
 	double parentEng_;
 	double time_;
 	double zpos_;
-	double trackID_;
+	double pdgIDMainParent_;
 	unsigned layer_;
 	unsigned cellid_;
 	unsigned nGammas_;
@@ -196,7 +196,8 @@ private:
 	unsigned nProtons_;
 	unsigned nHadrons_;
 	int trackIDMainParent_;
-	double energyMainParent_;
+	double eDepMainParent_;
+	double KEMainParent_;
 
 ClassDef(HGCSSSimHit,1)
 	;

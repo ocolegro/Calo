@@ -32,6 +32,7 @@ SteppingAction::~SteppingAction() {
 
 //
 void SteppingAction::UserSteppingAction(const G4Step* aStep) {
+
 	// get PreStepPoint
 	const G4StepPoint *thePreStepPoint = aStep->GetPreStepPoint();
 	const G4StepPoint *thePostStepPoint = aStep->GetPostStepPoint();
@@ -44,7 +45,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 
 
-	G4double eRawDep = aStep->GetTotalEnergyDeposit();
+	G4double eRawDep = aStep->GetTotalEnergyDeposit()  * MeV;
 
 	stepPDGID = pdgID;
 	stepKE = kinEng - aStep->GetDeltaEnergy();

@@ -47,13 +47,15 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, double steelThi
 void DetectorConstruction::buildTracker(){
 
 		std::vector<std::pair <G4double,std::string>> iEleL;
-		initLayer(1);
-
+		initLayer(0);
+		for (int i =0; i < 5; i ++)
+			G4cout << "The version is " << version_ << G4endl;
 		if (version_ == HGCAL_E26_TH || version_ == HGCAL_E26_T || version_ == HGCAL_E40_TH || version_ == HGCAL_E40_T || version_ == T){
 			for (int i = 0; i < 6; i ++){
 				iEleL.push_back(make_pair(.7*mm,"Si"));
 				iEleL.push_back(make_pair(99.3*mm,"G4_Galactic"));
 			}
+			initLayer(1);
 
 			iEleL.push_back(make_pair(.7*mm,"Si"));
 			iEleL.push_back(make_pair(6.8*mm,"G4_Galactic"));
@@ -158,9 +160,9 @@ void DetectorConstruction::buildECal(){
 			iEleL.push_back(make_pair(0.5*mm,"Cu"));
 			iEleL.push_back(make_pair(airThick,"Air"));
 			iEleL.push_back(make_pair(pcbThick,"PCB"));
-			iEleL.push_back(make_pair(0.1*mm,"Si"));
-			iEleL.push_back(make_pair(0.1*mm,"Si"));
-			iEleL.push_back(make_pair(0.1*mm,"Si"));
+			iEleL.push_back(make_pair(0.3*mm,"Si"));
+			//iEleL.push_back(make_pair(0.1*mm,"Si"));
+			//iEleL.push_back(make_pair(0.1*mm,"Si"));
 			//iEleL.push_back(make_pair(0.1*mm,"Si"));
 			//iEleL.push_back(make_pair(0.1*mm,"Si"));
 
@@ -188,8 +190,6 @@ void DetectorConstruction::buildHCal(double steelThick){
 	}
 
 	if (version_ == HGCAL_E26_TH || version_ == HGCAL_E26_H || version_ == HGCAL_E40_TH || version_ == HGCAL_E40_H || version_ == H){
-
-
 
 		iEleL.push_back(make_pair(3*mm,"Cu"));
 		iEleL.push_back(make_pair(1*mm,"Pb"));
@@ -347,7 +347,8 @@ void DetectorConstruction::UpdateCalorSize() {
 
 		m_maxRadius = (maxRadLen ) * tan(m_maxTheta);
 		cout << "The maximum radius is " << m_maxRadius << endl;
-		m_CalorSizeXY = m_maxRadius * 2; //use full length for making hexagon map
+		m_CalorSizeXY = 622.5; //use full length for making hexagon map
+		std::cout << "The calorimeter size is " << m_CalorSizeXY << "the width is " << m_sectorWidth << std::endl;
 		m_sectorWidth = m_CalorSizeXY;
 	}
 
@@ -616,7 +617,7 @@ G4VSolid *DetectorConstruction::constructSolid(std::string baseName,
 		const G4double & width, size_t which_ele) {
 	G4VSolid *solid;
 
-	if (which_ele == 0) {
+	if (which_ele == 0 && (version_ == HGCAL_E26_TH || version_ == HGCAL_E26_T || version_ == HGCAL_E40_TH || version_ == HGCAL_E40_T || version_ == T)) {
 
 		solid = new G4Box(baseName + "box", width / 2, m_CalorSizeXY / 2,
 				thick / 2);

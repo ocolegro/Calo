@@ -43,11 +43,18 @@ for thickness in thickness_:
     if opt.fast>0 : outDir='%s/fast_%3.3f/'%(outDir,opt.fast)
     if (opt.run>=0) : outDir='%s/run_%d/'%(outDir,opt.run)
 
-    os.system('mkdir -p %s'%outDir)
-    os.system('cp ~/geant4_workdir/bin/Linux-g++/PFCalEE %s/' % outDir)
-    os.system('cp g4env4lpc.sh %s/' % outDir)
-    os.system('cp ~/geant4_workdir/tmp/Linux-g++/PFCalEE/libPFCalEE.so %s/' % outDir)
-    os.system('cp userlib/lib/libPFCalEEuserlib.so %s/' % outDir)
+    os.system('xrdfs root://cmseos.fnal.gov mkdir %s'%outDir)
+    os.system('xrdfs root://cmseos.fnal.gov rm  /%s/PFCalEE' % outDir)
+    os.system('xrdfs root://cmseos.fnal.gov rm  /%s/g4env4lpc.csh' % outDir)
+    os.system('xrdfs root://cmseos.fnal.gov rm  /%s/libPFCalEE.so' % outDir)
+    os.system('xrdfs root://cmseos.fnal.gov rm  /%s/libPFCalEEuserlib.so' % outDir)
+    os.system('xrdfs root://cmseos.fnal.gov rm  /%s/runJob.sh' % outDir)
+
+    os.system('eosmkdir -p %s'%outDir)
+    os.system('xrdcp $HOME/geant4_workdir/bin/Linux-g++/PFCalEE root://cmseos.fnal.gov/%s/' % outDir)
+    os.system('xrdcp g4env4lpc.sh root://cmseos.fnal.gov/%s/' % outDir)
+    os.system('xrdcp $HOME/geant4_workdir/tmp/Linux-g++/PFCalEE/libPFCalEE.so root://cmseos.fnal.gov/%s/' % outDir)
+    os.system('xrdcp userlib/lib/libPFCalEEuserlib.so root://cmseos.fnal.gov/%s/' % outDir)
 
 
     #wrapper
@@ -92,8 +99,10 @@ for thickness in thickness_:
     g4Macro.close()
 
     #submit
-    os.system('echo %s ' %('chmod 777 %s/runJob.sh'%outDir))
+#os.system('echo %s ' %('chmod 777 %s/runJob.sh'%outDir))
     os.system('chmod 777 %s/runJob.sh'%outDir)
+    os.system('chmod 777 %s/PFCalEE'%outDir)
+
     if opt.nosubmit : os.system('LSB_JOB_REPORT_MAIL=N echo bsub -q %s -N %s/runJob.sh'%(myqueue,outDir))
     else:
         #os.system("LSB_JOB_REPORT_MAIL=N bsub -q %s -N \'%s/runJob.sh\'"%(myqueue,outDir))
@@ -105,7 +114,7 @@ for thickness in thickness_:
         f2.write("Executable = %s \n" % ('%s/runJob.sh'%(outDir)) );
         f2.write('Requirements = OpSys == "LINUX" && (Arch != "DUMMY" )\n');
         f2.write("request_disk = 100000\n");
-        f2.write("request_memory = 250\n");
+        f2.write("request_memory = 1000\n");
         f2.write("Should_Transfer_Files = YES \n");
         if (opt.pass_ == 0):
             f2.write("Transfer_Input_Files = g4env4lpc.sh,libPFCalEE.so,libPFCalEEuserlib.so,PFCalEE,g4steer.mac \n" );
