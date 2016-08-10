@@ -26,8 +26,9 @@ parser.add_option('-n', '--nevtsperjob' ,    dest='nevtsperjob'        , help='n
 parser.add_option('-o', '--out'         ,    dest='out'                , help='output directory'             , default='/store/user/ntran/LDMX/Run_Jun4' )
 parser.add_option('-S', '--no-submit'   ,    action="store_true"       ,  dest='nosubmit'           , help='Do not submit batch job.')
 parser.add_option('--subdir'            ,    dest='subdir'             , help='directory from which you submit' , default='tmp_condor')
-parser.add_option('--partype'           ,    dest='partype'            , help='particle type'             , default='electron' )
+parser.add_option('--partype'           ,    dest='partype'            , help='particle type (pdgid)'             , default='11' , type=int)
 parser.add_option('--energy'            ,    dest='parenergy'          , help='particle energy'             , default=4, type=float )
+parser.add_option('--zpos'            ,    dest='zpos'          , help='z position of particle (cm)'             , default=-50., type=float )
 #parser.add_option('-e', '--eos'         ,    dest='eos'                , help='eos path to save root file to EOS',         default='')
 (opt, args) = parser.parse_args()
 
@@ -42,11 +43,22 @@ def main():
 	nevtsperjob = opt.nevtsperjob;
 	partype = opt.partype;
 	parenergy = opt.parenergy;
-	genfile = partype+"Gen.py";
+	zpos = opt.zpos;
+	parNameDict = {11:"electrons",
+		       13:"muons",
+		       111:"pi0s",
+		       211:"pis",
+		       2112:"neutrons",
+		       -2112:"antineutrons",
+		       130:"KLs",
+		       22:"photons"
+		       }
 
-	os.system("cp ~/geant4_workdir/bin/Linux-g++/PFCalEE ~/geant4_workdir/tmp/Linux-g++/PFCalEE/libPFCalEE.so g4env4lpc.sh userlib/lib/libPFCalEEuserlib.so generators/%s %s/." % (genfile,subdir))
+	lhefile = "%d_%gGeV_phi0_theta0_x0_y0_z%s_%s.lhe"%(nevtsperjob,parenergy,zpos,parNameDict[partype])
+	#lhefile = "{0}_{1}GeV_phi0_theta0_x0_y0_z{2}_{3}.lhe".format(nevtsperjob,parenergy,zpos,parNameDict[partype])
+	os.system("cp ~/geant4_workdir/bin/Linux-g++/PFCalEE ~/geant4_workdir/tmp/Linux-g++/PFCalEE/libPFCalEE.so g4env4lpc.sh userlib/lib/libPFCalEEuserlib.so generators/singleParticleGen.py %s/." % (subdir))
 	os.chdir(subdir);
-	os.system("tar -cvzf inputs.tar.gz PFCalEE g4env4lpc.sh libPFCalEE.so libPFCalEEuserlib.so %s" % (genfile) );
+	os.system("tar -cvzf inputs.tar.gz PFCalEE g4env4lpc.sh libPFCalEE.so libPFCalEEuserlib.so singleParticleGen.py" );
 
 	for i in range(njobs):
 
@@ -63,9 +75,9 @@ def main():
 		f1.write("ls -lrt \n");
 		f1.write("cat g4env4lpc.sh \n");
 		f1.write("source g4env4lpc.sh \n");
-		f1.write("python %s -n %s -f \"events\" -e %f \n" % (genfile, opt.nevtsperjob, float(parenergy)) )
+		f1.write("python singleParticleGen.py -r %s -n %s -f \"events\" -e %f -z %f \n" % (str(partype) , opt.nevtsperjob, float(parenergy), float(zpos)) )
 		f1.write("ls -lrt \n");
-		f1.write("PFCalEE g4steer_%s.mac 1 2 1 \n" % tag)
+		f1.write("./PFCalEE g4steer_%s.mac 5 2 1 50 \n" % tag)
 		f1.write("mv PFcal.root PFcal_%s.root \n" % tag)
 		f1.write("xrdcp -f PFcal_%s.root root://cmseos.fnal.gov/%s/PFcal_%s.root \n" % (tag,opt.out,tag))
 		f1.close();
@@ -80,7 +92,7 @@ def main():
 		fs.write("/event/verbose 0 \n");
 		fs.write("/tracking/verbose 0 \n");
 		fs.write("/N03/det/setModel 2 \n");
-		fs.write("/filemode/inputFilename events.lhe \n");
+		fs.write("/filemode/inputFilename {0} \n".format(lhefile));
 		fs.write("/random/setSeeds %i %i \n" % (seed1+i,seed2+i));
 		fs.write("/run/initialize \n");
 		fs.write("/run/beamOn %i \n" % opt.nevtsperjob);
