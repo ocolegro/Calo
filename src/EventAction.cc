@@ -92,7 +92,6 @@ void EventAction::Detect(G4double eDepRaw, G4VPhysicalVolume *volume,G4Track* lT
 void EventAction::EndOfEventAction(const G4Event* g4evt) {
 	//return;
 	event_.eventNumber(evtNb_);
-	event_.steelThick(((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->GetSteelThick());
 	double totalSens = 0;
 	double wgtTotalSens = 0;
 

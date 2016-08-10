@@ -65,11 +65,8 @@ std::vector<std::string> split(const std::string &s, char delim) {
 	return tokens;
 }
 
-PrimaryGeneratorAction::PrimaryGeneratorAction(G4int mod, bool signal,
-		std::string data) {
+PrimaryGeneratorAction::PrimaryGeneratorAction(G4int mod) {
 	model_ = mod;
-	signal_ = signal;
-	data_ = data;
 	G4int n_particle = 1;
 
 
