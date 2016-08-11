@@ -130,6 +130,7 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
         for(ix=0; ix < (nx-1); ix++){
         // Read in all 25 b-field values along the x-axis
             bval = stod(tokens.at(ix+1));
+            G4cout << bval << G4endl;
            if ((ix == 0) && (iy == 0) && (iz == 0)){
                minx = -nx*lenUnit;// xval * lenUnit;
                miny = minx; //yval * lenUnit;
