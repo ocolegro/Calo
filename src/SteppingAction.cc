@@ -70,7 +70,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	G4TransportationManager::GetTransportationManager()->GetFieldManager()->GetDetectorField()->GetFieldValue(passPostPos, bFieldPost);
 
 
-	if(trackid == 1){
+	if(trackID == 1){
 	//G4cout << "The pdgid is" << pdgID << G4endl;
 	//G4cout << "The trackid is" << trackID << G4endl;
 	G4cout << "The volume is " << volume->GetName() << G4endl;
