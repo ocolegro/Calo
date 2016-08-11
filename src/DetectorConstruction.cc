@@ -43,7 +43,7 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod) :
 	m_detectorMessenger = new DetectorMessenger(this);
 	UpdateCalorSize();
 	std::cout << "The offset is " << -0.5 * (GetCalorSizeZ())*mm << std::endl;
-    SetMagField("b18d36.dat",-0.5 * (GetCalorSizeZ())*mm);
+    SetMagField("b18d36.dat",0.5 * (GetCalorSizeZ())*mm);
 
 }
 void DetectorConstruction::buildTracker(){
