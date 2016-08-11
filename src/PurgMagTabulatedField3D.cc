@@ -112,7 +112,7 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
   std::vector<string>tokens; 
   std::istringstream iss;
   std::string word;
-    for (iz = 0; iz < (nz); iz++){
+    for (iz = 0; iz < (nz - 1); iz++){
         if(!tokens.empty()){ 
             tokens.clear();
             iss.clear();
