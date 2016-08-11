@@ -37,6 +37,10 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	const G4StepPoint *thePreStepPoint = aStep->GetPreStepPoint();
 	const G4StepPoint *thePostStepPoint = aStep->GetPostStepPoint();
 
+	double bFieldPre[3] = {0,0,0};
+    double bFieldPost[3] = {0,0,0};
+    double passPostPos[4] = {0,0,0,0};
+    double passPrePos[4] = {0,0,0,0};
 	G4Track* lTrack = aStep->GetTrack();
 	G4double kinEng = lTrack->GetKineticEnergy();
 	G4int pdgID = lTrack->GetDefinition()->GetPDGEncoding();
@@ -50,9 +54,11 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	stepPDGID = pdgID;
 	stepKE = kinEng - aStep->GetDeltaEnergy();
 
-	const G4ThreeVector & position = thePreStepPoint->GetPosition();
+	const G4ThreeVector & postPos = thePostStepPoint->GetpostPos();
+	const G4ThreeVector & prePos   = thePreStepPoint->GetpostPos();
+
 	HGCSSGenParticle genPart;
-	eventAction_->Detect(eRawDep, volume,lTrack,position);
+	eventAction_->Detect(eRawDep, volume,lTrack,postPos);
 	const G4TrackVector* secondaries= aStep->GetSecondary();
 
 	bool trackEscapes = ((lTrack->GetTrackStatus()!=fAlive
@@ -68,7 +74,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		escapePart.finalKE(lTrack->GetKineticEnergy()); //- aStep->GetDeltaEnergy());
 
 		const G4ThreeVector &p = lTrack->GetVertexMomentumDirection() ;//- aStep->GetDeltaMomentum();
-		const G4ThreeVector &pos = lTrack->GetVertexPosition();
+		const G4ThreeVector &pos = lTrack->GetVertexpostPos();
 		TVector3 momVec(p[0], p[1], p[2]);
 		escapePart.vertexMom(momVec);
 		TVector3 posVec(pos[0], pos[1], pos[2] - zOff);
@@ -110,7 +116,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 
 							const G4ThreeVector &p = lTrack->GetMomentum() + -1.*aStep->GetDeltaMomentum();
-							const G4ThreeVector &pos = lTrack->GetPosition();
+							const G4ThreeVector &pos = lTrack->GetpostPos();
 							if (p.mag() > 0){
 								TVector3 momVec(p[0]/p.mag(), p[1]/p.mag(), p[2]/p.mag());
 								targPart.vertexMom(momVec);
@@ -129,7 +135,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 								genPart.vertexKE(iTrack->GetKineticEnergy());
 								const G4ThreeVector &p = iTrack->GetMomentumDirection();
-								const G4ThreeVector &pos = iTrack->GetPosition();
+								const G4ThreeVector &pos = iTrack->GetpostPos();
 								TVector3 momVec(p[0], p[1], p[2]);
 								genPart.vertexMom(momVec);
 								TVector3 posVec(pos[0], pos[1], pos[2] - zOff);
@@ -142,6 +148,30 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 						//}
 				}
+
+            //Get Magnetic Field Vectors at pre and post postPoss
+                for(int i = 0; i < 3; i++)
+            {
+                passPostPos[i] = postPos[i];
+                passPrePos[i] = prePos[i];
+            }
+            genPart.setBField(bFieldPost[0],bFieldPost[1], bFieldPost[2]);
+
+            G4TransportationManager::GetTransportationManager()->GetFieldManager()->GetDetectorField()->GetFieldValue(passPrePos, bFieldPre);
+            G4TransportationManager::GetTransportationManager()->GetFieldManager()->GetDetectorField()->GetFieldValue(passPostPos, bFieldPost);
+
+
+			const G4ThreeVector &preMom = lTrack->GetMomentum() + -1.*aStep->GetDeltaMomentum();
+			const G4ThreeVector &postMom = lTrack->GetMomentum();
+
+            G4cout << "The pdgid is" << pdgID << G4endl;
+            G4cout << "The volume is " << volume->GetName() << G4endl;
+            G4cout << "The preMom is" << preMom[0] << ", " << preMom[1] << ", " << preMom[2] << G4endl;
+            G4cout << "The passPrePos is" << passPrePos[0] << ", " << passPrePos[1] << ", " << passPrePos[2] << G4endl;
+            G4cout << "The bFieldPre is" << bFieldPre[0] << ", " << bFieldPre[1] << ", " << bFieldPre[2] << G4endl;
+            G4cout << "The postMom is" << postMom[0] << ", " << postMom[1] << ", " << postMom[2] << G4endl;
+            G4cout << "The passPostPos is" << passPostPos[0] << ", " << passPostPos[1] << ", " << passPostPos[2] << G4endl;
+            G4cout << "The bFieldPost is" << bFieldPost[0] << ", " << bFieldPost[1] << ", " << bFieldPost[2] << G4endl;
 
 			}
 

@@ -15,7 +15,9 @@ class HGCSSGenParticle {
 public:
 	HGCSSGenParticle() :
 			time_(0), xpos_(0), ypos_(0), zpos_(0), mass_(0), px_(0), py_(0), pz_(
-					0), pdgid_(0), charge_(0), trackID_(0),vertexKE_(0),parentKE_(0),parentPdgId_(0) {
+					0), pdgid_(0), charge_(0), trackID_(0),vertexKE_(0),parentKE_(0),parentPdgId_(0), 
+            bx_(0), by_(0), bz_(0)
+ {
 
 	}
 	;
@@ -209,7 +211,29 @@ public:
 		return ((pdgid_ != 0 || mass_ > 0) && pz_ >= 0);
 	}
 	;
-
+    inline double bx() const
+    {
+        return bx_;
+    }
+    ;
+    inline double by() const
+    {
+        return by_;
+    }
+    ;
+    inline double bz() const
+    {
+        return bz_;
+    }
+    ;
+    inline void setBField(const double &bx, const double &by,
+                          const double &bz)
+    {
+        bx_ = bx;
+        by_ = by;
+        bz_ = bz;
+    }
+    ;
 	void Print(std::ostream & aOs) const;
 	void Print(const unsigned idx, std::ostream & aOs) const;
 
@@ -233,6 +257,9 @@ private:
 	double finalKE_;
 	TVector3 vertexPos_;
 	TVector3 vertexMom_;
+    double bx_;
+    double by_;
+    double bz_;
 ClassDef(HGCSSGenParticle,1)
 	;
 

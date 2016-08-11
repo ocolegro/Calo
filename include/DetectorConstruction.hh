@@ -3,6 +3,7 @@
 
 #include "SamplingSection.hh"
 
+#include "PurgMagTabulatedField3D.hh"
 #include "G4VUserDetectorConstruction.hh"
 #include "globals.hh"
 
@@ -85,6 +86,8 @@ public:
 
 	void SetMagField(G4double fieldValue);
 	G4UniformMagField* m_magField;      //pointer to the magnetic field
+    void SetMagField(char *fileName, G4double zOffset);
+	PurgMagTabulatedField3D *p_magField;
 
 	/**
 	 @short DTOR
