@@ -9,6 +9,8 @@
 
 #include "HGCSSGenParticle.hh"
 #include "G4TransportationManager.hh"
+#include "G4FieldManager.hh"
+
 //
 SteppingAction::SteppingAction(std::string data) {
 	eventAction_ =
