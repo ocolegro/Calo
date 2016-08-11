@@ -1,0 +1,6 @@
+#rm -rf HGCAL_LDMX.git                                                                                                                                                                            
+git clone https://github.com/ocolegro/Calo HGCAL_LDMX.git
+rm -rf .git
+mkdir .git
+cp -r HGCAL_LDMX.git/.git/ .git
+rm -rf HGCAL_LDMX.git
