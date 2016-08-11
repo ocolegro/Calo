@@ -74,7 +74,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		escapePart.finalKE(lTrack->GetKineticEnergy()); //- aStep->GetDeltaEnergy());
 
 		const G4ThreeVector &p = lTrack->GetVertexMomentumDirection() ;//- aStep->GetDeltaMomentum();
-		const G4ThreeVector &pos = lTrack->GetVertexpostPos();
+		//const G4ThreeVector &pos = lTrack->GetVertexpostPos();
 		TVector3 momVec(p[0], p[1], p[2]);
 		escapePart.vertexMom(momVec);
 		TVector3 posVec(pos[0], pos[1], pos[2] - zOff);
@@ -116,7 +116,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 
 							const G4ThreeVector &p = lTrack->GetMomentum() + -1.*aStep->GetDeltaMomentum();
-							const G4ThreeVector &pos = lTrack->GetpostPos();
+							//const G4ThreeVector &pos = lTrack->GetpostPos();
 							if (p.mag() > 0){
 								TVector3 momVec(p[0]/p.mag(), p[1]/p.mag(), p[2]/p.mag());
 								targPart.vertexMom(momVec);
@@ -135,7 +135,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 								genPart.vertexKE(iTrack->GetKineticEnergy());
 								const G4ThreeVector &p = iTrack->GetMomentumDirection();
-								const G4ThreeVector &pos = iTrack->GetpostPos();
+								//const G4ThreeVector &pos = iTrack->GetpostPos();
 								TVector3 momVec(p[0], p[1], p[2]);
 								genPart.vertexMom(momVec);
 								TVector3 posVec(pos[0], pos[1], pos[2] - zOff);
