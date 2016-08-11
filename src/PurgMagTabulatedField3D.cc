@@ -283,7 +283,7 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
       zField[xindex+1][yindex+1][zindex  ] *    xlocal  *    ylocal  * (1-zlocal) +
       zField[xindex+1][yindex+1][zindex+1] *    xlocal  *    ylocal  *    zlocal ;
     if (printField){
-    	G4cout << "The x,y,z that we are reading in is: " << x/cm << ", " << y/cm << ", " << z/cm << G4endl;
+    	G4cout << "The x,y,z that we are reading in is: " << x/cm << ", " << y/cm << ", " << ztrue/cm << G4endl;
     	G4cout << "The recalled filed, before passing was :  "  << " (" << Bfield[0]/gauss << ", " << Bfield[1]/gauss << ", " << Bfield[2]/gauss << " )" << G4endl;
     }
   } else {
