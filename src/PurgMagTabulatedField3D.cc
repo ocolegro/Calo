@@ -47,14 +47,14 @@ namespace{
 }
 
 PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename, 
-						 double zOffset ) 
+						 G4double zOffset )
   :fZoffset(zOffset),invertX(false),invertY(false),invertZ(false)
 {    
  
-    //double lenUnit= meter;
-    //double fieldUnit= tesla;
-    double lenUnit = centimeter;
-    double fieldUnit = gauss;
+    //G4double lenUnit= meter;
+    //G4double fieldUnit= tesla;
+    G4double lenUnit = centimeter;
+    G4double fieldUnit = gauss;
   G4cout << "\n-----------------------------------------------------------"
 	 << "\n      Magnetic field"
 	 << "\n-----------------------------------------------------------";
@@ -75,13 +75,9 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
       G4Exception("PurgMagTabulatedField3D::PurgMagTabulatedField3D",
 		  "pugmag001",FatalException,ed);
     }
-  // Ignore first blank line
-  //char buffer[256];
-  //file.getline(buffer,256);
+
     char buffer[512];
-  // Read table dimensions 
-  //file >> nx >> ny >> nz; // Note dodgy order
-    // Get number of lines in data file -> nz
+
     nx = 26;
     ny = nx;
     nz = 0;
@@ -205,15 +201,15 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
 	 << "\n-----------------------------------------------------------" << endl;
 }
 
-void PurgMagTabulatedField3D::GetFieldValue(const double point[4],
-				      double *Bfield ) const
+void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
+				      G4double *Bfield ) const
 {
-    double lenUnit = centimeter;
-    double fieldUnit = gauss;
+    G4double lenUnit = centimeter;
+    G4double fieldUnit = gauss;
   //std::cout << "In GetFieldValue" << std::endl;
-  double x = point[0]/lenUnit;
-  double y = point[1]/lenUnit;
-  double z = (point[2] + fZoffset)/lenUnit;
+  G4double x = point[0]/lenUnit;
+  G4double y = point[1]/lenUnit;
+  G4double z = (point[2] + fZoffset)/lenUnit;
   
   //std::cout << "B-field vector address: " << Bfield << std::endl;
   //std::cout << "x = " << point[0] << "; y = " << point[1] << "; z = " << point[2] << std::endl;
@@ -226,9 +222,9 @@ void PurgMagTabulatedField3D::GetFieldValue(const double point[4],
     
     // Position of given point within region, normalized to the range
     // [0,1]
-    double xfraction = (x - minx) / dx;
-    double yfraction = (y - miny) / dy; 
-    double zfraction = (z - minz) / dz;
+    G4double xfraction = (x - minx) / dx;
+    G4double yfraction = (y - miny) / dy;
+    G4double zfraction = (z - minz) / dz;
 
     if (invertX) { xfraction = 1 - xfraction;}
     if (invertY) { yfraction = 1 - yfraction;}
@@ -236,13 +232,13 @@ void PurgMagTabulatedField3D::GetFieldValue(const double point[4],
 
     // Need addresses of these to pass to modf below.
     // modf uses its second argument as an OUTPUT argument.
-    double xdindex, ydindex, zdindex;
+    G4double xdindex, ydindex, zdindex;
     
     // Position of the point within the cuboid defined by the
     // nearest surrounding tabulated points
-    double xlocal = ( std::modf(xfraction*(nx-1), &xdindex));
-    double ylocal = ( std::modf(yfraction*(ny-1), &ydindex));
-    double zlocal = ( std::modf(zfraction*(nz-1), &zdindex));
+    G4double xlocal = ( std::modf(xfraction*(nx-1), &xdindex));
+    G4double ylocal = ( std::modf(yfraction*(ny-1), &ydindex));
+    G4double zlocal = ( std::modf(zfraction*(nz-1), &zdindex));
     
     // The indices of the nearest tabulated point whose coordinates
     // are all less than those of the given point
@@ -254,8 +250,8 @@ void PurgMagTabulatedField3D::GetFieldValue(const double point[4],
 #ifdef DEBUG_INTERPOLATING_FIELD
     G4cout << "Local x,y,z: " << xlocal << " " << ylocal << " " << zlocal << endl;
     G4cout << "Index x,y,z: " << xindex << " " << yindex << " " << zindex << endl;
-    double valx0z0, mulx0z0, valx1z0, mulx1z0;
-    double valx0z1, mulx0z1, valx1z1, mulx1z1;
+    G4double valx0z0, mulx0z0, valx1z0, mulx1z0;
+    G4double valx0z1, mulx0z1, valx1z1, mulx1z1;
     valx0z0= table[xindex  ][0][zindex];  mulx0z0=  (1-xlocal) * (1-zlocal);
     valx1z0= table[xindex+1][0][zindex];  mulx1z0=   xlocal    * (1-zlocal);
     valx0z1= table[xindex  ][0][zindex+1]; mulx0z1= (1-xlocal) * zlocal;
