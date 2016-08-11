@@ -199,7 +199,7 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 				      G4double *Bfield ) const
 {
 
-  G4double lenUnit = cm;
+  G4double lenUnit = centimeter;
   G4double fieldUnit = gauss;
   //std::cout << "In GetFieldValue" << std::endl;
   G4double x = point[0]/lenUnit;
