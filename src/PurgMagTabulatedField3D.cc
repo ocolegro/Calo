@@ -205,9 +205,11 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
   G4double x = point[0]/lenUnit;
   G4double y = point[1]/lenUnit;
   G4double z = (point[2] + fZoffset)/lenUnit ;
-  if (Bfield[0] == 999)
-  G4cout << "The x,y,z that we are reading in is: " << x/cm << ", " << y/cm << ", " << z/cm << G4endl;
-
+  bool printField = false;
+  if (Bfield[0] == 999){
+	  G4cout << "The x,y,z that we are reading in is: " << x/cm << ", " << y/cm << ", " << z/cm << G4endl;
+	  printField = true;
+  }
   // Check that the point is within the defined region 
   if ( x>=minx && x<=maxx &&
        y>=miny && y<=maxy && 
@@ -279,6 +281,8 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
       zField[xindex+1][yindex  ][zindex+1] *    xlocal  * (1-ylocal) *    zlocal  +
       zField[xindex+1][yindex+1][zindex  ] *    xlocal  *    ylocal  * (1-zlocal) +
       zField[xindex+1][yindex+1][zindex+1] *    xlocal  *    ylocal  *    zlocal ;
+    if (printField)
+    	G4cout << "The recalled filed, before passing was :  "  << " (" << Bfield[0] << ", " << Bfield[1] << ", " << Bfield[2] << " )" << G4endl;
   } else {
     Bfield[0] = 0.0;
     Bfield[1] = 0.0;
