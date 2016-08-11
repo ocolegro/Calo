@@ -60,8 +60,8 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
     for(int i = 0; i < 3; i++)
     {
-    	passPrePos[i] = prePos[i];
-        passPostPos[i] = postPos[i];
+    	passPrePos[i] = prePos[i]/cm;
+        passPostPos[i] = postPos[i]/cm;
     }
 
 
