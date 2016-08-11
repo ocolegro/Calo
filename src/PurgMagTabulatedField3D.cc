@@ -165,7 +165,7 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
 
   maxx = nx;//xval * lenUnit;
   maxy = maxx;//yval * lenUnit;
-  maxz = zval;
+  maxz = zval+1;
   minz = -1 * maxz;
   G4cout << "\n ---> ... done reading " << endl;
 
