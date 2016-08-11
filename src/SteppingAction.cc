@@ -39,7 +39,6 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	const G4StepPoint *thePreStepPoint = aStep->GetPreStepPoint();
 	const G4StepPoint *thePostStepPoint = aStep->GetPostStepPoint();
 
-	double bFieldPre[3] = {999,0,0};
     double bFieldPost[3] = {999,0,0};
     double passPostPos[4] = {0,0,0,0};
     double passPrePos[4] = {0,0,0,0};
@@ -93,6 +92,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	}*/
 	for (int i = 0; i <30; i ++)
 	{
+		double bFieldPre[3] = {999,0,0};
 		passPrePos[0] = 0;
 		passPrePos[1] = 0;
 		passPrePos[2] = -15 * centimeter + i*centimeter;
