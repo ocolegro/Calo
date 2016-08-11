@@ -112,7 +112,7 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
   std::vector<string>tokens; 
   std::istringstream iss;
   std::string word;
-    for (iz = 0; iz < (nz - 1); iz++){
+    for (iz = 0; iz < (nz); iz++){
         if(!tokens.empty()){ 
             tokens.clear();
             iss.clear();
@@ -127,10 +127,10 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
         ix =0, iy = 0;
         zval = stod(tokens.at(0)); // Read in the z-coordinate
         //G4cout << "nx = " << nx << G4endl;
-        for(ix=0; ix < (nx-2); ix++){
+        for(ix=0; ix < (nx-1); ix++){
         // Read in all 25 b-field values along the x-axis
             bval = stod(tokens.at(ix+1));
-            G4cout << bval << G4endl;
+            G4cout << "The bval in the x direction is " << bval << G4endl;
            if ((ix == 0) && (iy == 0) && (iz == 0)){
                minx = -nx*lenUnit;// xval * lenUnit;
                miny = minx; //yval * lenUnit;
@@ -152,13 +152,13 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
             zField[nx+ix][0][nz-iz] = zField[nx+ix][0][nz+iz];
             zField[nx-ix][0][nz-iz] = zField[nx+ix][0][nz+iz];
         /* Copy all values along y-axis*/
-            for(iy = 1; iy < ny; iy++){
+            for(iy = 1; iy < ny-1; iy++){
+                G4cout << "The copying along y axis " << xField[ix][0][iz] << G4endl;
                 xField[ix][iy][iz] = xField[ix][0][iz];
                 yField[ix][iy][iz] = yField[ix][0][iz];
                 zField[ix][iy][iz] = zField[ix][0][iz];
             }    
          }
-        G4cout <<"FIle read in okokok" << G4endl;
   }
   file.close();
 
