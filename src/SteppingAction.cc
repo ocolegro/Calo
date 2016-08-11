@@ -78,7 +78,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	G4cout << "The passPrePos is" << passPrePos[0] << ", " << passPrePos[1] << ", " << passPrePos[2] << G4endl;
 	G4cout << "The bFieldPre is" << bFieldPre[0] << ", " << bFieldPre[1] << ", " << bFieldPre[2] << G4endl;
 */
-    double lenUnit = centimeter;
+   /* double lenUnit = centimeter;
 
 	if(trackID == 1){
 		G4cout << "The passPrePos is " << passPrePos[0]/lenUnit << ", " << passPrePos[1]/lenUnit << ", " << passPrePos[2]/lenUnit << G4endl;
@@ -89,6 +89,12 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 		G4cout << "The preMom is " << preMom[0] << ", " << preMom[1] << ", " << preMom[2] << G4endl;
 		G4cout << "The postMom is " << postMom[0] << ", " << postMom[1] << ", " << postMom[2] << G4endl;
+
+	}*/
+	for (int i = 0; i <30; i ++)
+	{
+		passPrePos[0] = 0; passPrePos[1] = 0; passPrePos[2] = -15 * cm + i/cm;
+		G4TransportationManager::GetTransportationManager()->GetFieldManager()->GetDetectorField()->GetFieldValue(passPrePos, bFieldPre);
 
 	}
 }

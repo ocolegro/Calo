@@ -204,7 +204,7 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
   //std::cout << "In GetFieldValue" << std::endl;
   G4double x = point[0]/lenUnit;
   G4double y = point[1]/lenUnit;
-  G4double z = (point[2] + fZoffset)/lenUnit ;
+  G4double z = (point[2] );//+ fZoffset)/lenUnit ;
   bool printField = false;
   if (Bfield[0] == 999){
 	  printField = true;
@@ -280,9 +280,10 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
       zField[xindex+1][yindex  ][zindex+1] *    xlocal  * (1-ylocal) *    zlocal  +
       zField[xindex+1][yindex+1][zindex  ] *    xlocal  *    ylocal  * (1-zlocal) +
       zField[xindex+1][yindex+1][zindex+1] *    xlocal  *    ylocal  *    zlocal ;
-    if (printField)
+    if (printField){
     	G4cout << "The x,y,z that we are reading in is: " << x/cm << ", " << y/cm << ", " << z/cm << G4endl;
     	G4cout << "The recalled filed, before passing was :  "  << " (" << Bfield[0]/gauss << ", " << Bfield[1]/gauss << ", " << Bfield[2]/gauss << " )" << G4endl;
+    }
   } else {
     Bfield[0] = 0.0;
     Bfield[1] = 0.0;
