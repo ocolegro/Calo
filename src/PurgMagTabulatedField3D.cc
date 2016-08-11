@@ -208,6 +208,8 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
 void PurgMagTabulatedField3D::GetFieldValue(const double point[4],
 				      double *Bfield ) const
 {
+    double lenUnit = centimeter;
+    double fieldUnit = gauss;
   //std::cout << "In GetFieldValue" << std::endl;
   double x = point[0]*lenUnit;
   double y = point[1]*lenUnit;
