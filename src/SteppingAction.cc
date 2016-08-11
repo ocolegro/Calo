@@ -82,7 +82,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		G4cout << "The postMom is" << postMom[0] << ", " << postMom[1] << ", " << postMom[2] << G4endl;
 		G4cout << "The passPostPos is" << passPostPos[0] << ", " << passPostPos[1] << ", " << passPostPos[2] << G4endl;
 		G4cout << "The postPos is" << postPos[0] << ", " << postPos[1] << ", " << postPos[2] << G4endl;
-		G4cout << "The bFieldPost is" << bFieldPost[0] *kilogauss << ", " << bFieldPost[1] *kilogauss << ", " << bFieldPost[2]*kilogauss  << G4endl;
+		G4cout << "The bFieldPost is" << bFieldPost[0] *gauss << ", " << bFieldPost[1] *gauss << ", " << bFieldPost[2]*gauss  << G4endl;
 	}
 }
 

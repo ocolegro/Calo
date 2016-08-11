@@ -54,7 +54,7 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
     //double lenUnit= meter;
     //double fieldUnit= tesla;
     double lenUnit = centimeter;
-    double fieldUnit = kilogauss;
+    double fieldUnit = gauss;
   G4cout << "\n-----------------------------------------------------------"
 	 << "\n      Magnetic field"
 	 << "\n-----------------------------------------------------------";
