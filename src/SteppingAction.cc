@@ -53,10 +53,6 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 
 
-	G4TransportationManager::GetTransportationManager()->GetFieldManager()->GetDetectorField()->GetFieldValue(passPrePos, bFieldPre);
-	G4TransportationManager::GetTransportationManager()->GetFieldManager()->GetDetectorField()->GetFieldValue(passPostPos, bFieldPost);
-
-
 	const G4ThreeVector &preMom = lTrack->GetMomentum() + -1.*aStep->GetDeltaMomentum();
 	const G4ThreeVector &postMom = lTrack->GetMomentum();
 
@@ -65,6 +61,12 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
     	passPrePos[i] = prePos[i];
         passPostPos[i] = postPos[i];
     }
+
+
+
+	G4TransportationManager::GetTransportationManager()->GetFieldManager()->GetDetectorField()->GetFieldValue(passPrePos, bFieldPre);
+	G4TransportationManager::GetTransportationManager()->GetFieldManager()->GetDetectorField()->GetFieldValue(passPostPos, bFieldPost);
+
 
 
 	G4cout << "The pdgid is" << pdgID << G4endl;
