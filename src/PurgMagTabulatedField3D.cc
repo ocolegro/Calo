@@ -209,9 +209,9 @@ void PurgMagTabulatedField3D::GetFieldValue(const double point[4],
 				      double *Bfield ) const
 {
   //std::cout << "In GetFieldValue" << std::endl;
-  double x = point[0];
-  double y = point[1];
-  double z = point[2] + fZoffset;
+  double x = point[0]*lenUnit;
+  double y = point[1]*lenUnit;
+  double z = (point[2] + fZoffset)*lenUnit;
   
   //std::cout << "B-field vector address: " << Bfield << std::endl;
   //std::cout << "x = " << point[0] << "; y = " << point[1] << "; z = " << point[2] << std::endl;
