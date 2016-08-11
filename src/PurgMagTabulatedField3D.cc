@@ -127,7 +127,7 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
         ix =0, iy = 0;
         zval = stod(tokens.at(0)); // Read in the z-coordinate
         //G4cout << "nx = " << nx << G4endl;
-        for(ix=0; ix < (nx-1); ix++){
+        for(ix=0; ix < (nx-2); ix++){
         // Read in all 25 b-field values along the x-axis
             bval = stod(tokens.at(ix+1));
             G4cout << bval << G4endl;
