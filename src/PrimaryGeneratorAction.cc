@@ -126,9 +126,9 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction() {
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
 	G4String particleName;
-	G4ParticleDefinition* particle = particleTable->FindParticle(22);
+	G4ParticleDefinition* particle = particleTable->FindParticle(11);
 	particleGun->SetParticleDefinition(particle);
-	G4double et = 2950;
+	G4double et = 4000;
 
 
 	particleGun->SetParticleEnergy(et * MeV);
