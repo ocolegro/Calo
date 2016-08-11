@@ -46,6 +46,8 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	G4Track* lTrack = aStep->GetTrack();
 	G4double kinEng = lTrack->GetKineticEnergy();
 	G4int pdgID = lTrack->GetDefinition()->GetPDGEncoding();
+	G4int trackID = lTrack->GetTrackID();
+
 	G4VPhysicalVolume* volume = thePreStepPoint->GetPhysicalVolume();
 
 	const G4ThreeVector & postPos = thePostStepPoint->GetPosition();
@@ -70,6 +72,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 
 	G4cout << "The pdgid is" << pdgID << G4endl;
+	G4cout << "The trackid is" << trackID << G4endl;
 	G4cout << "The volume is " << volume->GetName() << G4endl;
 	G4cout << "The preMom is" << preMom[0] << ", " << preMom[1] << ", " << preMom[2] << G4endl;
 	G4cout << "The passPrePos is" << passPrePos[0] << ", " << passPrePos[1] << ", " << passPrePos[2] << G4endl;

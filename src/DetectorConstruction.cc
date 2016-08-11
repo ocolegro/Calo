@@ -50,31 +50,31 @@ void DetectorConstruction::buildTracker(){
 		initLayer(0);
 		if (version_ < T){
 			for (int i = 0; i < 6; i ++){
-				iEleL.push_back(make_pair(.7*mm,"G4_Galactic"));
+				iEleL.push_back(make_pair(.00001*mm,"Si"));
 				iEleL.push_back(make_pair(99.3*mm,"G4_Galactic"));
 			}
 			initLayer(1);
 
-			iEleL.push_back(make_pair(.7*mm,"G4_Galactic"));
+			iEleL.push_back(make_pair(.00001*mm,"Si"));
 			iEleL.push_back(make_pair(6.8*mm,"G4_Galactic"));
 
-			iEleL.push_back(make_pair(.3504*mm,"G4_Galactic"));
+			iEleL.push_back(make_pair(.00001*mm,"Si"));
 			iEleL.push_back(make_pair(6.8*mm,"G4_Galactic"));
 
 
 			for (int i = 0; i < 3; i ++){
-				iEleL.push_back(make_pair(.7*mm,"G4_Galactic"));
+				iEleL.push_back(make_pair(.00001*mm,"Si"));
 				if (i < 3){
 					iEleL.push_back(make_pair(15*mm,"G4_Galactic"));
 
 				}
 			}
 
-			iEleL.push_back(make_pair(.7*mm,"G4_Galactic"));
+			iEleL.push_back(make_pair(.00001*mm,"Si"));
 			iEleL.push_back(make_pair(44.8*mm,"G4_Galactic"));
-			iEleL.push_back(make_pair(.7*mm,"G4_Galactic"));
+			iEleL.push_back(make_pair(.00001*mm,"Si"));
 			iEleL.push_back(make_pair(84.3*mm,"G4_Galactic"));
-			iEleL.push_back(make_pair(.7*mm,"G4_Galactic"));
+			iEleL.push_back(make_pair(.00001*mm,"Si"));
 			iEleL.push_back(make_pair(14.3*mm,"G4_Galactic"));
 
 
