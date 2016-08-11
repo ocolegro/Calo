@@ -133,7 +133,7 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
            if ((ix == 0) && (iy == 0) && (iz == 0)){
                minx = -nx*lenUnit;// xval * lenUnit;
                miny = minx; //yval * lenUnit;
-               minz = -maxz;//zval * lenUnit;
+               minz = 0;//zval * lenUnit;
            }
            // G4cout << "nx+ix =  "<< nx+ix << " nz+iz = " << nz+iz << G4endl;
             yField[nx+ix][0][nz+iz] = bval * fieldUnit;
