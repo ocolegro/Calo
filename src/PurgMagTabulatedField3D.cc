@@ -198,17 +198,16 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
 void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 				      G4double *Bfield ) const
 {
-    G4double lenUnit = cm;
-    G4double fieldUnit = gauss;
+
+  G4double lenUnit = cm;
+  G4double fieldUnit = gauss;
   //std::cout << "In GetFieldValue" << std::endl;
   G4double x = point[0]/lenUnit;
   G4double y = point[1]/lenUnit;
-  G4double z = (point[2] + fZoffset)/lenUnit + 145;
+  G4double z = (point[2] + fZoffset)/lenUnit ;
+  if (Bfield[0] == 999)
   G4cout << "The x,y,z that we are reading in is: " << x/cm << ", " << y/cm << ", " << z/cm << G4endl;
-  //std::cout << "B-field vector address: " << Bfield << std::endl;
-  //std::cout << "x = " << point[0] << "; y = " << point[1] << "; z = " << point[2] << std::endl;
-  //std::cout << "x = " << Bfield[0] << "; y = " << Bfield[1] << "; z = " << Bfield[2] << std::endl;
-    
+
   // Check that the point is within the defined region 
   if ( x>=minx && x<=maxx &&
        y>=miny && y<=maxy && 

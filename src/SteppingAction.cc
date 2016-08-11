@@ -39,8 +39,8 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	const G4StepPoint *thePreStepPoint = aStep->GetPreStepPoint();
 	const G4StepPoint *thePostStepPoint = aStep->GetPostStepPoint();
 
-	double bFieldPre[3] = {0,0,0};
-    double bFieldPost[3] = {0,0,0};
+	double bFieldPre[3] = {999,0,0};
+    double bFieldPost[3] = {999,0,0};
     double passPostPos[4] = {0,0,0,0};
     double passPrePos[4] = {0,0,0,0};
 	G4Track* lTrack = aStep->GetTrack();
