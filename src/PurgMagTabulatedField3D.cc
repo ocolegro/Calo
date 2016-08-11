@@ -44,7 +44,6 @@
 #include <iterator>
 #include <algorithm>
 namespace{
-  //G4Mutex myPurgMagTabulatedField3DLock = G4MUTEX_INITIALIZER;
 }
 
 PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename, 
@@ -52,10 +51,10 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
   :fZoffset(zOffset),invertX(false),invertY(false),invertZ(false)
 {    
  
-  //double lenUnit= meter;
-  //double fieldUnit= tesla; 
+    //double lenUnit= meter;
+    double fieldUnit= tesla;
     double lenUnit = centimeter;
-    double fieldUnit = kilogauss;
+    //double fieldUnit = kilogauss;
   G4cout << "\n-----------------------------------------------------------"
 	 << "\n      Magnetic field"
 	 << "\n-----------------------------------------------------------";
