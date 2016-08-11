@@ -203,7 +203,7 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
   //std::cout << "In GetFieldValue" << std::endl;
   G4double x = point[0]/lenUnit;
   G4double y = point[1]/lenUnit;
-  G4double z = (point[2] + fZoffset)/lenUnit;
+  G4double z = (point[2] + fZoffset)/lenUnit + 145;
   G4cout << "The x,y,z that we are reading in is: " << x/cm << ", " << y/cm << ", " << z/cm << G4endl;
   //std::cout << "B-field vector address: " << Bfield << std::endl;
   //std::cout << "x = " << point[0] << "; y = " << point[1] << "; z = " << point[2] << std::endl;
