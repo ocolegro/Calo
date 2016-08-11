@@ -117,35 +117,6 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
  G4cout << "Array size [y]: " << yField[0].size() << G4endl;
  G4cout << "Array size [z]: " << yField[0][0].size() << G4endl;
 
-  // Ignore other header information    
-  // The first line whose second character is '0' is considered to
-  // be the last line of the header.
-  /*
-   * do {
-   *   file.getline(buffer,256);
-   * } while ( buffer[1]!='0');
-   */
-  // Read in the data
-  /*
-   * double xval,yval,zval,bx,by,bz;
-   * double permeability; // Not used in this example.
-   * for (ix=0; ix<nx; ix++) {
-   *   for (iy=0; iy<ny; iy++) {
-   *     for (iz=0; iz<nz; iz++) {
-   *       file >> xval >> yval >> zval >> bx >> by >> bz >> permeability;
-   *       if ( ix==0 && iy==0 && iz==0 ) {
-   *         minx = xval * lenUnit;
-   *         miny = yval * lenUnit;
-   *         minz = zval * lenUnit;
-   *       }
-   *       xField[ix][iy][iz] = bx * fieldUnit;
-   *       yField[ix][iy][iz] = by * fieldUnit;
-   *       zField[ix][iy][iz] = bz * fieldUnit;
-   *     }
-   *   }
-   * }
-   */
-  // << nx << G4endl;/ Return to beginning of file
   file.clear();
   file.seekg(0,ios::beg); 
   G4double bval=0.0, xval=0.0, yval=0.0, zval=0.0;
