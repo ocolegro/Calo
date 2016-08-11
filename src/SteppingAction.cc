@@ -81,19 +81,14 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
     double lenUnit = centimeter;
 
 	if(trackID == 1){
-		G4cout << "The preMom is " << preMom[0] << ", " << preMom[1] << ", " << preMom[2] << G4endl;
-		G4cout << "The passPrePos is " << passPrePos[0] << ", " << passPrePos[1] << ", " << passPrePos[2] << G4endl;
-		G4cout << "The passPrePos is " << passPrePos[0]*lenUnit << ", " << passPrePos[1]*lenUnit << ", " << passPrePos[2]*lenUnit << G4endl;
 		G4cout << "The passPrePos is " << passPrePos[0]/lenUnit << ", " << passPrePos[1]/lenUnit << ", " << passPrePos[2]/lenUnit << G4endl;
-		G4cout << "The passPrePos is " << passPrePos[0]*cm << ", " << passPrePos[1]*cm << ", " << passPrePos[2]*cm << G4endl;
+		G4cout << "The passPostPos is " << passPostPos[0]/lenUnit << ", " << passPostPos[1].lenUnit << ", " << passPostPos[2]/lenUnit << G4endl;
 
 		G4cout << "The bFieldPre is " << bFieldPre[0]/gauss  << ", " << bFieldPre[1] /gauss << ", " << bFieldPre[2] /gauss << G4endl;
-		G4cout << "The bFieldPre is " << bFieldPre[0]  << ", " << bFieldPre[1]  << ", " << bFieldPre[2]  << G4endl;
-
-		G4cout << "The postMom is " << postMom[0] << ", " << postMom[1] << ", " << postMom[2] << G4endl;
-		G4cout << "The passPostPos is " << passPostPos[0] << ", " << passPostPos[1] << ", " << passPostPos[2] << G4endl;
 		G4cout << "The bFieldPost is " << bFieldPost[0] /gauss << ", " << bFieldPost[1] /gauss << ", " << bFieldPost[2]/gauss  << G4endl;
-		G4cout << "The bFieldPost is " << bFieldPost[0]  << ", " << bFieldPost[1]  << ", " << bFieldPost[2]  << G4endl;
+
+		G4cout << "The preMom is " << preMom[0] << ", " << preMom[1] << ", " << preMom[2] << G4endl;
+		G4cout << "The postMom is " << postMom[0] << ", " << postMom[1] << ", " << postMom[2] << G4endl;
 
 	}
 }

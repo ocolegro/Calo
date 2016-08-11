@@ -51,8 +51,6 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
   :fZoffset(zOffset),invertX(false),invertY(false),invertZ(false)
 {    
  
-    //G4double lenUnit= meter;
-    //G4double fieldUnit= tesla;
     G4double lenUnit = centimeter;
     G4double fieldUnit = gauss;
   G4cout << "\n-----------------------------------------------------------"
@@ -61,10 +59,6 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
     
   G4cout << "\n ---> " "Reading the field grid from " << filename << " ... " << endl; 
 
-  //
-  //This is a thread-local class and we have to avoid that all workers open the 
-  //file at the same time
-  //G4AutoLock lock(&myPurgMagTabulatedField3DLock);
 
   ifstream file( filename ); // Open the file for reading.
   
@@ -139,7 +133,7 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
            if ((ix == 0) && (iy == 0) && (iz == 0)){
                minx = -nx*lenUnit;// xval * lenUnit;
                miny = minx; //yval * lenUnit;
-               minz = 0;//zval * lenUnit;
+               minz = -maxz;//zval * lenUnit;
            }
            // G4cout << "nx+ix =  "<< nx+ix << " nz+iz = " << nz+iz << G4endl;
             yField[nx+ix][0][nz+iz] = bval * fieldUnit;
@@ -204,7 +198,7 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
 void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 				      G4double *Bfield ) const
 {
-    G4double lenUnit = centimeter;
+    G4double lenUnit = cm;
     G4double fieldUnit = gauss;
   //std::cout << "In GetFieldValue" << std::endl;
   G4double x = point[0]/lenUnit;
