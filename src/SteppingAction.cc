@@ -60,6 +60,13 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	const G4ThreeVector &preMom = lTrack->GetMomentum() + -1.*aStep->GetDeltaMomentum();
 	const G4ThreeVector &postMom = lTrack->GetMomentum();
 
+    for(int i = 0; i < 3; i++)
+    {
+    	passPrePos[i] = prePos[i];
+        passPostPos[i] = postPos[i];
+    }
+
+
 	G4cout << "The pdgid is" << pdgID << G4endl;
 	G4cout << "The volume is " << volume->GetName() << G4endl;
 	G4cout << "The preMom is" << preMom[0] << ", " << preMom[1] << ", " << preMom[2] << G4endl;
