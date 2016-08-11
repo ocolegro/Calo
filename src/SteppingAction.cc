@@ -8,7 +8,7 @@
 #include "DetectorConstruction.hh"
 
 #include "HGCSSGenParticle.hh"
-
+#include "G4TransportationManager.hh"
 //
 SteppingAction::SteppingAction(std::string data) {
 	eventAction_ =
@@ -138,7 +138,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 								//const G4ThreeVector &pos = iTrack->GetpostPos();
 								TVector3 momVec(p[0], p[1], p[2]);
 								genPart.vertexMom(momVec);
-								TVector3 posVec(pos[0], pos[1], pos[2] - zOff);
+								//TVector3 posVec(pos[0], pos[1], pos[2] - zOff);
 								genPart.vertexPos(posVec);
 								genPart.mass(iTrack->GetDefinition()->GetPDGMass());
 								genPart.pdgid(iTrack->GetDefinition()->GetPDGEncoding());
