@@ -136,28 +136,17 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
                miny = minx; //yval * lenUnit;
                minz = 0;//zval * lenUnit;
            }
-           G4cout << "Setting the YFields  up: " << bval << G4endl;
-            yField[nx+ix][0][nz+iz] = bval * fieldUnit;
-            yField[nx-ix][0][nz+iz] = yField[nx+ix][0][nz+iz];
-            yField[nx+ix][0][nz-iz] = yField[nx+ix][0][nz+iz];
-            yField[nx-ix][0][nz-iz] = yField[nx+ix][0][nz+iz];
+           G4cout << "Setting the YFields  up: "<<  G4endl;
+            yField[ix][0][iz] = bval * fieldUnit;
             G4cout << "Setting the XFields  up: " << bval << G4endl;
             //Apply symmetric considerations along x- axis 
-            xField[nx+ix][0][nz+iz] = 0.0  * fieldUnit;
-            xField[nx-ix][0][nz+iz] = xField[nx+ix][0][nz+iz];
-            xField[nx+ix][0][nz-iz] = xField[nx+ix][0][nz+iz];
-            xField[nx-ix][0][nz-iz] = xField[nx+ix][0][nz+iz];
+            xField[ix][0][iz] = 0.0  * fieldUnit;
             G4cout << "Setting the ZFields  up: " << bval << G4endl;
-            zField[nx+ix][0][nz+iz] = 0.0 * fieldUnit;
-            zField[nx-ix][0][nz+iz] = zField[nx+ix][0][nz+iz];
-            zField[nx+ix][0][nz-iz] = zField[nx+ix][0][nz+iz];
-            zField[nx-ix][0][nz-iz] = zField[nx+ix][0][nz+iz];
+            zField[ix][0][iz] = 0.0 * fieldUnit;
         /* Copy all values along y-axis*/
             for(iy = 1; iy < ny-1; iy++){
                 G4cout << "The copying along y axis " << xField[ix][0][iz] << G4endl;
                 xField[ix][iy][iz] = xField[ix][0][iz];
-                yField[ix][iy][iz] = yField[ix][0][iz];
-                zField[ix][iy][iz] = zField[ix][0][iz];
             }    
          }
   }
