@@ -204,7 +204,8 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
   //std::cout << "In GetFieldValue" << std::endl;
   G4double x = point[0]/lenUnit;
   G4double y = point[1]/lenUnit;
-  G4double z = point[2]/lenUnit ;//+ fZoffset)/lenUnit ;
+  G4double ztrue = point[2]/lenUnit ;//+ fZoffset)/lenUnit ;
+  G4double z = 15 * lenUnit - ztrue;
   G4cout << "The maxz is " << maxz << G4endl;
   bool printField = false;
   if (Bfield[0] == 999){
