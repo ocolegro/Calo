@@ -81,6 +81,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	if(trackID == 1){
 		G4cout << "The postMom is" << postMom[0] << ", " << postMom[1] << ", " << postMom[2] << G4endl;
 		G4cout << "The passPostPos is" << passPostPos[0] << ", " << passPostPos[1] << ", " << passPostPos[2] << G4endl;
+		G4cout << "The postPos is" << postPos[0] << ", " << postPos[1] << ", " << postPos[2] << G4endl;
 		G4cout << "The bFieldPost is" << bFieldPost[0] << ", " << bFieldPost[1] << ", " << bFieldPost[2] << G4endl;
 	}
 }
