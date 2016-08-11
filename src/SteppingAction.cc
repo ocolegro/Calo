@@ -66,8 +66,8 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 
 
-	G4TransportationManager::GetTransportationManager()->GetFieldManager()->GetDetectorField()->GetFieldValue(passPrePos, bFieldPre);
-	G4TransportationManager::GetTransportationManager()->GetFieldManager()->GetDetectorField()->GetFieldValue(passPostPos, bFieldPost);
+	//G4TransportationManager::GetTransportationManager()->GetFieldManager()->GetDetectorField()->GetFieldValue(passPrePos, bFieldPre);
+	//G4TransportationManager::GetTransportationManager()->GetFieldManager()->GetDetectorField()->GetFieldValue(passPostPos, bFieldPost);
 
 
 
@@ -93,7 +93,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	}*/
 	for (int i = 0; i <30; i ++)
 	{
-		passPrePos[0] = 0; passPrePos[1] = 0; passPrePos[2] = -15 * cm + i/cm;
+		passPrePos[0] = 0; passPrePos[1] = 0; passPrePos[2] = -15 * cm + i*cm;
 		G4TransportationManager::GetTransportationManager()->GetFieldManager()->GetDetectorField()->GetFieldValue(passPrePos, bFieldPre);
 
 	}
