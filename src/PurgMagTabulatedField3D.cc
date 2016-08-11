@@ -87,18 +87,18 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
  * 
  */
   // Set up storage space for table
-  xField.resize(nx*2);
-  yField.resize(nx*2);
-  zField.resize(nx*2);
+  xField.resize(nx);
+  yField.resize(nx);
+  zField.resize(nx);
   int ix, iy, iz;
-  for (ix=0; ix<(2*nx); ix++) {
-    xField[ix].resize(ny*2);
-    yField[ix].resize(ny*2);
-    zField[ix].resize(ny*2);
-    for (iy=0; iy<(2*ny); iy++) {
-      xField[ix][iy].resize(nz*2);
-      yField[ix][iy].resize(nz*2);
-      zField[ix][iy].resize(nz*2);
+  for (ix=0; ix<nx; ix++) {
+    xField[ix].resize(ny);
+    yField[ix].resize(ny);
+    zField[ix].resize(ny);
+    for (iy=0; iy<ny; iy++) {
+      xField[ix][iy].resize(nz);
+      yField[ix][iy].resize(nz);
+      zField[ix][iy].resize(nz);
     }
   }
  G4cout << "Resized arrays successfully." <<G4endl;
@@ -122,12 +122,10 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
         while(iss >> word){
             tokens.push_back(word);
         }
-        //G4cout << G4endl << "Vector size = " << tokens.size() << G4endl;
         nx = tokens.size();
         ix =0, iy = 0;
         zval = stod(tokens.at(0)); // Read in the z-coordinate
-        //G4cout << "nx = " << nx << G4endl;
-        for(ix=0; ix < (nx-2); ix++){
+        for(ix=0; ix < (nx-1); ix++){
         // Read in all 25 b-field values along the x-axis
             bval = stod(tokens.at(ix+1));
            if ((ix == 0) && (iy == 0) && (iz == 0)){
@@ -135,9 +133,7 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
                miny = minx; //yval * lenUnit;
                minz = 0;//zval * lenUnit;
            }
-           // G4cout << "nx+ix =  "<< nx+ix << " nz+iz = " << nz+iz << G4endl;
             yField[nx+ix][0][nz+iz] = bval * fieldUnit;
-           // G4cout << zval << ": yField[" << nx+ix <<"][" << 0 << "][" << nz+iz << "]=" << bval << G4endl;       
             yField[nx-ix][0][nz+iz] = yField[nx+ix][0][nz+iz];
             yField[nx+ix][0][nz-iz] = yField[nx+ix][0][nz+iz];
             yField[nx-ix][0][nz-iz] = yField[nx+ix][0][nz+iz];
