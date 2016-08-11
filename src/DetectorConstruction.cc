@@ -42,7 +42,7 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod) :
 	DefineMaterials();
 	m_detectorMessenger = new DetectorMessenger(this);
 	UpdateCalorSize();
-    SetMagField("b18d36.dat",-m_CalorSizeZ*mm);
+    SetMagField("b18d36.dat",-0.5 * (Detector->GetCalorSizeZ()));
 
 }
 void DetectorConstruction::buildTracker(){
