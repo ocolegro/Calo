@@ -54,8 +54,8 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	stepPDGID = pdgID;
 	stepKE = kinEng - aStep->GetDeltaEnergy();
 
-	const G4ThreeVector & postPos = thePostStepPoint->GetpostPos();
-	const G4ThreeVector & prePos   = thePreStepPoint->GetpostPos();
+	const G4ThreeVector & postPos = thePostStepPoint->GetPosition();
+	const G4ThreeVector & prePos   = thePreStepPoint->GetPosition();
 
 	HGCSSGenParticle genPart;
 	eventAction_->Detect(eRawDep, volume,lTrack,postPos);
