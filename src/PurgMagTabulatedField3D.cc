@@ -203,8 +203,9 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 
 		G4cout << "The recalled filed, before passing was :  "  << " (" << Bfield[1] / gauss  << ")" << G4endl;
 		G4cout << "The recalled filed, before passing was :  "  << " (" << yField[xlow][ylow][zlow] / gauss  << ")" << G4endl;
-
-    }		G4cout << "The recalled filed, before passing was :  "  << " (" <<   yField[xlow+1][ylow+1][zlow+1] *    (1-xlow)  *    (1-ylow)  *    (1-zlow) / gauss  << ")" << G4endl;
+		G4cout << "The recalled filed, before passing was :  "  << " (" <<   yField[xlow+1][ylow+1][zlow+1] *    (1-xlow)  *    (1-ylow)  *    (1-zlow) / gauss  << ")" << G4endl;
+		G4cout << (1-xlow) << ", " << (1 - ylow) << ", " << (1 - zlow) << G4endl;
+    }
 
   } else {
     Bfield[0] = 0.0;
