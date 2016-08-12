@@ -119,7 +119,6 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
   file.seekg(0,ios::beg);
   G4double xval=0.0, yval=0.0, zval=0.0;
     for (unsigned iz = 0; iz < (nz); iz++){
-    	G4cout << "iz = " << iz << ", nz = " << nz << G4endl;
         if(!tokens.empty()){ 
             tokens.clear();
             iss.clear();
@@ -131,12 +130,12 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
         }
         nxy = tokens.size();
         zval = stod(tokens.at(0)) * cm; // Read in the z-coordinate
-        for(unsigned ix=0; ix < (nxy-1); ix++){
+        for(unsigned ix=0; ix < (nxy-2); ix++){
             double btemp  = stod(tokens.at(ix+1)) ;
             yField[ix][0][iz] = btemp  * fieldUnit;
             xField[ix][0][iz] = 0.0  * fieldUnit;
             zField[ix][0][iz] = 0.0 * fieldUnit;
-            for(unsigned iy = 0; iy < nxy-1; iy++){
+            for(unsigned iy = 0; iy < nxy-2; iy++){
                 yField[ix][iy][iz] = yField[ix][0][iz];
                 xField[ix][iy][iz] = xField[ix][0][iz];
                 zField[ix][iy][iz] = zField[ix][0][iz];
@@ -160,10 +159,7 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
   G4double x = point[0]/lenUnit;
   G4double y = point[1]/lenUnit;
   G4double z = point[2]/lenUnit;//+ fZoffset)/lenUnit ;
-  bool printField = false;
-  if (Bfield[0] == 999){
-	  printField = true;
-  }
+
   // Check that the point is within the defined region 
   if ( //fabs(x)>=minxy && fabs(x)<=maxxy &&
        //fabs(y)>=minxy && fabs(y)<=maxxy &&
@@ -208,15 +204,6 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
       yField[xhigh][yhigh][zlow+1] *    (1-xPercL)  *    (1-yPercL)  *    (1-zPercL) ;
 
 
-	if (printField){
-		G4cout << "nxy = " << nxy-2 << G4endl;
-		G4cout << "The x,y,z that we are reading in is: " << x << ", " << y << ", " << z << G4endl;
-		G4cout << "The x,y,z array enries are: " << xlow << ", " << ylow << ", " << zlow << G4endl;
-		G4cout << "The x,y,z array perclow are: " << xPercL << ", " << yPercL << ", " << zPercL << G4endl;
-		G4cout << "The recalled filed, before passing was :  "  << " (" << Bfield[1] / gauss  << ")" << G4endl;
-
-		G4cout << (1-xPercL) << ", " << (1 - yPercL) << ", " << (1 - zPercL) << G4endl;
-    }
 
   } else {
     Bfield[0] = 0.0;
