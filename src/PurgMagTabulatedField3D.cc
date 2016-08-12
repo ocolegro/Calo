@@ -135,7 +135,7 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
             yField[ix][0][iz] = btemp  * fieldUnit;
             xField[ix][0][iz] = 0.0  * fieldUnit;
             zField[ix][0][iz] = 0.0 * fieldUnit;
-            for(unsigned iy = 0; iy < nxy-1; iy++){
+            for(unsigned iy = 0; iy < nxy-2; iy++){
                 yField[ix][iy][iz] = yField[ix][0][iz];
                 xField[ix][iy][iz] = xField[ix][0][iz];
                 zField[ix][iy][iz] = zField[ix][0][iz];
