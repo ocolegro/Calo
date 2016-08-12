@@ -173,82 +173,21 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 	  printField = true;
   }
   // Check that the point is within the defined region 
-  if ( x>=minxy && x<=maxxy &&
-       y>=minxy && y<=maxxy &&
-       z>=minz && z<=maxz ) {
-    
-    // Position of given point within region, normalized to the range
-    // [0,1]
-    G4double xfraction = (x - minxy) / dxy;
-    G4double yfraction = (y - minxy) / dxy;
-    G4double zfraction = (z - minz) / dz;
+  if ( fabs(x)>=minxy && fabs(x)<=maxxy &&
+       fabs(y)>=minxy && fabs(y)<=maxxy &&
+       fabs(z)>=minz && fabs(z)<=maxz ) {
 
-    if (invertX) { xfraction = 1 - xfraction;}
-    if (invertY) { yfraction = 1 - yfraction;}
-    if (invertZ) { zfraction = 1 - zfraction;}
+	  int xindex = 0;
+	  int yindex = 0;
+	  int zlow = 2 * floor(abs(z));
+	  int zhigh = 2 * floor(abs(z)) + 1;
+	  double percLow = fabs(z) - floor(z);
+	  double percHigh = 1 - percLow;
 
-    // Need addresses of these to pass to modf below.
-    // modf uses its second argument as an OUTPUT argument.
-    G4double xdindex, ydindex, zdindex;
-    
-    // Position of the point within the cuboid defined by the
-    // nearest surrounding tabulated points
-    G4double xlocal = ( std::modf(xfraction*(nxy-1), &xdindex));
-    G4double ylocal = ( std::modf(yfraction*(nxy-1), &ydindex));
-    G4double zlocal = ( std::modf(zfraction*(nz-1), &zdindex));
-    
-    // The indices of the nearest tabulated point whose coordinates
-    // are all less than those of the given point
-    int xindex = static_cast<int>(xdindex);
-    int yindex = static_cast<int>(ydindex);
-    int zindex = static_cast<int>(zdindex);
-    
-
-#ifdef DEBUG_INTERPOLATING_FIELD
-    G4cout << "Local x,y,z: " << xlocal << " " << ylocal << " " << zlocal << endl;
-    G4cout << "Index x,y,z: " << xindex << " " << yindex << " " << zindex << endl;
-    G4double valx0z0, mulx0z0, valx1z0, mulx1z0;
-    G4double valx0z1, mulx0z1, valx1z1, mulx1z1;
-    valx0z0= table[xindex  ][0][zindex];  mulx0z0=  (1-xlocal) * (1-zlocal);
-    valx1z0= table[xindex+1][0][zindex];  mulx1z0=   xlocal    * (1-zlocal);
-    valx0z1= table[xindex  ][0][zindex+1]; mulx0z1= (1-xlocal) * zlocal;
-    valx1z1= table[xindex+1][0][zindex+1]; mulx1z1=  xlocal    * zlocal;
-#endif
-
-        // Full 3-dimensional version
-  /*  Bfield[0] =
-      xField[xindex  ][yindex  ][zindex  ] * (1-xlocal) * (1-ylocal) * (1-zlocal) +
-      xField[xindex  ][yindex  ][zindex+1] * (1-xlocal) * (1-ylocal) *    zlocal  +
-      xField[xindex  ][yindex+1][zindex  ] * (1-xlocal) *    ylocal  * (1-zlocal) +
-      xField[xindex  ][yindex+1][zindex+1] * (1-xlocal) *    ylocal  *    zlocal  +
-      xField[xindex+1][yindex  ][zindex  ] *    xlocal  * (1-ylocal) * (1-zlocal) +
-      xField[xindex+1][yindex  ][zindex+1] *    xlocal  * (1-ylocal) *    zlocal  +
-      xField[xindex+1][yindex+1][zindex  ] *    xlocal  *    ylocal  * (1-zlocal) +
-      xField[xindex+1][yindex+1][zindex+1] *    xlocal  *    ylocal  *    zlocal ;
-    Bfield[1] =
-      yField[xindex  ][yindex  ][zindex  ] * (1-xlocal) * (1-ylocal) * (1-zlocal) +
-      yField[xindex  ][yindex  ][zindex+1] * (1-xlocal) * (1-ylocal) *    zlocal  +
-      yField[xindex  ][yindex+1][zindex  ] * (1-xlocal) *    ylocal  * (1-zlocal) +
-      yField[xindex  ][yindex+1][zindex+1] * (1-xlocal) *    ylocal  *    zlocal  +
-      yField[xindex+1][yindex  ][zindex  ] *    xlocal  * (1-ylocal) * (1-zlocal) +
-      yField[xindex+1][yindex  ][zindex+1] *    xlocal  * (1-ylocal) *    zlocal  +
-      yField[xindex+1][yindex+1][zindex  ] *    xlocal  *    ylocal  * (1-zlocal) +
-      yField[xindex+1][yindex+1][zindex+1] *    xlocal  *    ylocal  *    zlocal ;
-    Bfield[2] =
-      zField[xindex  ][yindex  ][zindex  ] * (1-xlocal) * (1-ylocal) * (1-zlocal) +
-      zField[xindex  ][yindex  ][zindex+1] * (1-xlocal) * (1-ylocal) *    zlocal  +
-      zField[xindex  ][yindex+1][zindex  ] * (1-xlocal) *    ylocal  * (1-zlocal) +
-      zField[xindex  ][yindex+1][zindex+1] * (1-xlocal) *    ylocal  *    zlocal  +
-      zField[xindex+1][yindex  ][zindex  ] *    xlocal  * (1-ylocal) * (1-zlocal) +
-      zField[xindex+1][yindex  ][zindex+1] *    xlocal  * (1-ylocal) *    zlocal  +
-      zField[xindex+1][yindex+1][zindex  ] *    xlocal  *    ylocal  * (1-zlocal) +
-      zField[xindex+1][yindex+1][zindex+1] *    xlocal  *    ylocal  *    zlocal ;*/
-    Bfield[0] = 0; Bfield[1] = yField[xindex][yindex][zindex] ; Bfield[2] = 0;
+    Bfield[0] = 0; Bfield[1] = yField[xindex][yindex][zlow] * percLow  + yField[xindex][yindex][zhigh] * percHigh; Bfield[2] = 0;
     if (printField){
     	G4cout << "The x,y,z that we are reading in is: " << x/cm << ", " << y/cm << ", " << ztrue/cm << G4endl;
-    	G4cout << "The recalled filed, before passing was :  "  << " (" << yField[xindex][yindex][zindex] /gauss  << G4endl;
-    	G4cout << "The recalled filed, before passing was :  "  << " (" << yField[xindex][yindex][zindex] * 10/gauss  << G4endl;
-    	G4cout << "yField[0][0][0] :  "  << " (" << yField[0][0][0] * 10/gauss  << G4endl;
+    	G4cout << "The recalled filed, before passing was :  "  << " (" << Bfield[1] / gauss  << G4endl;
 
     }
   } else {
