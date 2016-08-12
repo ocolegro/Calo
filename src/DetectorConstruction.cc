@@ -100,7 +100,7 @@ void DetectorConstruction::buildECal(){
 		iEleL.push_back(make_pair(5*mm,"Cu"));
 		iEleL.push_back(make_pair(wThickL,"W"));
 		iEleL.push_back(make_pair(0.5*mm,"CFMix"));
-		iEleL.push_back(make_pair(0.3*mm,"Si"));
+		iEleL.push_back(make_pair(0.5*mm,"Si"));
 		iEleL.push_back(make_pair(0.5*mm,"CFMix"));
 		iEleL.push_back(make_pair(2*mm,"PCB"));
 		iEleL.push_back(make_pair(2*mm,"Air"));
@@ -109,7 +109,7 @@ void DetectorConstruction::buildECal(){
 
 		iEleR.push_back(make_pair(wThickR,"W"));
 		iEleL.push_back(make_pair(0.5*mm,"CFMix"));
-		iEleR.push_back(make_pair(0.3*mm,"Si"));
+		iEleR.push_back(make_pair(0.5*mm,"Si"));
 		iEleR.push_back(make_pair(0.5*mm,"CFMix"));
 		iEleR.push_back(make_pair(2*mm,"PCB"));
 		iEleR.push_back(make_pair(2*mm,"Air"));
