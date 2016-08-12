@@ -135,7 +135,7 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
         for(unsigned ix=0; ix < (nxy-2); ix++){
         	//G4cout << "ix = " << ix << ", nxy = " << nxy << G4endl;
             double btemp  = stod(tokens.at(ix+1)) ;
-
+            std::cout << "btemp = " << btemp << "iz = " << iz << std::endl;
             yField[ix][0][iz] = btemp * 10 * fieldUnit;
 
             xField[ix][0][iz] = 0.0  * fieldUnit;
