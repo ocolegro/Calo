@@ -181,8 +181,8 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 	double zPercL = (fabs(2*z) - floor(2*z));
 
 
-	if (xlow >= nxy-1){
-		xhigh = nxy - 1;
+	if (xlow >= nxy-2){
+		xhigh = nxy - 2;
 		xPercL = 1;
 		yPercL = 1;
 	}
