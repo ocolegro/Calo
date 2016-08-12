@@ -161,9 +161,9 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 
   G4double lenUnit = centimeter;
   G4double fieldUnit = gauss;
-  G4double x = point[0];
-  G4double y = point[1];
-  G4double z = point[2];//+ fZoffset)/lenUnit ;
+  G4double x = point[0]/lenUnit;
+  G4double y = point[1]/lenUnit;
+  G4double z = point[2]/lenUnit;//+ fZoffset)/lenUnit ;
   bool printField = false;
   if (Bfield[0] == 999){
 	  printField = true;
@@ -173,13 +173,13 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
        fabs(y)>=minxy && fabs(y)<=maxxy &&
        fabs(z)>=minz && fabs(z)<=maxz ) {
 
-	G4int xlow  = floor(x)/lenUnit;
-	G4int ylow  = floor(y)/lenUnit;
-	G4int zlow =  (floor(2 *fabs(z)))/lenUnit;
+	G4int xlow  = floor(x);
+	G4int ylow  = floor(y);
+	G4int zlow =  (floor(2 *fabs(z)));
 
-	double xPercL = (fabs(x) - floor(x))/lenUnit;
-	double yPercL = (fabs(y) - floor(y))/lenUnit;
-	double zPercL = (fabs(2*z) - floor(2*z))/lenUnit;
+	double xPercL = 1 - (fabs(x) - floor(x));
+	double yPercL = 1 - (fabs(y) - floor(y));
+	double zPercL = (fabs(2*z) - floor(2*z));
 
 
 	Bfield[0] = 0; Bfield[2] = 0;
