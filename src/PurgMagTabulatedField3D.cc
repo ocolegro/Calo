@@ -176,7 +176,7 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 
 	  G4int xindex = 0;
 	  G4int yindex = 0;
-	  G4int zlow =  (floor(2 *abs(z))/2)/lenUnit;
+	  G4int zlow =  2*(floor(2 *abs(z))/2)/lenUnit;
 	  G4int zhigh =  zlow+1;
 	  double percLow = (fabs(2*z) - floor(2*z));
 	  double percHigh = 1 - percLow;
