@@ -97,17 +97,17 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
     word.clear();
     tokens.clear();
 
-	xField.resize(nz);
-	yField.resize(nz);
-	zField.resize(nz);
+	xField.resize(nxy);
+	yField.resize(nxy);
+	zField.resize(nxy);
 	for (unsigned ix=0; ix<nxy; ix++) {
 		xField[ix].resize(nxy);
 		yField[ix].resize(nxy);
 		zField[ix].resize(nxy);
 		for (unsigned iy=0; iy<nxy; iy++) {
-			xField[ix][iy].resize(nxy);
-			yField[ix][iy].resize(nxy);
-			zField[ix][iy].resize(nxy);
+			xField[ix][iy].resize(nz);
+			yField[ix][iy].resize(nz);
+			zField[ix][iy].resize(nz);
 		}
   }
  G4cout << "Resized arrays successfully." <<G4endl;
