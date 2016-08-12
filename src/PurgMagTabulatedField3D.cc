@@ -97,9 +97,9 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
     word.clear();
     tokens.clear();
 
-	xField.resize(nxy);
-	yField.resize(nxy);
-	zField.resize(nxy);
+	xField.resize(nz);
+	yField.resize(nz);
+	zField.resize(nz);
 	for (unsigned ix=0; ix<nxy; ix++) {
 		xField[ix].resize(nxy);
 		yField[ix].resize(nxy);
