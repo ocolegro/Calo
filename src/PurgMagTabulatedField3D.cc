@@ -174,9 +174,9 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
        fabs(y)>=minxy && fabs(y)<=maxxy &&
        fabs(z)>=minz && fabs(z)<=maxz ) {
 
-	int xlow  = (floor(2 *fabs(x)))/lenUnit;
-	int ylow  = (floor(2 *abs(y))/2)/lenUnit;
-	int zlow =  (floor(2 *fabs(z)))/lenUnit;
+	G4int xlow  = (floor(2 *fabs(x)))/lenUnit;
+	G4int ylow  = (floor(2 *abs(y))/2)/lenUnit;
+	G4int zlow =  (floor(2 *fabs(z)))/lenUnit;
 
 	double xPercL = (fabs(2*x) - floor(2*x));
 	double yPercL = (fabs(2*y) - floor(2*y));
@@ -205,6 +205,8 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 		G4cout << "The recalled filed, before passing was :  "  << " (" << yField[xlow][ylow][zlow] / gauss  << ")" << G4endl;
 		G4cout << "The recalled filed, before passing was :  "  << " (" <<   yField[xlow+1][ylow+1][zlow+1] *    (1-xPercL)  *    (1-yPercL)  *    (1-zPercL)   << ")" << G4endl;
 		G4cout << "The recalled filed, before passing was :  "  << " (" <<   yField[xlow+1][ylow+1][zlow+1] /gauss  << ")" << G4endl;
+		G4cout << "The recalled filed, before passing was :  "  << " (" <<   yField[xlow][ylow][zlow+1] /gauss  << ")" << G4endl;
+
 
 		G4cout << (1-xPercL) << ", " << (1 - yPercL) << ", " << (1 - zPercL) << G4endl;
     }
