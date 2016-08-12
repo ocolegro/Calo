@@ -136,7 +136,7 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
         	//G4cout << "ix = " << ix << ", nxy = " << nxy << G4endl;
             bval = stod(tokens.at(ix+1)) * gauss;
             G4cout << "The field in the y direction at iz = " << iz << ", ix = " << ix << " = " << bval /gauss << G4endl;
-            G4cout << "The field in the zval direction at iz = " << iz << "is " << zval << G4endl;
+            G4cout << "The field in the zval direction at iz = " << iz << "is " << zval/cm << G4endl;
 
             yField[ix][0][iz] = bval * fieldUnit;
             xField[ix][0][iz] = 0.0  * fieldUnit;
@@ -173,7 +173,7 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
   G4double ztrue = point[2]/lenUnit ;//+ fZoffset)/lenUnit ;
   G4double z = ztrue;//150/lenUnit - ztrue;
   G4cout << "The maxz is " << maxz/cm << G4endl;
-  G4cout << "The ztrue is " << ztrue << " the z we attempt to read is " << z <<  G4endl;
+  G4cout << "The ztrue is " << ztrue/cm << " the z we attempt to read is " << z <<  G4endl;
   bool printField = false;
   if (Bfield[0] == 999){
 	  printField = true;
