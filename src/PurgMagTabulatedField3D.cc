@@ -100,12 +100,11 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
 	xField.resize(nxy);
 	yField.resize(nxy);
 	zField.resize(nxy);
-	int ix, iy, iz;
-	for (ix=0; ix<nxy; ix++) {
+	for (unsigned ix=0; ix<nxy; ix++) {
 		xField[ix].resize(nxy);
 		yField[ix].resize(nxy);
 		zField[ix].resize(nxy);
-		for (iy=0; iy<nxy; iy++) {
+		for (unsigned iy=0; iy<nxy; iy++) {
 			xField[ix][iy].resize(nxy);
 			yField[ix][iy].resize(nxy);
 			zField[ix][iy].resize(nxy);
@@ -119,7 +118,8 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
   file.clear();
   file.seekg(0,ios::beg);
   G4double bval=0.0, xval=0.0, yval=0.0, zval=0.0;
-    for (iz = 0; iz < (nz); iz++){
+    for (unsigned iz = 0; iz < (nz); iz++){
+    	G4cout << "iz = " << iz << G4endl;
         if(!tokens.empty()){ 
             tokens.clear();
             iss.clear();
@@ -131,15 +131,16 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
         }
         //G4cout << G4endl << "Vector size = " << tokens.size() << G4endl;
         nxy = tokens.size();
-        ix =0, iy = 0;
         zval = stod(tokens.at(0)); // Read in the z-coordinate
-        for(ix=0; ix < (nxy-1); ix++){
+        for(unsigned ix=0; ix < (nxy-1); ix++){
+        	G4cout << "ix = " << ix << G4endl;
             bval = stod(tokens.at(ix+1));
             yField[ix][0][iz] = bval * fieldUnit;
             xField[ix][0][iz] = 0.0  * fieldUnit;
             zField[ix][0][iz] = 0.0 * fieldUnit;
         /* Copy all values along y-axis*/
-            for(iy = 1; iy < nxy-1; iy++){
+            for(unsigned iy = 1; iy < nxy-1; iy++){
+            	G4cout << "iy = " << iy << G4endl;
                 yField[ix][iy+1][iz] = yField[ix][0][iz];
                 xField[ix][iy+1][iz] = xField[ix][0][iz];
                 zField[ix][iy+1][iz] = zField[ix][0][iz];
