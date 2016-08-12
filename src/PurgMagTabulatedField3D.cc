@@ -146,12 +146,8 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
   }
   file.close();
 
-  maxxy = nxy;
+  maxxy = nxy/lenUnit;
   maxz = zval;
-  minz = -1 * maxz;
-  minxy = -nxy*lenUnit;
-  dxy = maxxy - minxy;
-  dz = maxz - minz;
 
 }
 
@@ -169,13 +165,20 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 	  printField = true;
   }
   // Check that the point is within the defined region 
-  if ( fabs(x)>=minxy && fabs(x)<=maxxy &&
-       fabs(y)>=minxy && fabs(y)<=maxxy &&
-       fabs(z)>=minz && fabs(z)<=maxz ) {
+  if ( //fabs(x)>=minxy && fabs(x)<=maxxy &&
+       //fabs(y)>=minxy && fabs(y)<=maxxy &&
+       fabs(z)<=fabs(maxz)  ) {
 
 	G4int xlow  = floor(x);
+	G4int xhigh = xlow + 1;
 	G4int ylow  = floor(y);
+	G4int yhigh = ylow + 1;
 	G4int zlow =  (floor(2 *fabs(z)));
+	G4int zhigh = zlow + 1;
+	if (xlow == nxy-2)
+		xhigh = nxy - 2;
+	if (zlow == nz - 1)
+		zhigh = nz - 1;
 
 	double xPercL = 1 - (fabs(x) - floor(x));
 	double yPercL = 1 - (fabs(y) - floor(y));
@@ -187,21 +190,19 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
     Bfield[1] =
       yField[xlow  ][ylow  ][zlow  ] *		xPercL 	  * 	 yPercL    * 	 zPercL +
       yField[xlow  ][ylow  ][zlow+1] * 		xPercL 	  * 	 yPercL    *    (1-zPercL)  +
-      yField[xlow  ][ylow+1][zlow  ] * 		xPercL 	  *    (1-yPercL)  * 	 zPercL +
-      yField[xlow  ][ylow+1][zlow+1] * 		xPercL 	  *    (1-yPercL)  *    (1-zPercL)  +
-      yField[xlow+1][ylow  ][zlow  ] *    (1-xPercL)  * 	 yPercL    * 	 zPercL +
-      yField[xlow+1][ylow  ][zlow+1] *    (1-xPercL)  * 	 yPercL    *    (1-zPercL)  +
-      yField[xlow+1][ylow+1][zlow  ] *    (1-xPercL)  *    (1-yPercL)  * 	  zPercL +
-      yField[xlow+1][ylow+1][zlow+1] *    (1-xPercL)  *    (1-yPercL)  *    (1-zPercL) ;
+      yField[xlow  ][yhigh][zlow  ] * 		xPercL 	  *    (1-yPercL)  * 	 zPercL +
+      yField[xlow  ][yhigh][zlow+1] * 		xPercL 	  *    (1-yPercL)  *    (1-zPercL)  +
+      yField[xhigh][ylow  ][zlow  ] *    (1-xPercL)  * 	 yPercL    * 	 zPercL +
+      yField[xhigh][ylow  ][zlow+1] *    (1-xPercL)  * 	 yPercL    *    (1-zPercL)  +
+      yField[xhigh][yhigh][zlow  ] *    (1-xPercL)  *    (1-yPercL)  * 	  zPercL +
+      yField[xhigh][yhigh][zlow+1] *    (1-xPercL)  *    (1-yPercL)  *    (1-zPercL) ;
 
 
 	if (printField){
 		G4cout << "The x,y,z that we are reading in is: " << x << ", " << y << ", " << z << G4endl;
 		G4cout << "The x,y,z array enries are: " << xlow << ", " << ylow << ", " << zlow << G4endl;
 		G4cout << "The x,y,z array perclow are: " << xPercL << ", " << yPercL << ", " << zPercL << G4endl;
-
 		G4cout << "The recalled filed, before passing was :  "  << " (" << Bfield[1] / gauss  << ")" << G4endl;
-
 
 		G4cout << (1-xPercL) << ", " << (1 - yPercL) << ", " << (1 - zPercL) << G4endl;
     }

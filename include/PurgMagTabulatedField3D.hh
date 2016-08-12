@@ -58,9 +58,8 @@ class PurgMagTabulatedField3D
   // The dimensions of the table
   int nxy,nz;
   // The physical limits of the defined region
-  G4double minxy, maxxy, minz, maxz;
+  G4double maxxy, maxz;
   // The physical extent of the defined region
-  G4double dxy, dz;
   G4double fZoffset;
   bool invertX, invertY, invertZ;
 
