@@ -139,14 +139,16 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
            G4cout << "Setting the YFields  up: "<<  G4endl;
             yField[ix][0][iz] = bval * fieldUnit;
             G4cout << "Setting the XFields  up: " << bval << G4endl;
-            //Apply symmetric considerations along x- axis 
             xField[ix][0][iz] = 0.0  * fieldUnit;
             G4cout << "Setting the ZFields  up: " << bval << G4endl;
             zField[ix][0][iz] = 0.0 * fieldUnit;
         /* Copy all values along y-axis*/
             for(iy = 1; iy < ny-1; iy++){
                 G4cout << "The copying along y axis " << xField[ix][0][iz] << G4endl;
+                yField[ix][iy][iz] = yField[ix][0][iz];
                 xField[ix][iy][iz] = xField[ix][0][iz];
+                zField[ix][iy][iz] = zField[ix][0][iz];
+
             }    
          }
   }
