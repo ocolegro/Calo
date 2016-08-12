@@ -174,23 +174,31 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
        fabs(y)>=minxy && fabs(y)<=maxxy &&
        fabs(z)>=minz && fabs(z)<=maxz ) {
 
-	  G4int xlow  = calcInd(x,lenUnit);
-	  G4int xhigh = xlow+1;
+	G4int xlow  = 2*(floor(2 *fabs(x))/2)/lenUnit;
+	G4int ylow  = 2*(floor(2 *abs(y))/2)/lenUnit;
+	G4int zlow =  2*(floor(2 *fabs(z))/2)/lenUnit;
 
-	  G4int ylow  = 2*(floor(2 *abs(y))/2)/lenUnit;
-	  G4int yhigh = ylow+1;
+	double xPercL = (fabs(2*x) - floor(2*x));
+	double yPercL = (fabs(2*y) - floor(2*y));
+	double zPercL = (fabs(2*z) - floor(2*z));
 
-	  G4int zlow =  2*(floor(2 *fabs(z))/2)/lenUnit;
-	  G4int zhigh =  zlow+1;
-	  double percLow = (fabs(2*z) - floor(2*z));
-	  double percHigh = 1 - percLow;
-	  G4cout << "The zposisition = " << z/lenUnit << G4endl;
-	  G4cout << "zlow = " << zlow << ", " << " zhigh = " << zhigh << " percLow = " << percLow << " perctHigh = " << percHigh << G4endl;
 
-    Bfield[0] = 0; Bfield[1] = yField[xindex][yindex][zlow] * percLow  + yField[xindex][yindex][zhigh] * percHigh; Bfield[2] = 0;
-    if (printField){
-    	G4cout << "The x,y,z that we are reading in is: " << x/cm << ", " << y/cm << ", " << z/cm << G4endl;
-    	G4cout << "The recalled filed, before passing was :  "  << " (" << Bfield[1] / gauss  << ")" << G4endl;
+	Bfield[0] = 0; Bfield[2] = 0;
+
+    Bfield[1] =
+      yField[xlow  ][ylow  ][zlow  ] * xlow * ylow * zlow +
+      yField[xlow  ][ylow  ][zlow+1] * xlow * ylow *    (1-zlow)  +
+      yField[xlow  ][ylow+1][zlow  ] * xlow *    (1-ylow)  * zlow +
+      yField[xlow  ][ylow+1][zlow+1] * xlow *    (1-ylow)  *    (1-zlow)  +
+      yField[xlow+1][ylow  ][zlow  ] *    (1-xlow)  * ylow * zlow +
+      yField[xlow+1][ylow  ][zlow+1] *    (1-xlow)  * ylow *    (1-zlow)  +
+      yField[xlow+1][ylow+1][zlow  ] *    (1-xlow)  *    (1-ylow)  * zlow +
+      yField[xlow+1][ylow+1][zlow+1] *    (1-xlow)  *    (1-ylow)  *    (1-zlow) ;
+
+
+	if (printField){
+		G4cout << "The x,y,z that we are reading in is: " << x/cm << ", " << y/cm << ", " << z/cm << G4endl;
+		G4cout << "The recalled filed, before passing was :  "  << " (" << Bfield[1] / gauss  << ")" << G4endl;
 
     }
   } else {
@@ -210,11 +218,7 @@ std::vector<std::string> PurgMagTabulatedField3D::Split(const std::string &s, ch
 	}
 	return tokens;
 }
-G4int PurgMagTabulatedField3D::calcInd(G4double cord, G4double lenUnit){
-return 2*(floor(2 *fabs(cord))/2)/lenUnit;
-}
 
-G4int PurgMagTabulatedField3D::calcPerc(G4double cord){
-return (fabs(2*cord) - floor(2*cord));
-}
+
+
 
