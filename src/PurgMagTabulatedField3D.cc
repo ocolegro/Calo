@@ -129,20 +129,15 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
         while(iss >> word){
             tokens.push_back(word);
         }
-        //G4cout << G4endl << "Vector size = " << tokens.size() << G4endl;
         nxy = tokens.size();
         zval = stod(tokens.at(0)) * cm; // Read in the z-coordinate
         for(unsigned ix=0; ix < (nxy-2); ix++){
-        	//G4cout << "ix = " << ix << ", nxy = " << nxy << G4endl;
             double btemp  = stod(tokens.at(ix+1)) ;
-            std::cout << "btemp = " << btemp << "iz = " << iz << std::endl;
-            yField[ix][0][iz] = btemp * 10 * fieldUnit;
+            yField[ix][0][iz] = btemp  * fieldUnit;
 
             xField[ix][0][iz] = 0.0  * fieldUnit;
             zField[ix][0][iz] = 0.0 * fieldUnit;
-        /* Copy all values along y-axis*/
             for(unsigned iy = 1; iy < nxy-2; iy++){
-            	//G4cout << "iy = " << iy << ", nxy = " << nxy << G4endl;
                 yField[ix][iy+1][iz] = yField[ix][0][iz];
                 xField[ix][iy+1][iz] = xField[ix][0][iz];
                 zField[ix][iy+1][iz] = zField[ix][0][iz];
@@ -253,6 +248,7 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
     	G4cout << "The x,y,z that we are reading in is: " << x/cm << ", " << y/cm << ", " << ztrue/cm << G4endl;
     	G4cout << "The recalled filed, before passing was :  "  << " (" << yField[xindex][yindex][zindex] /gauss  << G4endl;
     	G4cout << "The recalled filed, before passing was :  "  << " (" << yField[xindex][yindex][zindex] * 10/gauss  << G4endl;
+    	G4cout << "yField[0][0][0] :  "  << " (" << yField[0][0][0] * 10/gauss  << G4endl;
 
     }
   } else {
