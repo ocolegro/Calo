@@ -60,7 +60,7 @@ void DetectorConstruction::buildTracker(){
 			iEleL.push_back(make_pair(.7*mm,"Si"));
 			iEleL.push_back(make_pair(6.8*mm,"G4_Galactic"));
 
-			iEleL.push_back(make_pair(.7*mm,"Si"));
+			iEleL.push_back(make_pair(.3504*mm,"W"));
 			iEleL.push_back(make_pair(6.8*mm,"G4_Galactic"));
 
 
