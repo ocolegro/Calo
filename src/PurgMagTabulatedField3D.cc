@@ -10,15 +10,15 @@
 // *                                                                  *
 // * Neither the authors of this software system, nor their employing *
 // * institutes,nor the agencies providing financial support for this *
-// * work  make  any representation or  warranty, express or implied, *
-// * regarding  this  software system or assume any liability for its *
+// * work  make  anxy representation or  warranty, express or implied, *
+// * regarding  this  software system or assume anxy liability for its *
 // * use.  Please see the license in the file  LICENSE  and URL above *
 // * for the full disclaimer and the limitation of liability.         *
 // *                                                                  *
 // * This  code  implementation is the result of  the  scientific and *
 // * technical work of the GEANT4 collaboration.                      *
 // * By using,  copying,  modifying or  distributing the software (or *
-// * any work based  on the software)  you  agree  to acknowledge its *
+// * anxy work based  on the software)  you  agree  to acknowledge its *
 // * use  in  resulting  scientific  publications,  and indicate your *
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
@@ -85,11 +85,10 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
         iss.str(line);
 
     }
-    nx = 0;
 
     while(iss >> word){
         tokens.push_back(word);
-        ++nx;
+        ++nxy;
     }
 
 
@@ -97,28 +96,20 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
     iss.clear();
     word.clear();
     tokens.clear();
-    ny = nx;
-    std::cout << "Number of lines in data file: " << nz << endl;
-/*
- *   G4cout << "  [ Number of values x,y,z: " 
- *      << nx << " " << ny << " " << nz << " ] "
- *      << endl;
- * 
- */
-  // Set up storage space for table
-  xField.resize(nx);
-  yField.resize(nx);
-  zField.resize(nx);
-  int ix, iy, iz;
-  for (ix=0; ix<nx; ix++) {
-    xField[ix].resize(ny);
-    yField[ix].resize(ny);
-    zField[ix].resize(ny);
-    for (iy=0; iy<ny; iy++) {
-      xField[ix][iy].resize(nz);
-      yField[ix][iy].resize(nz);
-      zField[ix][iy].resize(nz);
-    }
+
+	xField.resize(nxy);
+	yField.resize(nxy);
+	zField.resize(nxy);
+	int ix, iy, iz;
+	for (ix=0; ix<nxy; ix++) {
+		xField[ix].resize(nxy);
+		yField[ix].resize(nxy);
+		zField[ix].resize(nxy);
+		for (iy=0; iy<nxy; iy++) {
+			xField[ix][iy].resize(nxy);
+			yField[ix][iy].resize(nxy);
+			zField[ix][iy].resize(nxy);
+		}
   }
  G4cout << "Resized arrays successfully." <<G4endl;
  G4cout << "Array size [x]: " << yField.size() << G4endl;
@@ -139,48 +130,32 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
             tokens.push_back(word);
         }
         //G4cout << G4endl << "Vector size = " << tokens.size() << G4endl;
-        nx = tokens.size();
+        nxy = tokens.size();
         ix =0, iy = 0;
         zval = stod(tokens.at(0)); // Read in the z-coordinate
-        //G4cout << "nx = " << nx << G4endl;
-        for(ix=0; ix < (nx-1); ix++){
-        // Read in all 25 b-field values along the x-axis
+        for(ix=0; ix < (nxy-1); ix++){
             bval = stod(tokens.at(ix+1));
-            G4cout << "The bval in the x direction is " << bval << G4endl;
-           if ((ix == 0) && (iy == 0) && (iz == 0)){
-               minx = -nx*lenUnit;// xval * lenUnit;
-               miny = minx; //yval * lenUnit;
-               minz = 0;//zval * lenUnit;
-           }
-           G4cout << "Setting the YFields  up: "<<  G4endl;
             yField[ix][0][iz] = bval * fieldUnit;
-            G4cout << "Setting the XFields  up: "  << G4endl;
             xField[ix][0][iz] = 0.0  * fieldUnit;
-            G4cout << "Setting the ZFields  up: "  << G4endl;
             zField[ix][0][iz] = 0.0 * fieldUnit;
         /* Copy all values along y-axis*/
-            for(iy = 1; iy < ny-1; iy++){
-                G4cout << "The copying along y axis " << xField[ix][0][iz] << G4endl;
-                yField[ix][iy][iz] = yField[ix][0][iz];
-                xField[ix][iy][iz] = xField[ix][0][iz];
-                zField[ix][iy][iz] = zField[ix][0][iz];
+            for(iy = 1; iy < nxy-1; iy++){
+                yField[ix][iy+1][iz] = yField[ix][0][iz];
+                xField[ix][iy+1][iz] = xField[ix][0][iz];
+                zField[ix][iy+1][iz] = zField[ix][0][iz];
 
             }    
          }
   }
   file.close();
 
-  maxx = nx;//xval * lenUnit;
-  maxy = maxx;//yval * lenUnit;
+  maxxy = nxy;
   maxz = zval;
   minz = -1 * maxz;
-
-  dx = maxx - minx;
-  dy = maxy - miny;
+  minxy = -nxy*lenUnit;
+  dxy = maxxy - minxy;
   dz = maxz - minz;
-  G4cout << "\n ---> Dif values x,y,z (range): " 
-	 << dx/cm << " " << dy/cm << " " << dz/cm << " cm in z "
-	 << "\n-----------------------------------------------------------" << endl;
+
 }
 
 void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
@@ -189,7 +164,6 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 
   G4double lenUnit = centimeter;
   G4double fieldUnit = gauss;
-  //std::cout << "In GetFieldValue" << std::endl;
   G4double x = point[0]/lenUnit;
   G4double y = point[1]/lenUnit;
   G4double ztrue = point[2]/lenUnit ;//+ fZoffset)/lenUnit ;
@@ -201,14 +175,14 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 	  printField = true;
   }
   // Check that the point is within the defined region 
-  if ( x>=minx && x<=maxx &&
-       y>=miny && y<=maxy && 
+  if ( x>=minxy && x<=maxxy &&
+       y>=minxy && y<=maxxy &&
        z>=minz && z<=maxz ) {
     
     // Position of given point within region, normalized to the range
     // [0,1]
-    G4double xfraction = (x - minx) / dx;
-    G4double yfraction = (y - miny) / dy;
+    G4double xfraction = (x - minxy) / dxy;
+    G4double yfraction = (y - minxy) / dxy;
     G4double zfraction = (z - minz) / dz;
 
     if (invertX) { xfraction = 1 - xfraction;}
@@ -221,8 +195,8 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
     
     // Position of the point within the cuboid defined by the
     // nearest surrounding tabulated points
-    G4double xlocal = ( std::modf(xfraction*(nx-1), &xdindex));
-    G4double ylocal = ( std::modf(yfraction*(ny-1), &ydindex));
+    G4double xlocal = ( std::modf(xfraction*(nxy-1), &xdindex));
+    G4double ylocal = ( std::modf(yfraction*(nxy-1), &ydindex));
     G4double zlocal = ( std::modf(zfraction*(nz-1), &zdindex));
     
     // The indices of the nearest tabulated point whose coordinates
