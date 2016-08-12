@@ -69,6 +69,10 @@ public:
   void  GetFieldValue( const  double Point[4],
 		       double *Bfield          ) const;
   std::vector<std::string> Split(const std::string &s, char delim);
+private:
+  G4int calcInd(G4double cord, G4double lenUnit);
+  G4int calcPerc(G4double cord);
+
 
 };
 

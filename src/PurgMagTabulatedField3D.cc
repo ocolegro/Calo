@@ -174,9 +174,13 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
        fabs(y)>=minxy && fabs(y)<=maxxy &&
        fabs(z)>=minz && fabs(z)<=maxz ) {
 
-	  G4int xindex = x/lenUnit;
-	  G4int yindex = y/lenUnit;
-	  G4int zlow =  2*(floor(2 *abs(z))/2)/lenUnit;
+	  G4int xlow  = calcInd(x,lenUnit);
+	  G4int xhigh = xlow+1;
+
+	  G4int ylow  = 2*(floor(2 *abs(y))/2)/lenUnit;
+	  G4int yhigh = ylow+1;
+
+	  G4int zlow =  2*(floor(2 *fabs(z))/2)/lenUnit;
 	  G4int zhigh =  zlow+1;
 	  double percLow = (fabs(2*z) - floor(2*z));
 	  double percHigh = 1 - percLow;
@@ -205,5 +209,12 @@ std::vector<std::string> PurgMagTabulatedField3D::Split(const std::string &s, ch
 		tokens.push_back(item);
 	}
 	return tokens;
+}
+G4int PurgMagTabulatedField3D::calcInd(G4double cord, G4double lenUnit){
+return 2*(floor(2 *fabs(cord))/2)/lenUnit;
+}
+
+G4int PurgMagTabulatedField3D::calcPerc(G4double cord){
+return (fabs(2*cord) - floor(2*cord));
 }
 
