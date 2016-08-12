@@ -85,7 +85,7 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
         iss.str(line);
 
     }
-
+    nxy = -1;
     while(iss >> word){
         tokens.push_back(word);
         ++nxy;
