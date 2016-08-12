@@ -67,19 +67,17 @@ int main(int argc, char** argv) {
 	// Set user action classes
 	runManager->SetUserAction(new SteppingAction(data));
 	runManager->SetUserAction(new StackingAction(data));
+	runManager->SetUserAction(new EventAction(speed));
 
 	   if (signal == 0 and data =="") {
 		   G4cout << "Setting to LHE primary" << G4endl;
-			runManager->SetUserAction(new EventAction(signal));
 		   runManager->SetUserAction(new LHEPrimaryGeneratorAction(model));
 	   }
 	   else if (data ==""){
-			runManager->SetUserAction(new EventAction(speed));
             runManager->SetUserAction(new PrimaryGeneratorAction(model));
             runManager->Initialize();
        }
 	   else{
-			runManager->SetUserAction(new EventAction(speed));
 		    runManager->SetUserAction(new SeededGeneratorAction(model, data));
 	        runManager->Initialize();
        }
