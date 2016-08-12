@@ -52,9 +52,9 @@ class PurgMagTabulatedField3D
 {
   
   // Storage space for the table
-  vector< vector< vector< double > > > xField;
-  vector< vector< vector< double > > > yField;
-  vector< vector< vector< double > > > zField;
+  vector< vector< vector< G4double > > > xField;
+  vector< vector< vector< G4double > > > yField;
+  vector< vector< vector< G4double > > > zField;
   // The dimensions of the table
   int nxy,nz;
   // The physical limits of the defined region
