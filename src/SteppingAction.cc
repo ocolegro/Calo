@@ -92,7 +92,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	}*/
 	for (int i = 0; i <150; i ++)
 	{
-		for (double j = 0; j < 100; j++){
+		for (double j = 0; j < 104; j++){
 		double bFieldPre[3] = {999,0,0};
 			passPrePos[0] = j/4.*centimeter;
 			passPrePos[1] = j/4.*centimeter;
