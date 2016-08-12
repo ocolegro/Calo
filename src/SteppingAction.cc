@@ -90,7 +90,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		G4cout << "The postMom is " << postMom[0] << ", " << postMom[1] << ", " << postMom[2] << G4endl;
 
 	}*/
-	for (int i = 0; i <154; i ++)
+	for (int i = 0; i <200; i ++)
 	{
 		//for (double j = 0; j < 104; j++){
 		double bFieldPre[3] = {999,0,0};
