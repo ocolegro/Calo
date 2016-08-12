@@ -63,12 +63,14 @@ int main(int argc, char** argv) {
 	runManager->SetUserInitialization(new PhysicsList);
 
 	// Set user action classes
-	runManager->SetUserAction(new EventAction(signal));
+
 	runManager->SetUserAction(new SteppingAction(data));
 	runManager->SetUserAction(new StackingAction(data));
 
 	   if (signal == 1 and data =="") {
 		   G4cout << "Setting to LHE primary" << G4endl;
+		   signal = 0;
+		   runManager->SetUserAction(new EventAction(signal));
 		   runManager->SetUserAction(new LHEPrimaryGeneratorAction(model));
 	   }
 	   else if (data ==""){
