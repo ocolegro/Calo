@@ -186,14 +186,14 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 	Bfield[0] = 0; Bfield[2] = 0;
 
     Bfield[1] =
-      yField[xlow  ][ylow  ][zlow  ] * xlow * ylow * zlow +
-      yField[xlow  ][ylow  ][zlow+1] * xlow * ylow *    (1-zlow)  +
-      yField[xlow  ][ylow+1][zlow  ] * xlow *    (1-ylow)  * zlow +
-      yField[xlow  ][ylow+1][zlow+1] * xlow *    (1-ylow)  *    (1-zlow)  +
-      yField[xlow+1][ylow  ][zlow  ] *    (1-xlow)  * ylow * zlow +
-      yField[xlow+1][ylow  ][zlow+1] *    (1-xlow)  * ylow *    (1-zlow)  +
-      yField[xlow+1][ylow+1][zlow  ] *    (1-xlow)  *    (1-ylow)  * zlow +
-      yField[xlow+1][ylow+1][zlow+1] *    (1-xlow)  *    (1-ylow)  *    (1-zlow) ;
+      yField[xlow  ][ylow  ][zlow  ] *		xPercL 	  * 	 yPercL    * 	 zPercL +
+      yField[xlow  ][ylow  ][zlow+1] * 		xPercL 	  * 	 yPercL    *    (1-zPercL)  +
+      yField[xlow  ][ylow+1][zlow  ] * 		xPercL 	  *    (1-yPercL)  * 	 zPercL +
+      yField[xlow  ][ylow+1][zlow+1] * 		xPercL 	  *    (1-yPercL)  *    (1-zPercL)  +
+      yField[xlow+1][ylow  ][zlow  ] *    (1-xPercL)  * 	 yPercL    * 	 zPercL +
+      yField[xlow+1][ylow  ][zlow+1] *    (1-xPercL)  * 	 yPercL    *    (1-zPercL)  +
+      yField[xlow+1][ylow+1][zlow  ] *    (1-xPercL)  *    (1-yPercL)  * 	  zPercL +
+      yField[xlow+1][ylow+1][zlow+1] *    (1-xPercL)  *    (1-yPercL)  *    (1-zlow) ;
 
 
 	if (printField){
