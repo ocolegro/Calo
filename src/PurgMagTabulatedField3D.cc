@@ -72,13 +72,32 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
 
     char buffer[512];
 
-    nx = 26;
-    ny = nx;
+
+
     nz = 0;
     std::string line;
+    std::istringstream iss;
+    std::vector<string>tokens;
+    std::string word;
+
     while(getline(file, line)){
         ++nz;
+        iss.str(line);
+
     }
+    nx = 0;
+
+    while(iss >> word){
+        tokens.push_back(word);
+        ++nx;
+    }
+
+
+    tokens.clear();
+    iss.clear();
+    word.clear();
+    tokens.clear();
+    ny = nx;
     std::cout << "Number of lines in data file: " << nz << endl;
 /*
  *   G4cout << "  [ Number of values x,y,z: " 
@@ -107,11 +126,8 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
  G4cout << "Array size [z]: " << yField[0][0].size() << G4endl;
 
   file.clear();
-  file.seekg(0,ios::beg); 
+  file.seekg(0,ios::beg);
   G4double bval=0.0, xval=0.0, yval=0.0, zval=0.0;
-  std::vector<string>tokens; 
-  std::istringstream iss;
-  std::string word;
     for (iz = 0; iz < (nz); iz++){
         if(!tokens.empty()){ 
             tokens.clear();
@@ -154,31 +170,10 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
   }
   file.close();
 
-  //lock.unlock();
-
   maxx = nx;//xval * lenUnit;
   maxy = maxx;//yval * lenUnit;
-  maxz = zval+1;
+  maxz = zval;
   minz = -1 * maxz;
-  G4cout << "\n ---> ... done reading " << endl;
-
-  // G4cout << " Read values of field from file " << filename << endl; 
-  G4cout << " ---> assumed the order:  x, y, z, Bx, By, Bz "
-	 << "\n ---> Min values x,y,z: " 
-	 << minx/cm << " " << miny/cm << " " << minz/cm << " cm "
-	 << "\n ---> Max values x,y,z: " 
-	 << maxx/cm << " " << maxy/cm << " " << maxz/cm << " cm "
-	 << "\n ---> The field will be offset by " << zOffset/cm << " cm " << endl;
-
-  // Should really check that the limits are not the wrong way around.
-  if (maxx < minx) {swap(maxx,minx); invertX = true;} 
-  if (maxy < miny) {swap(maxy,miny); invertY = true;} 
-  if (maxz < minz) {swap(maxz,minz); invertZ = true;} 
-  G4cout << "\nAfter reordering if neccesary"  
-	 << "\n ---> Min values x,y,z: " 
-	 << minx/cm << " " << miny/cm << " " << minz/cm << " cm "
-	 << " \n ---> Max values x,y,z: " 
-	 << maxx/cm << " " << maxy/cm << " " << maxz/cm << " cm ";
 
   dx = maxx - minx;
   dy = maxy - miny;
