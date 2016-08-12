@@ -224,7 +224,7 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 #endif
 
         // Full 3-dimensional version
-    Bfield[0] =
+  /*  Bfield[0] =
       xField[xindex  ][yindex  ][zindex  ] * (1-xlocal) * (1-ylocal) * (1-zlocal) +
       xField[xindex  ][yindex  ][zindex+1] * (1-xlocal) * (1-ylocal) *    zlocal  +
       xField[xindex  ][yindex+1][zindex  ] * (1-xlocal) *    ylocal  * (1-zlocal) +
@@ -250,7 +250,8 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
       zField[xindex+1][yindex  ][zindex  ] *    xlocal  * (1-ylocal) * (1-zlocal) +
       zField[xindex+1][yindex  ][zindex+1] *    xlocal  * (1-ylocal) *    zlocal  +
       zField[xindex+1][yindex+1][zindex  ] *    xlocal  *    ylocal  * (1-zlocal) +
-      zField[xindex+1][yindex+1][zindex+1] *    xlocal  *    ylocal  *    zlocal ;
+      zField[xindex+1][yindex+1][zindex+1] *    xlocal  *    ylocal  *    zlocal ;*/
+    Bfield[0] = 0; Bfield[1] = yField[xindex][yindex][zindex] ; Bfield[2] = 0;
     if (printField){
     	G4cout << "The x,y,z that we are reading in is: " << x/cm << ", " << y/cm << ", " << ztrue/cm << G4endl;
     	G4cout << "The recalled filed, before passing was :  "  << " (" << Bfield[0]/gauss << ", " << Bfield[1]/gauss << ", " << Bfield[2]/gauss << " )" << G4endl;
