@@ -184,6 +184,7 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 	if (xlow == nxy-2){
 		xhigh = nxy - 2;
 		xPercL = 1;
+		yPercL = 1;
 	}
 	if (zlow == nz - 1)
 		zhigh = nz - 1;
@@ -204,6 +205,7 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 
 
 	if (printField){
+		G4cout << "nxy = " << nxy-2 << G4endl;
 		G4cout << "The x,y,z that we are reading in is: " << x << ", " << y << ", " << z << G4endl;
 		G4cout << "The x,y,z array enries are: " << xlow << ", " << ylow << ", " << zlow << G4endl;
 		G4cout << "The x,y,z array perclow are: " << xPercL << ", " << yPercL << ", " << zPercL << G4endl;
