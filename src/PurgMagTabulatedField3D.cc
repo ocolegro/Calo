@@ -134,13 +134,12 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
         for(unsigned ix=0; ix < (nxy-2); ix++){
             double btemp  = stod(tokens.at(ix+1)) ;
             yField[ix][0][iz] = btemp  * fieldUnit;
-
             xField[ix][0][iz] = 0.0  * fieldUnit;
             zField[ix][0][iz] = 0.0 * fieldUnit;
-            for(unsigned iy = 1; iy < nxy-2; iy++){
-                yField[ix][iy+1][iz] = yField[ix][0][iz];
-                xField[ix][iy+1][iz] = xField[ix][0][iz];
-                zField[ix][iy+1][iz] = zField[ix][0][iz];
+            for(unsigned iy = 0; iy < nxy-2; iy++){
+                yField[ix][iy][iz] = yField[ix][0][iz];
+                xField[ix][iy][iz] = xField[ix][0][iz];
+                zField[ix][iy][iz] = zField[ix][0][iz];
 
             }    
          }
