@@ -135,10 +135,9 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
         for(unsigned ix=0; ix < (nxy-2); ix++){
         	//G4cout << "ix = " << ix << ", nxy = " << nxy << G4endl;
             bval = stod(tokens.at(ix+1));
-            yField[ix][0][iz] = bval /fieldUnit;
-            G4cout << "The field in the y direction at iz = " << iz << ", ix = " << ix << " = " << bval << G4endl;
-            xField[ix][0][iz] = 0.0  /fieldUnit;
-            zField[ix][0][iz] = 0.0 /fieldUnit;
+            yField[ix][0][iz] = bval * fieldUnit;
+            xField[ix][0][iz] = 0.0  * fieldUnit;
+            zField[ix][0][iz] = 0.0 * fieldUnit;
         /* Copy all values along y-axis*/
             for(unsigned iy = 1; iy < nxy-2; iy++){
             	//G4cout << "iy = " << iy << ", nxy = " << nxy << G4endl;
@@ -249,7 +248,7 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
       zField[xindex+1][yindex+1][zindex+1] *    xlocal  *    ylocal  *    zlocal ;
     if (printField){
     	G4cout << "The x,y,z that we are reading in is: " << x/cm << ", " << y/cm << ", " << ztrue/cm << G4endl;
-    	G4cout << "The recalled filed, before passing was :  "  << " (" << Bfield[0] << ", " << Bfield[1] << ", " << Bfield[2] << " )" << G4endl;
+    	G4cout << "The recalled filed, before passing was :  "  << " (" << Bfield[0]/gauss << ", " << Bfield[1]/gauss << ", " << Bfield[2]/gauss << " )" << G4endl;
     }
   } else {
     Bfield[0] = 0.0;
