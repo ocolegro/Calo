@@ -49,7 +49,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 	G4VPhysicalVolume* volume = thePreStepPoint->GetPhysicalVolume();
 
-	const G4ThreeVector & postPos = thePostStepPoint->GetPosition();
+	//const G4ThreeVector & postPos = thePostStepPoint->GetPosition();
 	const G4ThreeVector & prePos   = thePreStepPoint->GetPosition();
 
 
