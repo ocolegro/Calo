@@ -162,12 +162,9 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 
   G4double lenUnit = centimeter;
   G4double fieldUnit = gauss;
-  G4double x = point[0];
-  G4double y = point[1];
-  G4double ztrue = point[2] ;//+ fZoffset)/lenUnit ;
-  G4double z = ztrue;//150/lenUnit - ztrue;
-  G4cout << "The maxz is " << maxz/cm << G4endl;
-  G4cout << "The ztrue is " << ztrue/cm << " the z we attempt to read is " << z <<  G4endl;
+  G4double x = point[0]/cm;
+  G4double y = point[1]/cm;
+  G4double z = point[2]/cm ;//+ fZoffset)/lenUnit ;
   bool printField = false;
   if (Bfield[0] == 999){
 	  printField = true;
@@ -187,7 +184,7 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 
     Bfield[0] = 0; Bfield[1] = yField[xindex][yindex][zlow] * percLow  + yField[xindex][yindex][zhigh] * percHigh; Bfield[2] = 0;
     if (printField){
-    	G4cout << "The x,y,z that we are reading in is: " << x/cm << ", " << y/cm << ", " << ztrue/cm << G4endl;
+    	G4cout << "The x,y,z that we are reading in is: " << x/cm << ", " << y/cm << ", " << z/cm << G4endl;
     	G4cout << "The recalled filed, before passing was :  "  << " (" << Bfield[1] / gauss  << ")" << G4endl;
 
     }
