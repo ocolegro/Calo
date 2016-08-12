@@ -99,7 +99,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 			passPrePos[2] = 0;//i*1*centimeter;
 			G4cout << "making a field call w/ x,y,z = " << passPrePos[2]/centimeter << G4endl;
 			G4TransportationManager::GetTransportationManager()->GetFieldManager()->GetDetectorField()->GetFieldValue(passPrePos, bFieldPre);
-		}
+		//}
 	}
 }
 
