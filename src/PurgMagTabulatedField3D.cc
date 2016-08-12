@@ -117,7 +117,7 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
 
   file.clear();
   file.seekg(0,ios::beg);
-  G4double bval=0.0, xval=0.0, yval=0.0, zval=0.0;
+  G4double xval=0.0, yval=0.0, zval=0.0;
     for (unsigned iz = 0; iz < (nz); iz++){
     	G4cout << "iz = " << iz << ", nz = " << nz << G4endl;
         if(!tokens.empty()){ 
@@ -134,7 +134,7 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
         zval = stod(tokens.at(0)) * cm; // Read in the z-coordinate
         for(unsigned ix=0; ix < (nxy-2); ix++){
         	//G4cout << "ix = " << ix << ", nxy = " << nxy << G4endl;
-            bval = stod(tokens.at(ix+1)) ;
+            double btemp  = stod(tokens.at(ix+1)) ;
             G4cout << "The field in the y direction at iz = " << iz << ", ix = " << ix << " = " << stod(tokens.at(ix+1)) << G4endl;
             G4cout << "The field in the zval direction at iz = " << iz << "is " << zval/cm << G4endl;
 
