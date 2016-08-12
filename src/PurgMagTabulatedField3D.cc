@@ -138,9 +138,9 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
            }
            G4cout << "Setting the YFields  up: "<<  G4endl;
             yField[ix][0][iz] = bval * fieldUnit;
-            G4cout << "Setting the XFields  up: " << bval << G4endl;
+            G4cout << "Setting the XFields  up: "  << G4endl;
             xField[ix][0][iz] = 0.0  * fieldUnit;
-            G4cout << "Setting the ZFields  up: " << bval << G4endl;
+            G4cout << "Setting the ZFields  up: "  << G4endl;
             zField[ix][0][iz] = 0.0 * fieldUnit;
         /* Copy all values along y-axis*/
             for(iy = 1; iy < ny-1; iy++){
@@ -198,7 +198,7 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
   G4double x = point[0]/lenUnit;
   G4double y = point[1]/lenUnit;
   G4double ztrue = point[2]/lenUnit ;//+ fZoffset)/lenUnit ;
-  G4double z = 150 -ztrue;//150/lenUnit - ztrue;
+  G4double z = ztrue;//150/lenUnit - ztrue;
   G4cout << "The maxz is " << maxz << G4endl;
   G4cout << "The ztrue is " << ztrue << " the z we attempt to read is " << z <<  G4endl;
   bool printField = false;
