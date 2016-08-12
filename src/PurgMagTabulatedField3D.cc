@@ -162,9 +162,9 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 
   G4double lenUnit = centimeter;
   G4double fieldUnit = gauss;
-  G4double x = point[0]*cm;
-  G4double y = point[1]*cm;
-  G4double z = point[2]*cm ;//+ fZoffset)/lenUnit ;
+  G4double x = point[0]/lenUnit;
+  G4double y = point[1]/lenUnit;
+  G4double z = point[2]/lenUnit;//+ fZoffset)/lenUnit ;
   bool printField = false;
   if (Bfield[0] == 999){
 	  printField = true;
