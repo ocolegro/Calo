@@ -180,7 +180,7 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 	  int zhigh =  zlow+1;
 	  double percLow = (fabs(2*z) - floor(2*z));
 	  double percHigh = 1 - percLow;
-	  G4cout << "The zposisition = " << z << G4endl;
+	  G4cout << "The zposisition = " << z/cm << G4endl;
 	  G4cout << "zlow = " << zlow << ", " << " zhigh = " << zhigh << " percLow = " << percLow << " perctHigh = " << percHigh << G4endl;
 
     Bfield[0] = 0; Bfield[1] = yField[xindex][yindex][zlow] * percLow  + yField[xindex][yindex][zhigh] * percHigh; Bfield[2] = 0;
