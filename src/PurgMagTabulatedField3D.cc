@@ -198,7 +198,8 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 
 	if (printField){
 		G4cout << "The x,y,z that we are reading in is: " << x/cm << ", " << y/cm << ", " << z/cm << G4endl;
-		G4cout << "The x,y,z array enries are: " << xlow/cm << ", " << ylow/cm << ", " << zlow/cm << G4endl;
+		G4cout << "The x,y,z array enries are: " << xlow << ", " << ylow << ", " << zlow << G4endl;
+		G4cout << "The x,y,z array perclow are: " << xPercL << ", " << yPercL << ", " << zPercL << G4endl;
 
 		G4cout << "The recalled filed, before passing was :  "  << " (" << Bfield[1] / gauss  << ")" << G4endl;
 		G4cout << "The recalled filed, before passing was :  "  << " (" << yField[xlow][ylow][zlow] / gauss  << ")" << G4endl;
