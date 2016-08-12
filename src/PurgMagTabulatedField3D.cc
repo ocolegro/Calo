@@ -133,14 +133,15 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
         nxy = tokens.size();
         zval = stod(tokens.at(0)); // Read in the z-coordinate
         for(unsigned ix=0; ix < (nxy-2); ix++){
-        	G4cout << "ix = " << ix << ", nxy = " << nxy << G4endl;
+        	//G4cout << "ix = " << ix << ", nxy = " << nxy << G4endl;
             bval = stod(tokens.at(ix+1));
-            yField[ix][0][iz] = bval * fieldUnit;
-            xField[ix][0][iz] = 0.0  * fieldUnit;
-            zField[ix][0][iz] = 0.0 * fieldUnit;
+            yField[ix][0][iz] = bval /fieldUnit;
+            G4cout << "The field in the y direction at iz = " << iz << ", ix = " << ix << " = " << bval << G4endl;
+            xField[ix][0][iz] = 0.0  /fieldUnit;
+            zField[ix][0][iz] = 0.0 /fieldUnit;
         /* Copy all values along y-axis*/
             for(unsigned iy = 1; iy < nxy-2; iy++){
-            	G4cout << "iy = " << iy << ", nxy = " << nxy << G4endl;
+            	//G4cout << "iy = " << iy << ", nxy = " << nxy << G4endl;
                 yField[ix][iy+1][iz] = yField[ix][0][iz];
                 xField[ix][iy+1][iz] = xField[ix][0][iz];
                 zField[ix][iy+1][iz] = zField[ix][0][iz];
