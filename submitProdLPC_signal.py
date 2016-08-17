@@ -38,7 +38,7 @@ print 'xrdfs root://cmseos.fnal.gov mkdir %s'%eosDir
 os.system('xrdfs root://cmseos.fnal.gov rm %s'%eosDir)
 os.system('xrdfs root://cmseos.fnal.gov mkdir %s'%eosDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/PFCalEE' % eosDir)
-os.system('xrdfs root://cmseos.fnal.gov rm  /%s/g4env4lpc.csh' % eosDir)
+os.system('xrdfs root://cmseos.fnal.gov rm  /%s/g4env4lpc.sh' % eosDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/libPFCalEE.so' % eosDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/libPFCalEEuserlib.so' % eosDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/runJob.sh' % eosDir)
@@ -121,5 +121,5 @@ else:
     f2.close();
     os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('submit.jdl',eosDir))
     print 'Changing dir to %s' % (eosDir)
-    os.chdir("/eos/uscms/%s" % (eosDir));
+    os.chdir("//eos/uscms%s" % (eosDir));
     os.system("condor_submit submit.jdl");# % (submit.jdl));
