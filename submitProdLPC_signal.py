@@ -74,7 +74,7 @@ scriptFile.write('echo "--deleting core files: too heavy!!"\n')
 scriptFile.write('rm core.*\n')
 scriptFile.write('echo "All done"\n')
 scriptFile.close()
-os.system('chmod 777 runJob.sh')
+os.system('chmod 777 //eos/uscms%srunJob.sh' % (eosDir))
 os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('runJob.sh',eosDir))
 
 
@@ -91,7 +91,7 @@ g4Macro.write('/random/setSeeds %d %d\n'%( random.uniform(0,100000), random.unif
 g4Macro.write('/run/initialize\n')
 g4Macro.write('/run/beamOn %d\n'%(nevents))
 g4Macro.close()
-os.system('chmod 777 $HOME/geant4_workdir/bin/Linux-g++/PFCalEE')
+os.system('chmod 777 //eos/uscms%sPFCalEE' % (eosDir))
 os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('g4steer.mac',eosDir))
 
 #submit
