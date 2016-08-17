@@ -42,7 +42,9 @@ os.system('xrdfs root://cmseos.fnal.gov rm  /%s/g4env4lpc.sh' % eosDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/libPFCalEE.so' % eosDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/libPFCalEEuserlib.so' % eosDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/runJob.sh' % eosDir)
+os.system('xrdfs root://cmseos.fnal.gov rm  /%s/submit.jdl' % eosDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/b18d36.dat' % eosDir)
+os.system('xrdfs root://cmseos.fnal.gov rm %s/%s' % (eosDir,opt.file))
 
 
 print 'The outdir is %s' % eosDir
