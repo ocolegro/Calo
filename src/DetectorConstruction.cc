@@ -43,8 +43,8 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod) :
 	m_detectorMessenger = new DetectorMessenger(this);
 	UpdateCalorSize();
 	std::cout << "The offset is " << -0.5 * (GetCalorSizeZ())/cm << std::endl;
-    SetMagField("b18d36.dat",0.5 * (GetCalorSizeZ())/cm);
-
+        SetMagField("b18d36.dat",0.5 * GetCalorSizeZ() - 20 * cm);
+	//SetMagField(0);
 }
 void DetectorConstruction::buildTracker(){
 
@@ -590,6 +590,7 @@ G4VSolid *DetectorConstruction::constructSolid(std::string baseName,
 		solid = new G4Box(baseName + "box", width / 2, m_CalorSizeXY / 2,
 				thick / 2);
 		//set the offset!
+		G4cout << "Placing the object " << baseName  << " At the position " << zpos << G4endl;
 		if (baseName == "W1"){
 			m_z0pos = zpos;
 		}
