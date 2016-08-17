@@ -35,8 +35,8 @@ print 'creating the job'
 #eosDir='%s/%s'%('','mchi_' +fname.split('.')[4] + "." +  fname.split('.')[5] + '_GEV_alpha_' + fname.split('.')[7] + "." + fname.split('.')[8]   + '_GEV')
 
 #eosDir='%s/%s'%(opt.eos,'mchi_' +opt.file.split('.')[4] + "." +  opt.file.split('.')[5] + '_GEV_alpha_' + opt.file.split('.')[7] + "." + opt.file.split('.')[8]   + '_GEV')
-massJob = (opt.file.split('//')[-1].split('_')[0].split('.map')[-1]).split('.')
-massJob = (opt.file.split('//')[-1].split('_')[0].split('.map')[-1]).split('.')
+#massJob = (opt.file.split('//')[-1].split('_')[0].split('.map')[-1]).split('.')
+massJob = (opt.file.split('//')[-1].split('_')[0].split('.map')[-1])
 
 eosDir='%s/%s'%(opt.eos,'M_alpha_%sGEV_%s' % ( massJob[0:len(massJob)-2], massJob[-1]))
 
