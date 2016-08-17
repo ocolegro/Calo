@@ -74,8 +74,8 @@ scriptFile.write('echo "--deleting core files: too heavy!!"\n')
 scriptFile.write('rm core.*\n')
 scriptFile.write('echo "All done"\n')
 scriptFile.close()
-os.system('chmod 777 //eos/uscms%srunJob.sh' % (eosDir))
 os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('runJob.sh',eosDir))
+
 
 
 print 'submitting to the cluster'
@@ -91,11 +91,13 @@ g4Macro.write('/random/setSeeds %d %d\n'%( random.uniform(0,100000), random.unif
 g4Macro.write('/run/initialize\n')
 g4Macro.write('/run/beamOn %d\n'%(nevents))
 g4Macro.close()
-os.system('chmod 777 //eos/uscms%sPFCalEE' % (eosDir))
 os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('g4steer.mac',eosDir))
 
 #submit
 #os.system('echo %s ' %('chmod 777 %s/runJob.sh'%eosDir))
+
+os.system('chmod 777 //eos/uscms%sPFCalEE' % (eosDir))
+os.system('chmod 777 //eos/uscms%srunJob.sh' % (eosDir))
 
 if opt.nosubmit : os.system('LSB_JOB_REPORT_MAIL=N echo bsub -q %s -N %s/runJob.sh'%(myqueue,eosDir))
 else:
