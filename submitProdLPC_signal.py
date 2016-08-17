@@ -91,7 +91,7 @@ g4Macro.write('/random/setSeeds %d %d\n'%( random.uniform(0,100000), random.unif
 g4Macro.write('/run/initialize\n')
 g4Macro.write('/run/beamOn %d\n'%(nevents))
 g4Macro.close()
-os.system('chmod 777 /PFCalEE')
+os.system('chmod 777 PFCalEE')
 os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('g4steer.mac',eosDir))
 
 #submit
