@@ -34,7 +34,7 @@ myqueue=opt.queue
 print 'creating the job'
 
 eosDir='%s/%s'%(opt.eos,'mchi_' + opt.file.split('.')[5] + '_GEV_alpha_' + opt.file.split('.')[7]  + '_GEV')
-
+print 'xrdfs root://cmseos.fnal.gov mkdir %s'%eosDir
 os.system('xrdfs root://cmseos.fnal.gov mkdir %s'%eosDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/PFCalEE' % eosDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/g4env4lpc.csh' % eosDir)
