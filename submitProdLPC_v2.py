@@ -89,7 +89,7 @@ scriptFile.write('rm core.*\n')
 #scriptFile.write('cp HGcal_%s.root %s/\n'%(outTag,outDir))
 scriptFile.write('echo "All done"\n')
 scriptFile.close()
-os.system('echo "copying runJob as the command %s" %(xrdcp %s root://cmseos.fnal.gov/%s/' % ('runJob.sh',outDir))
+os.system('echo xrdcp %s root://cmseos.fnal.gov/%s/' % ('runJob.sh',outDir))
 os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('runJob.sh',outDir))
 
 print 'submitting to the cluster'
