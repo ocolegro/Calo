@@ -109,8 +109,8 @@ os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('g4steer.mac',eosDir))
 
 #submit
 #os.system('echo %s ' %('chmod 777 %s/runJob.sh'%outDir))
-os.system('chmod 777 %s/runJob.sh'%outDir)
-os.system('chmod 777 %s/PFCalEE'%outDir)
+os.system('chmod 777 //eos/uscms%s/PFCalEE' % (eosDir))
+os.system('chmod 777 //eos/uscms%s/runJob.sh' % (eosDir))
 
 if opt.nosubmit : os.system('LSB_JOB_REPORT_MAIL=N echo bsub -q %s -N %s/runJob.sh'%(myqueue,outDir))
 else:
@@ -139,5 +139,5 @@ else:
     f2.close();
     os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('submit.jdl',eosDir))
     print 'Changing dir to %s' % (outDir)
-    os.chdir("%s" % (outDir));
+    os.chdir("//eos/uscms%s" % (eosDir));
     os.system("condor_submit submit.jdl");# % (submit.jdl));
