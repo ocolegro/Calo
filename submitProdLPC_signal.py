@@ -96,8 +96,8 @@ os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('g4steer.mac',eosDir))
 #submit
 #os.system('echo %s ' %('chmod 777 %s/runJob.sh'%eosDir))
 
-os.system('chmod 777 //eos/uscms%sPFCalEE' % (eosDir))
-os.system('chmod 777 //eos/uscms%srunJob.sh' % (eosDir))
+os.system('chmod 777 //eos/uscms%s/PFCalEE' % (eosDir))
+os.system('chmod 777 //eos/uscms%s/runJob.sh' % (eosDir))
 
 if opt.nosubmit : os.system('LSB_JOB_REPORT_MAIL=N echo bsub -q %s -N %s/runJob.sh'%(myqueue,eosDir))
 else:
