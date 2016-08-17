@@ -100,7 +100,7 @@ if opt.nosubmit : os.system('LSB_JOB_REPORT_MAIL=N echo bsub -q %s -N %s/runJob.
 else:
     #os.system("LSB_JOB_REPORT_MAIL=N bsub -q %s -N \'%s/runJob.sh\'"%(myqueue,eosDir))
     name = "submitRun%s" % (opt.run)
-    f2n = "submit.jdl" % (eosDir);
+    f2n = "submit.jdl" ;
     outtag = "out_%s_$(Cluster)" % (name)
     f2=open(f2n, 'w')
     f2.write("universe = vanilla \n");
@@ -118,7 +118,7 @@ else:
     f2.write("x509userproxy = $ENV(X509_USER_PROXY) \n")
     f2.write("Queue 1 \n");
     f2.close();
+    os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('submit.jdl',eosDir))
     print 'Changing dir to %s' % (eosDir)
     os.chdir("%s" % (eosDir));
     os.system("condor_submit submit.jdl");# % (submit.jdl));
-    os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('submit.jdl',eosDir))
