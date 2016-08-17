@@ -43,16 +43,16 @@ eosDir='%s/git%s'%(opt.eos,opt.gittag)
 if opt.fast>0 : outDir='%s/fast_%3.3f/'%(outDir,opt.fast)
 if (opt.run>=0) : outDir='%s/run_%d/'%(outDir,opt.run)
 
-print 'xrdfs root://cmseos.fnal.gov mkdir %s'%eosDir
-os.system('xrdfs root://cmseos.fnal.gov rm %s'%eosDir)
-os.system('xrdfs root://cmseos.fnal.gov mkdir %s'%eosDir)
-os.system('xrdfs root://cmseos.fnal.gov rm  /%s/PFCalEE' % eosDir)
-os.system('xrdfs root://cmseos.fnal.gov rm  /%s/g4env4lpc.sh' % eosDir)
-os.system('xrdfs root://cmseos.fnal.gov rm  /%s/libPFCalEE.so' % eosDir)
-os.system('xrdfs root://cmseos.fnal.gov rm  /%s/libPFCalEEuserlib.so' % eosDir)
-os.system('xrdfs root://cmseos.fnal.gov rm  /%s/runJob.sh' % eosDir)
-os.system('xrdfs root://cmseos.fnal.gov rm  /%s/g4steer.mac' % eosDir)
-os.system('xrdfs root://cmseos.fnal.gov rm  /%s/submit.jdl' % eosDir)
+print 'xrdfs root://cmseos.fnal.gov mkdir %s'%outDir
+os.system('xrdfs root://cmseos.fnal.gov rm %s'%outDir)
+os.system('xrdfs root://cmseos.fnal.gov mkdir %s'%outDir)
+os.system('xrdfs root://cmseos.fnal.gov rm  /%s/PFCalEE' % outDir)
+os.system('xrdfs root://cmseos.fnal.gov rm  /%s/g4env4lpc.sh' % outDir)
+os.system('xrdfs root://cmseos.fnal.gov rm  /%s/libPFCalEE.so' % outDir)
+os.system('xrdfs root://cmseos.fnal.gov rm  /%s/libPFCalEEuserlib.so' % outDir)
+os.system('xrdfs root://cmseos.fnal.gov rm  /%s/runJob.sh' % outDir)
+os.system('xrdfs root://cmseos.fnal.gov rm  /%s/g4steer.mac' % outDir)
+os.system('xrdfs root://cmseos.fnal.gov rm  /%s/submit.jdl' % outDir)
 
 
 os.system('eosmkdir -p %s'%outDir)
