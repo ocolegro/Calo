@@ -131,7 +131,7 @@ PurgMagTabulatedField3D::PurgMagTabulatedField3D(const char* filename,
         zval = stod(tokens.at(0)) * cm; // Read in the z-coordinate
         for(unsigned ix=0; ix < (nxy-1); ix++){
             double btemp  = stod(tokens.at(ix+1)) ;
-            yField[ix][0][iz] = btemp  * fieldUnit;
+            yField[ix][0][iz] = 3*btemp  * fieldUnit;
             xField[ix][0][iz] = 0.0  * fieldUnit;
             zField[ix][0][iz] = 0.0 * fieldUnit;
             for(unsigned iy = 0; iy < nxy-1; iy++){
@@ -153,13 +153,21 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
 				      G4double *Bfield ) const
 {
 
-  G4double lenUnit = centimeter;
+  G4double lenUnit = cm;// milimeter;
   G4double fieldUnit = gauss;
   G4double x = point[0]/lenUnit;
   G4double y = point[1]/lenUnit;
-  G4double z = (point[2] + fZoffset)/lenUnit ;
+  G4double z = 1e6/lenUnit;
+  if (point[2] < 0 && fabs(point[2]) < fZoffset ){
+  	z = (point[2] + fZoffset)/lenUnit ;
+  }
+  if (point[2] < 0 && fabs(point[2]) >= fZoffset ){
+        z = fabs((point[2] + fZoffset)/lenUnit) ;
+  } 
+// G4cout << z << ", " << point[2] << ", " << fZoffset/lenUnit << ", " << maxz/lenUnit << G4endl;
+// G4cout << z << ", " << point[2] << ", " << fZoffset << ", " << maxz << G4endl;
 
-  // Check that the point is within the defined region 
+ // Check that the point is within the defined region 
   if ( //fabs(x)>=minxy && fabs(x)<=maxxy &&
        //fabs(y)>=minxy && fabs(y)<=maxxy &&
        fabs(z)<=fabs(maxz)  ) {
