@@ -74,6 +74,7 @@ scriptFile.write('echo "--deleting core files: too heavy!!"\n')
 scriptFile.write('rm core.*\n')
 scriptFile.write('echo "All done"\n')
 scriptFile.close()
+os.system('chmod 777 runJob.sh')
 os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('runJob.sh',eosDir))
 
 
@@ -90,12 +91,11 @@ g4Macro.write('/random/setSeeds %d %d\n'%( random.uniform(0,100000), random.unif
 g4Macro.write('/run/initialize\n')
 g4Macro.write('/run/beamOn %d\n'%(nevents))
 g4Macro.close()
+os.system('chmod 777 /PFCalEE')
 os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('g4steer.mac',eosDir))
 
 #submit
 #os.system('echo %s ' %('chmod 777 %s/runJob.sh'%eosDir))
-os.system('chmod 777 %s/runJob.sh'%eosDir)
-os.system('chmod 777 %s/PFCalEE'%eosDir)
 
 if opt.nosubmit : os.system('LSB_JOB_REPORT_MAIL=N echo bsub -q %s -N %s/runJob.sh'%(myqueue,eosDir))
 else:
@@ -121,5 +121,5 @@ else:
     f2.close();
     os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('submit.jdl',eosDir))
     print 'Changing dir to %s' % (eosDir)
-    os.chdir("%s" % (eosDir));
+    os.chdir("/eos/uscms/%s" % (eosDir));
     os.system("condor_submit submit.jdl");# % (submit.jdl));
