@@ -43,12 +43,17 @@ eosDir='%s/git%s'%(opt.eos,opt.gittag)
 if opt.fast>0 : outDir='%s/fast_%3.3f/'%(outDir,opt.fast)
 if (opt.run>=0) : outDir='%s/run_%d/'%(outDir,opt.run)
 
-os.system('xrdfs root://cmseos.fnal.gov mkdir %s'%outDir)
-os.system('xrdfs root://cmseos.fnal.gov rm  /%s/PFCalEE' % outDir)
-os.system('xrdfs root://cmseos.fnal.gov rm  /%s/g4env4lpc.csh' % outDir)
-os.system('xrdfs root://cmseos.fnal.gov rm  /%s/libPFCalEE.so' % outDir)
-os.system('xrdfs root://cmseos.fnal.gov rm  /%s/libPFCalEEuserlib.so' % outDir)
-os.system('xrdfs root://cmseos.fnal.gov rm  /%s/runJob.sh' % outDir)
+print 'xrdfs root://cmseos.fnal.gov mkdir %s'%eosDir
+os.system('xrdfs root://cmseos.fnal.gov rm %s'%eosDir)
+os.system('xrdfs root://cmseos.fnal.gov mkdir %s'%eosDir)
+os.system('xrdfs root://cmseos.fnal.gov rm  /%s/PFCalEE' % eosDir)
+os.system('xrdfs root://cmseos.fnal.gov rm  /%s/g4env4lpc.sh' % eosDir)
+os.system('xrdfs root://cmseos.fnal.gov rm  /%s/libPFCalEE.so' % eosDir)
+os.system('xrdfs root://cmseos.fnal.gov rm  /%s/libPFCalEEuserlib.so' % eosDir)
+os.system('xrdfs root://cmseos.fnal.gov rm  /%s/runJob.sh' % eosDir)
+os.system('xrdfs root://cmseos.fnal.gov rm  /%s/g4steer.mac' % eosDir)
+os.system('xrdfs root://cmseos.fnal.gov rm  /%s/submit.jdl' % eosDir)
+
 
 os.system('eosmkdir -p %s'%outDir)
 os.system('xrdcp $HOME/geant4_workdir/bin/Linux-g++/PFCalEE root://cmseos.fnal.gov/%s/' % outDir)
@@ -58,7 +63,7 @@ os.system('xrdcp userlib/lib/libPFCalEEuserlib.so root://cmseos.fnal.gov/%s/' % 
 
 
 #wrapper
-scriptFile = open('%s/runJob.sh'%(outDir), 'w')
+scriptFile = open('runJob.sh', 'w')
 scriptFile.write('#!/bin/bash\n')
 scriptFile.write('source g4env4lpc.sh\n')#%(os.getcwd()))
 outTag='%s_version%d_model%d_'%(label,opt.version,opt.model)
@@ -85,9 +90,12 @@ scriptFile.write('rm core.*\n')
 #scriptFile.write('cp HGcal_%s.root %s/\n'%(outTag,outDir))
 scriptFile.write('echo "All done"\n')
 scriptFile.close()
+os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('runJob.sh',eosDir))
+
 print 'submitting to the cluster'
 #write geant 4 macro
-g4Macro = open('%s/g4steer.mac'%(outDir), 'w')
+
+g4Macro = open('g4steer.mac', 'w')
 g4Macro.write('/control/verbose 0\n')
 g4Macro.write('/control/saveHistory\n')
 g4Macro.write('/run/verbose 0\n')
@@ -97,6 +105,7 @@ g4Macro.write('/N03/det/setModel %d\n'%opt.model)
 g4Macro.write('/random/setSeeds %d %d\n'%( random.uniform(0,100000), random.uniform(0,100000) ) )
 g4Macro.write('/run/beamOn %d\n'%(nevents))
 g4Macro.close()
+os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('g4steer.mac',eosDir))
 
 #submit
 #os.system('echo %s ' %('chmod 777 %s/runJob.sh'%outDir))
@@ -107,7 +116,7 @@ if opt.nosubmit : os.system('LSB_JOB_REPORT_MAIL=N echo bsub -q %s -N %s/runJob.
 else:
     #os.system("LSB_JOB_REPORT_MAIL=N bsub -q %s -N \'%s/runJob.sh\'"%(myqueue,outDir))
     name = "submitRun%s" % (opt.run)
-    f2n = "%s/submit.jdl" % (outDir);
+    f2n = "submit.jdl" ;
     outtag = "out_%s_$(Cluster)" % (name)
     f2=open(f2n, 'w')
     f2.write("universe = vanilla \n");
@@ -128,6 +137,7 @@ else:
     f2.write("x509userproxy = $ENV(X509_USER_PROXY) \n")
     f2.write("Queue 1 \n");
     f2.close();
+    os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('submit.jdl',eosDir))
     print 'Changing dir to %s' % (outDir)
     os.chdir("%s" % (outDir));
     os.system("condor_submit submit.jdl");# % (submit.jdl));
