@@ -33,7 +33,7 @@ myqueue=opt.queue
 
 print 'creating the job'
 
-eosDir='%s/%s'%(opt.eos,'mchi_' + opt.file.split('.')[5] + '_GEV_alpha_' + opt.file.split('.')[7]  + '_GEV')
+eosDir='%s/%s'%(opt.eos,'mchi_' +opt.file.split('.')[4] + "." +  opt.file.split('.')[5] + '_GEV_alpha_' + opt.file.split('.')[7] + "." + opt.file.split('.')[8]   + '_GEV')
 print 'xrdfs root://cmseos.fnal.gov mkdir %s'%eosDir
 os.system('xrdfs root://cmseos.fnal.gov rm %s'%eosDir)
 os.system('xrdfs root://cmseos.fnal.gov mkdir %s'%eosDir)
@@ -91,7 +91,7 @@ g4Macro.write('/random/setSeeds %d %d\n'%( random.uniform(0,100000), random.unif
 g4Macro.write('/run/initialize\n')
 g4Macro.write('/run/beamOn %d\n'%(nevents))
 g4Macro.close()
-os.system('chmod 777 PFCalEE')
+os.system('chmod 777 $HOME/geant4_workdir/bin/Linux-g++/PFCalEE')
 os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('g4steer.mac',eosDir))
 
 #submit
