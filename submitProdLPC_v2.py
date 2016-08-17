@@ -39,7 +39,6 @@ print 'creating the job'
 
 outDir='%s/git_%s/version_%d/model_%d'%(opt.out,opt.gittag,opt.version,opt.model)
 outDir='%s/%s'%(outDir,label)
-eosDir='%s/git%s'%(opt.eos,opt.gittag)
 if opt.fast>0 : outDir='%s/fast_%3.3f/'%(outDir,opt.fast)
 if (opt.run>=0) : outDir='%s/run_%d/'%(outDir,opt.run)
 
@@ -90,7 +89,7 @@ scriptFile.write('rm core.*\n')
 #scriptFile.write('cp HGcal_%s.root %s/\n'%(outTag,outDir))
 scriptFile.write('echo "All done"\n')
 scriptFile.close()
-os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('runJob.sh',eosDir))
+os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('runJob.sh',outDir))
 
 print 'submitting to the cluster'
 #write geant 4 macro
@@ -105,7 +104,7 @@ g4Macro.write('/N03/det/setModel %d\n'%opt.model)
 g4Macro.write('/random/setSeeds %d %d\n'%( random.uniform(0,100000), random.uniform(0,100000) ) )
 g4Macro.write('/run/beamOn %d\n'%(nevents))
 g4Macro.close()
-os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('g4steer.mac',eosDir))
+os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('g4steer.mac',outDir))
 
 #submit
 #os.system('echo %s ' %('chmod 777 %s/runJob.sh'%outDir))
@@ -137,7 +136,7 @@ else:
     f2.write("x509userproxy = $ENV(X509_USER_PROXY) \n")
     f2.write("Queue 1 \n");
     f2.close();
-    os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('submit.jdl',eosDir))
+    os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('submit.jdl',outDir))
     print 'Changing dir to %s' % (outDir)
     os.chdir("//eos/uscms%s" % (outDir));
     os.system("condor_submit submit.jdl");# % (submit.jdl));
