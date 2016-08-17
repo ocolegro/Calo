@@ -32,8 +32,11 @@ nevents=opt.nevts
 myqueue=opt.queue
 
 print 'creating the job'
+#eosDir='%s/%s'%('','mchi_' +fname.split('.')[4] + "." +  fname.split('.')[5] + '_GEV_alpha_' + fname.split('.')[7] + "." + fname.split('.')[8]   + '_GEV')
 
-eosDir='%s/%s'%(opt.eos,'mchi_' +opt.file.split('.')[4] + "." +  opt.file.split('.')[5] + '_GEV_alpha_' + opt.file.split('.')[7] + "." + opt.file.split('.')[8]   + '_GEV')
+#eosDir='%s/%s'%(opt.eos,'mchi_' +opt.file.split('.')[4] + "." +  opt.file.split('.')[5] + '_GEV_alpha_' + opt.file.split('.')[7] + "." + opt.file.split('.')[8]   + '_GEV')
+eosDir='%s/%s'%(opt.eos,'M_alpha_%s_GeV' (opt.file.split('_')[0].split('.map')[-1]))
+
 print 'xrdfs root://cmseos.fnal.gov mkdir %s'%eosDir
 os.system('xrdfs root://cmseos.fnal.gov rm %s'%eosDir)
 os.system('xrdfs root://cmseos.fnal.gov mkdir %s'%eosDir)
@@ -42,9 +45,10 @@ os.system('xrdfs root://cmseos.fnal.gov rm  /%s/g4env4lpc.sh' % eosDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/libPFCalEE.so' % eosDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/libPFCalEEuserlib.so' % eosDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/runJob.sh' % eosDir)
+os.system('xrdfs root://cmseos.fnal.gov rm  /%s/g4steer.mac' % eosDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/submit.jdl' % eosDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/b18d36.dat' % eosDir)
-os.system('xrdfs root://cmseos.fnal.gov rm %s/%s' % (eosDir,opt.file))
+os.system('xrdfs root://cmseos.fnal.gov rm  %s/%s' % (eosDir,opt.file))
 
 
 print 'The outdir is %s' % eosDir
