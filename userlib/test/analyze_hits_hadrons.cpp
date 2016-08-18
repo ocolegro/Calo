@@ -168,10 +168,10 @@ int main(int argc, char** argv) {
 	Float_t hadron_zpos[50000],
 	hadron_theta[50000],hadron_px[50000]  , hadron_py[50000]  ,hadron_pz[50000],
 	hadron_KE[50000];
-	Int_t nHadrons,hadron_pdgid[50000];
+	Int_t nHadronsHit,hadron_pdgid[50000];
     Int_t hadron_int[50000];
 
-	t1.Branch("nHadrons", &nHadrons, "nHadrons/I");
+	t1.Branch("nHadronsHit", &nHadronsHit, "nHadronsHit/I");
 	t1.Branch("hadron_pdgid", &hadron_pdgid, "hadron_pdgid[nHadrons]/I");
 	t1.Branch("hadron_zpos", &hadron_zpos, "hadron_zpos[nHadrons]/F");
 	t1.Branch("hadron_px", &hadron_px, "hadron_px[nHadrons]/F");
@@ -232,10 +232,11 @@ int main(int argc, char** argv) {
 
 	t1.Branch("summedSen", &summedSen, "summedSen/F");
 	t1.Branch("summedSenWgt", &summedSenWgt, "summedSenWgt/F");
-
+	TH2PolyBin *centerCell = 0;
+	TH2PolyBin *neighborCell = 0;
 	unsigned nHits = 0,cellID[50000],cellLayer[50000];
 	Float_t cellEnergy[50000],cellParentID[50000],cellParentKE[50000],cellParentTrack[50000],cellRellIso[50000],engDep;
-	unsigned initEng,nHadrons,nGammas,nElectrons,nProtons,nMuons;
+	nHadrons,nGammas,nElectrons,nProtons,nMuons;
 	t1.Branch("nHits", &nHits, "nHits/I");
 	t1.Branch("cellID", &cellID, "cellID[nHits]/I");
 	t1.Branch("cellLayer", &cellLayer, "cellLayer[nHits]/I");
@@ -472,7 +473,7 @@ int main(int argc, char** argv) {
 			cellParentID[j]		= hit.pdgIDMainParent_;
 			cellParentKE[j]		= hit.KEMainParent_;
 			cellParentTrack[j]	= hit.trackIDMainParent_;
-			nHadrons 			= hit.nHadrons_;
+			nHadronsHit 			= hit.nHadrons_;
 			nGammas 			= hit.nGammas_;
 			nElectrons 			= hit.nElectrons_;
 			nProtons 			= hit.nProtons_;
