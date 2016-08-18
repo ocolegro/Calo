@@ -29,21 +29,22 @@ parser.add_option('-S', '--no-submit'   ,    action="store_true",  dest='nosubmi
 
 (opt, args) = parser.parse_args()
 
-label=''
 
 
 nevents=opt.nevts
 myqueue=opt.queue
 
 print 'creating the job'
+outDir = '/uscms_data/d1/ocolegro/'
+eosDir = '/store/user/ocolegro/'
 
-outDir='%s/git_%s/version_%d/model_%d'%(opt.out,opt.gittag,opt.version,opt.model)
-outDir='%s/%s'%(outDir,label)
-if opt.fast>0 : outDir='%s/fast_%3.3f/'%(outDir,opt.fast)
-if (opt.run>=0) : outDir='%s/run_%d/'%(outDir,opt.run)
+outDir='%s/'%(opt.out)
+outDir='%s/run_%d/'%(outDir,opt.run)
 
-print 'xrdfs root://cmseos.fnal.gov mkdir %s'%outDir
-#os.system('xrdfs root://cmseos.fnal.gov rm %s'%outDir)
+eosDir='%s/'%(opt.out)
+eosDir='%s/run_%d/'%(eosDir,opt.run)
+
+'''
 os.system('xrdfs root://cmseos.fnal.gov mkdir %s'%outDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/PFCalEE' % outDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/g4env4lpc.sh' % outDir)
@@ -61,13 +62,29 @@ os.system('xrdcp g4env4lpc.sh root://cmseos.fnal.gov/%s/' % outDir)
 os.system('xrdcp $HOME/geant4_workdir/tmp/Linux-g++/PFCalEE/libPFCalEE.so root://cmseos.fnal.gov/%s/' % outDir)
 os.system('xrdcp userlib/lib/libPFCalEEuserlib.so root://cmseos.fnal.gov/%s/' % outDir)
 os.system('xrdcp b18d36.dat root://cmseos.fnal.gov/%s/' % outDir)
+'''
 
+os.system('xrdfs root://cmseos.fnal.gov mkdir %s'%eosDir)
+os.system('mkdir %s'%outDir)
+os.system('rm  /%s/PFCalEE' % outDir)
+os.system('rm  /%s/g4env4lpc.sh' % outDir)
+os.system('rm  /%s/libPFCalEE.so' % outDir)
+os.system('rm  /%s/libPFCalEEuserlib.so' % outDir)
+os.system('rm  /%s/runJob.sh' % outDir)
+os.system('rm  /%s/g4steer.mac' % outDir)
+os.system('rm  /%s/submit.jdl' % outDir)
+os.system('rm  /%s/b18d36.dat' % outDir)
+os.system('cp $HOME/geant4_workdir/bin/Linux-g++/PFCalEE root://cmseos.fnal.gov/%s/' % outDir)
+os.system('cp g4env4lpc.sh root://cmseos.fnal.gov/%s/' % outDir)
+os.system('cp $HOME/geant4_workdir/tmp/Linux-g++/PFCalEE/libPFCalEE.so root://cmseos.fnal.gov/%s/' % outDir)
+os.system('cp userlib/lib/libPFCalEEuserlib.so root://cmseos.fnal.gov/%s/' % outDir)
+os.system('cp b18d36.dat root://cmseos.fnal.gov/%s/' % outDir)
 
-#wrapper
+#write runJob.sh
 scriptFile = open('runJob.sh', 'w')
 scriptFile.write('#!/bin/bash\n')
-scriptFile.write('source g4env4lpc.sh\n')#%(os.getcwd()))
-outTag='%s_version%d_model%d_'%(label,opt.version,opt.model)
+scriptFile.write('source g4env4lpc.sh\n')
+outTag='_version%d_model%d_'%(opt.version,opt.model)
 outTag='%s_run%d'%(outTag,opt.run)
 
 if (opt.pass_ == 0):
@@ -76,27 +93,23 @@ else:
     scriptFile.write('./PFCalEE g4steer.mac %d %d %d %d HGcal_%s.root | tee g4.log\n'%(opt.version,opt.model,opt.generator,opt.speed,outTag))
 
 if (opt.pass_ == 0):
-    scriptFile.write('xrdcp -f PFcal.root root://cmseos.fnal.gov/%s/HGcal_%s.root\n'%(outDir,outTag))
+    scriptFile.write('xrdcp -f PFcal.root root://cmseos.fnal.gov/%s/HGcal_%s.root\n'%(eosDir,outTag))
 else:
-    scriptFile.write('xrdcp -f PFcal.root root://cmseos.fnal.gov/%s/HGcal_%s_second.root\n'%(outDir,outTag))
+    scriptFile.write('xrdcp -f PFcal.root root://cmseos.fnal.gov/%s/HGcal_%s_second.root\n'%(eosDir,outTag))
 
+scriptFile.write('rm PFcal.root' )
 scriptFile.write('localdir=`pwd`\n')
 scriptFile.write('echo "--Local directory is " $localdir >> g4.log\n')
 scriptFile.write('ls * >> g4.log\n')
-
-
-
 scriptFile.write('echo "--deleting core files: too heavy!!"\n')
 scriptFile.write('rm core.*\n')
-#scriptFile.write('cp HGcal_%s.root %s/\n'%(outTag,outDir))
 scriptFile.write('echo "All done"\n')
 scriptFile.close()
-#os.system('echo xrdcp %s root://cmseos.fnal.gov/%s/' % ('runJob.sh',outDir))
-os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('runJob.sh',outDir))
+#os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('runJob.sh',outDir))
+os.system('cp %s /%s/' % ('runJob.sh',outDir))
 
-print 'submitting to the cluster'
-#write geant 4 macro
 
+#write g4steer.mac
 g4Macro = open('g4steer.mac', 'w')
 g4Macro.write('/control/verbose 0\n')
 g4Macro.write('/control/saveHistory\n')
@@ -107,16 +120,18 @@ g4Macro.write('/N03/det/setModel %d\n'%opt.model)
 g4Macro.write('/random/setSeeds %d %d\n'%( random.uniform(0,100000), random.uniform(0,100000) ) )
 g4Macro.write('/run/beamOn %d\n'%(nevents))
 g4Macro.close()
-os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('g4steer.mac',outDir))
+#os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('g4steer.mac',outDir))
+os.system('cp %s /%s/' % ('g4steer.mac',outDir))
 
 #submit
-#os.system('echo %s ' %('chmod 777 %s/runJob.sh'%outDir))
-os.system('chmod 777 //eos/uscms%s/PFCalEE' % (outDir))
-os.system('chmod 777 //eos/uscms%s/runJob.sh' % (outDir))
+#os.system('chmod 777 //eos/uscms%s/PFCalEE' % (outDir))
+#os.system('chmod 777 //eos/uscms%s/runJob.sh' % (outDir))
 
-if opt.nosubmit : os.system('LSB_JOB_REPORT_MAIL=N echo bsub -q %s -N %s/runJob.sh'%(myqueue,outDir))
+os.system('chmod 777 %s/PFCalEE' % (outDir))
+os.system('chmod 777 %s/runJob.sh' % (outDir))
+
+if opt.nosubmit : os.system('see %s'%(outDir))
 else:
-    #os.system("LSB_JOB_REPORT_MAIL=N bsub -q %s -N \'%s/runJob.sh\'"%(myqueue,outDir))
     name = "submitRun%s" % (opt.run)
     f2n = "submit.jdl" ;
     outtag = "out_%s_$(Cluster)" % (name)
@@ -139,7 +154,10 @@ else:
     f2.write("x509userproxy = $ENV(X509_USER_PROXY) \n")
     f2.write("Queue 1 \n");
     f2.close();
-    os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('submit.jdl',outDir))
+    #os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('submit.jdl',outDir))
+    os.system('cp %s /%s/' % ('submit.jdl',outDir))
+
     print 'Changing dir to %s' % (outDir)
-    os.chdir("//eos/uscms%s" % (outDir));
-    os.system("condor_submit submit.jdl");# % (submit.jdl));
+    #os.chdir("//eos/uscms%s" % (outDir));
+    os.chdir("%s" % (outDir));
+    os.system("condor_submit submit.jdl");
