@@ -55,9 +55,9 @@ public:
 	G4int evtNb_;
 	G4int hadronicInts;
 	std::vector<G4double> targetPartEngs;
-	static const G4double minEng  = 3000;
-	static const G4double initEng = 3050;
-	static const G4int    initPdgid = 22;
+	static constexpr G4double minEng  = 3000;
+	static constexpr G4double initEng = 3050;
+	static constexpr G4int    initPdgid = 22;
 private:
 	std::vector<SamplingSection> *detector_;
 	G4int printModulo,initLayer;
