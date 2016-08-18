@@ -14,6 +14,7 @@
 #include "SamplingSection.hh"
 
 //
+
 EventAction::EventAction(G4bool doFast) {
 	eventMessenger = new EventActionMessenger(this);
 	printModulo = 100;
@@ -57,6 +58,12 @@ EventAction::EventAction(G4bool doFast) {
 			&escapevec_);
 	tree_->Branch("HGCSSNovelAction", "std::vector<HGCSSGenParticle>",
 			&novelVec_);
+}
+
+template <typename T>
+void FreeAll( T & t ) {
+    T tmp;
+    t.swap( tmp );
 }
 
 //
@@ -159,14 +166,23 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 	tree_->Fill();
 
 	//reset vectors
-	genvec_.clear();
-	hadvec_.clear();
-	incvec_.clear();
-	escapevec_.clear();
-	novelVec_.clear();
-	hitvec_.clear();
-	targetPartEngs.clear();
-	novelPartEngs.clear();
+
+	//genvec_.clear();
+	FreeAll(genvec_);
+	//hadvec_.clear();
+	FreeAll(hadvec_);
+	//incvec_.clear();
+	FreeAll(incvec_);
+	//escapevec_.clear();
+	FreeAll(escapevec_);
+	//novelVec_.clear();
+	FreeAll(novelVec_);
+	//hitvec_.clear();
+	FreeAll(hitvec_);
+	//targetPartEngs.clear();
+	FreeAll(targetPartEngs);
+	//novelPartEngs.clear();
+	FreeAll(novelPartEngs);
 
 	hadronicInts = 0;
 
