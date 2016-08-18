@@ -82,11 +82,11 @@ public:
 			//reset
 			inline void resetCounters()
 			{
-				//sublayer_RawDep.clear();
-				clearVec(sublayer_RawDep);
+				sublayer_RawDep.clear();
+				//clearVec(sublayer_RawDep);
 				for (unsigned idx(0); idx<n_sens_elements; ++idx) {
-					//sens_HitVec[idx].clear();
-					clearVec(sens_HitVec[idx]);
+					sens_HitVec[idx].clear();
+					//clearVec(sens_HitVec[idx]);
 				}
 
 			}
