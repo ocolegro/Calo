@@ -138,7 +138,8 @@ else:
     outtag = "out_%s_$(Cluster)" % (name)
     f2=open(f2n, 'w')
     f2.write("universe = vanilla \n");
-    f2.write("Executable = %s \n" % ('//eos/uscms%s/runJob.sh'%(outDir)) );
+    #f2.write("Executable = %s \n" % ('//eos/uscms%s/runJob.sh'%(outDir)) );
+    f2.write("Executable = %s \n" % ('%s/runJob.sh'%(outDir)) );
     f2.write('Requirements = OpSys == "LINUX" && (Arch != "DUMMY" )\n');
     f2.write("request_disk = 100000\n");
     f2.write("request_memory = 1250\n");
