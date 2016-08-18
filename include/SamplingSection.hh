@@ -50,6 +50,12 @@ public:
 				}
 				return 0;
 			};
+			template <typename T>
+			inline void clearVec( T & t ) {
+			    T tmp;
+			    using std::swap;
+			    t.swap( tmp );
+			};
 
 			inline G4Colour g4Colour(const unsigned & aEle) {
 				if (isSensitiveElement(aEle)) return G4Colour::Red();
@@ -77,14 +83,10 @@ public:
 			inline void resetCounters()
 			{
 				sublayer_RawDep.clear();
-				sublayer_RawDep.resize(n_elements,0);
-
+				clearVec(sublayer_RawDep);
 				for (unsigned idx(0); idx<n_sens_elements; ++idx) {
-					if (sens_HitVec[idx].size() > sens_HitVec_size_max) {
-						sens_HitVec_size_max = 2*sens_HitVec[idx].size();
-					}
 					sens_HitVec[idx].clear();
-					sens_HitVec[idx].reserve(sens_HitVec_size_max);
+					clearVec(sens_HitVec[idx]);
 				}
 
 			}
