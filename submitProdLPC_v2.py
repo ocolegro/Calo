@@ -37,11 +37,9 @@ myqueue=opt.queue
 print 'creating the job'
 outDir = '/uscms_data/d1/ocolegro/'
 outDir='%s/%s'%(outDir,opt.out)
-outDir='%s/run_%d/'%(outDir,opt.run)
 
 eosDir = '/store/user/ocolegro/'
 eosDir='%s/%s/'%(eosDir,opt.out)
-eosDir='%s/run_%d/'%(eosDir,opt.run)
 
 '''
 os.system('xrdfs root://cmseos.fnal.gov mkdir %s'%outDir)
@@ -63,6 +61,10 @@ os.system('xrdcp userlib/lib/libPFCalEEuserlib.so root://cmseos.fnal.gov/%s/' % 
 os.system('xrdcp b18d36.dat root://cmseos.fnal.gov/%s/' % outDir)
 '''
 
+os.system('xrdfs root://cmseos.fnal.gov mkdir %s'%eosDir)
+os.system('mkdir %s'%outDir)
+outDir='%s/run_%d/'%(outDir,opt.run)
+eosDir='%s/run_%d/'%(eosDir,opt.run)
 os.system('xrdfs root://cmseos.fnal.gov mkdir %s'%eosDir)
 os.system('mkdir %s'%outDir)
 #os.system('rm  /%s/PFCalEE' % outDir)
