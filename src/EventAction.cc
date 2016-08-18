@@ -22,9 +22,8 @@ EventAction::EventAction(G4bool doFast) {
 	outF_ = TFile::Open("PFcal.root", "RECREATE");
 
 	outF_->cd();
-	double xysize =
-			((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->GetCalorSizeXY();
-	initLayer = ((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->initLayer();
+	double xysize = ((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->GetCalorSizeXY();
+	initLayer 	  = ((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->initLayer();
 
 	//save some info
 	HGCSSInfo *info = new HGCSSInfo();
@@ -42,22 +41,21 @@ EventAction::EventAction(G4bool doFast) {
 	//honeycomb
 	geomConv_ = new HGCSSGeometryConversion(info->model(), CELL_SIZE_X);
 	geomConv_->initialiseHoneyComb(xysize, CELL_SIZE_X);
-	//square map for BHCAL
 	geomConv_->initialiseSquareMap(xysize, 10.);
 
 	tree_ = new TTree("HGCSSTree", "HGC Standalone simulation tree");
 	tree_->Branch("HGCSSEvent", "HGCSSEvent", &event_);
 	tree_->Branch("HGCSSSimHitVec", "std::vector<HGCSSSimHit>", &hitvec_);
-	tree_->Branch("HGCSSGenAction", "std::vector<HGCSSGenParticle>",
-			&genvec_);
+	/*tree_->Branch("HGCSSGenAction", "std::vector<HGCSSGenParticle>",
+			&genvec_);*/
 	tree_->Branch("HGCSSHadAction", "std::vector<HGCSSGenParticle>",
 			&hadvec_);
 	tree_->Branch("HGCSSIncAction", "std::vector<HGCSSGenParticle>",
 			&incvec_);
 	tree_->Branch("HGCSSEscapeAction", "std::vector<HGCSSGenParticle>",
 			&escapevec_);
-	tree_->Branch("HGCSSNovelAction", "std::vector<HGCSSGenParticle>",
-			&novelVec_);
+	//tree_->Branch("HGCSSNovelAction", "std::vector<HGCSSGenParticle>",
+		//	&novelVec_);
 }
 
 
@@ -66,7 +64,6 @@ EventAction::~EventAction() {
 	outF_->cd();
 	tree_->Write();
 	outF_->Close();
-	//fout_.close();
 	delete eventMessenger;
 }
 
@@ -94,22 +91,11 @@ void EventAction::Detect(G4double eDepRaw, G4VPhysicalVolume *volume,G4Track* lT
 void EventAction::EndOfEventAction(const G4Event* g4evt) {
 	//return;
 	event_.eventNumber(evtNb_);
-	double totalSens = 0;
-	double wgtTotalSens = 0;
-
-	//if (summedDep < depCut){
 	G4String fileN = "currentEvent.rndm";
 	CLHEP::HepRandom::saveEngineStatus(fileN);
 	std::ifstream input(fileN);
 	std::string currentLine;
 	Double_t stat_x = 0,stat_y = 0,seed_x = 0,seed_y = 0;
-	for (size_t i = ((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->initLayer()
-			; i < detector_->size(); i++) {
-		Double_t weight = (i < 8) ? .8 : 1. ;
-		totalSens += (*detector_)[i].getTotalSensE();
-		wgtTotalSens += weight*(*detector_)[i].getTotalSensE();
-
-		} //loop on sensitive layers
 	for(int count = 0; count < 5; count++ ){
 		getline( input, currentLine );
 		if (count == 1)
@@ -121,49 +107,59 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 			seed_x = std::atoi(currentLine.c_str());
 		if (count == 4)
 			seed_y = std::atoi(currentLine.c_str());
-		//}
 		TVector3 status(stat_x,stat_y,0);
 		TVector3 seeds(seed_x,seed_y,0);
 
 		event_.seeds(seeds);
 		event_.status(status);
-		//Changing initLayer because initial layers contain tracking sections.
 	}
-	for (size_t i =  ((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->initLayer()
-			; i < detector_->size(); i++) {
-		for (unsigned idx(0); idx < (*detector_)[i].n_sens_elements; ++idx) {
-					std::map<unsigned, HGCSSSimHit> lHitMap;
-					std::pair<std::map<unsigned, HGCSSSimHit>::iterator, bool> isInserted;
+	if(!doFast_){
+		for (size_t i =  ((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->initLayer()
+				; i < detector_->size(); i++) {
+			for (unsigned idx(0); idx < (*detector_)[i].n_sens_elements; ++idx) {
+						std::map<unsigned, HGCSSSimHit> lHitMap;
+						std::pair<std::map<unsigned, HGCSSSimHit>::iterator, bool> isInserted;
 
-					for (unsigned iSiHit(0);iSiHit < (*detector_)[i].getSiHitVec(idx).size();++iSiHit) {
-						G4SiHit lSiHit = (*detector_)[i].getSiHitVec(idx)[iSiHit];
-						bool is_scint = (*detector_)[i].hasScintillator;
-						HGCSSSimHit lHit(lSiHit,is_scint ?geomConv_->squareMap() : geomConv_->hexagonMap());
+						for (unsigned iSiHit(0);iSiHit < (*detector_)[i].getSiHitVec(idx).size();++iSiHit) {
+							G4SiHit lSiHit = (*detector_)[i].getSiHitVec(idx)[iSiHit];
+							bool is_scint = (*detector_)[i].hasScintillator;
+							HGCSSSimHit lHit(lSiHit,is_scint ?geomConv_->squareMap() : geomConv_->hexagonMap());
 
-						isInserted = lHitMap.insert(std::pair<unsigned, HGCSSSimHit>(lHit.cellid(), lHit));
-						if (!isInserted.second)
-							isInserted.first->second.Add(lSiHit);
+							isInserted = lHitMap.insert(std::pair<unsigned, HGCSSSimHit>(lHit.cellid(), lHit));
+							if (!isInserted.second)
+								isInserted.first->second.Add(lSiHit);
+						}
+
+					std::map<unsigned, HGCSSSimHit>::iterator lIter = lHitMap.begin();
+					hitvec_.reserve(hitvec_.size() + lHitMap.size());
+					for (; lIter != lHitMap.end(); ++lIter) {
+						hitvec_.push_back(lIter->second);
 					}
-
-				std::map<unsigned, HGCSSSimHit>::iterator lIter = lHitMap.begin();
-				hitvec_.reserve(hitvec_.size() + lHitMap.size());
-				for (; lIter != lHitMap.end(); ++lIter) {
-					hitvec_.push_back(lIter->second);
 				}
+			(*detector_)[i].resetCounters();
+		}
+		double totalSens = 0;
+		double wgtTotalSens = 0;
+
+		for (size_t i = ((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->initLayer()
+				; i < detector_->size(); i++) {
+			Double_t weight = (i < 8) ? .8 : 1. ;
+			totalSens += (*detector_)[i].getTotalSensE();
+			wgtTotalSens += weight*(*detector_)[i].getTotalSensE();
+
 			}
-		(*detector_)[i].resetCounters();
+		event_.dep(totalSens);
+		event_.wgtDep(wgtTotalSens);
 	}
-	//std::cout << "The initial layer is i = " << ((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->initLayer() << std::endl;
-	//std::cout << "The total deposited energy is " << totalSens << std::endl;
-	event_.dep(totalSens);
-	event_.wgtDep(wgtTotalSens);
-	SetWait(false);
-	tree_->Fill();
+
+
 
 	//reset vectors
+	if (!doFast_ || incvec_.size() > 0)
+		tree_->Fill();
 
 	//genvec_.clear();
-	FreeAll(genvec_);
+	//FreeAll(genvec_);
 	//hadvec_.clear();
 	FreeAll(hadvec_);
 	//incvec_.clear();
@@ -171,7 +167,7 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 	//escapevec_.clear();
 	FreeAll(escapevec_);
 	//novelVec_.clear();
-	FreeAll(novelVec_);
+	//FreeAll(novelVec_);
 	//hitvec_.clear();
 	FreeAll(hitvec_);
 	//targetPartEngs.clear();

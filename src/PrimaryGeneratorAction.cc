@@ -126,12 +126,12 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction() {
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
 	G4String particleName;
-	G4ParticleDefinition* particle = particleTable->FindParticle(22);
+	G4ParticleDefinition* particle = particleTable->FindParticle(eventAction_->initPdgid);
 	particleGun->SetParticleDefinition(particle);
-	G4double et = 2950;
+	G4double et = eventAction_->initEng* MeV;
 
 
-	particleGun->SetParticleEnergy(et * MeV);
+	particleGun->SetParticleEnergy(et);
 	particleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
 
 	G4double x0 = 0.0;
@@ -147,10 +147,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	genPart.pdgid(pdgid);
 
 	if (currentGenerator) {
-
 		currentGenerator->GeneratePrimaryVertex(anEvent);
-
-		eventAction_->genvec_.push_back(genPart);
 	} else
 		G4Exception("PrimaryGeneratorAction::GeneratePrimaries",
 				"PrimaryGeneratorAction001", FatalException,

@@ -48,15 +48,10 @@ class StackingAction : public G4UserStackingAction
    ~StackingAction();
 
     virtual G4ClassificationOfNewTrack ClassifyNewTrack(const G4Track*);
-    /*inline void SetWait(bool wait){
-    	wait_ = wait;
-    }
-    ;*/
+
   private:
 	EventAction *eventAction_;
-	SteppingAction *stepAction_;
     std::string data_;
-   // G4bool wait_;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

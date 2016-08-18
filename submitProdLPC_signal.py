@@ -41,7 +41,7 @@ massJob = (opt.file.split('//')[-1].split('_')[0].split('.map')[-1])
 eosDir='%s/%s'%(opt.eos,'M_alpha_%sGEV_%s' % ( massJob[0:len(massJob)-2], massJob[-1]))
 
 print 'xrdfs root://cmseos.fnal.gov mkdir %s'%eosDir
-os.system('xrdfs root://cmseos.fnal.gov rm %s'%eosDir)
+#os.system('xrdfs root://cmseos.fnal.gov rm %s'%eosDir)
 os.system('xrdfs root://cmseos.fnal.gov mkdir %s'%eosDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/PFCalEE' % eosDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/g4env4lpc.sh' % eosDir)
@@ -54,9 +54,9 @@ os.system('xrdfs root://cmseos.fnal.gov rm  /%s/b18d36.dat' % eosDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  %s/%s' % (eosDir,opt.file))
 
 
-print 'The outdir is %s' % eosDir
+#print 'The outdir is %s' % eosDir
 os.system('xrdcp $HOME/geant4_workdir/bin/Linux-g++/PFCalEE root://cmseos.fnal.gov/%s/' % eosDir)
-os.system('xrdcp g4env4lpc.sh root://cmseos.fnal.gov/%s/' % eosDir)
+#os.system('xrdcp g4env4lpc.sh root://cmseos.fnal.gov/%s/' % eosDir)
 os.system('xrdcp b18d36.dat root://cmseos.fnal.gov/%s/' % eosDir)
 os.system('xrdcp $HOME/geant4_workdir/tmp/Linux-g++/PFCalEE/libPFCalEE.so root://cmseos.fnal.gov/%s/' % eosDir)
 os.system('xrdcp userlib/lib/libPFCalEEuserlib.so root://cmseos.fnal.gov/%s/' % eosDir)

@@ -43,8 +43,9 @@ StackingAction::StackingAction(std::string data)
 	//wait_ = false;
 	eventAction_ =
 			(EventAction*) G4RunManager::GetRunManager()->GetUserEventAction();
-	stepAction_ =
-			(SteppingAction*) G4RunManager::GetRunManager()->GetUserSteppingAction();
+	//stepAction_ =
+		//	(SteppingAction*) G4RunManager::GetRunManager()->GetUserSteppingAction();
+	data_ = data;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -60,7 +61,7 @@ StackingAction::ClassifyNewTrack(const G4Track* lTrack)
 	G4double kinEng = lTrack->GetKineticEnergy() *MeV;
 	G4int pdgID = lTrack->GetDefinition()->GetPDGEncoding();
 	G4int trackID = lTrack->GetTrackID();
-
+	/*
 	if (kinEng>10 && (abs(pdgID) != 11) && (abs(pdgID) != 22 && trackID != 1)){
 		HGCSSGenParticle genPart;
 		genPart.vertexKE(lTrack->GetKineticEnergy()*MeV);
@@ -75,25 +76,15 @@ StackingAction::ClassifyNewTrack(const G4Track* lTrack)
 		genPart.parentKE(stepAction_->stepKE);
 		genPart.parentPdgId(stepAction_->stepPDGID);
 		eventAction_->novelVec_.push_back(genPart);
-		eventAction_->novelPartEngs.push_back(lTrack->GetTrackID());
-	}
+	}*/
 
-	if ( (abs(pdgID) != 22) && kinEng < 3000) {
-		if (!eventAction_->GetWait()){
-			if (eventAction_->firstPass()){
+	if ( (abs(pdgID) != 22) && kinEng < eventAction_->minEng) {
+			if (eventAction_->doFast()){
 				return fKill;
 			}
 			else{
-				return fUrgent;
+					(data_ == "") ? (fUrgent) : (fWaiting);
 			}
-		}
-		else{
-			return fWaiting;
-		}
-	}
-	else{
-		  return fUrgent;
 	}
 }
-
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
