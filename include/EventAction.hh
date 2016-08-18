@@ -52,8 +52,12 @@ public:
 	}
 	;
 	template <typename T>
-	void FreeAll( T & t )
-	;
+	void FreeAll( T & t ) {
+	    T tmp;
+	    using std::swap;
+	    t.swap( tmp );
+	}
+
 	HGCSSGenParticleVec genvec_,hadvec_,incvec_,escapevec_,novelVec_;
 	G4int evtNb_;
 	G4int hadronicInts;
