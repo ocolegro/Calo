@@ -60,11 +60,6 @@ EventAction::EventAction(G4bool doFast) {
 			&novelVec_);
 }
 
-template <typename T>
-void FreeAll( T & t ) {
-    T tmp;
-    t.swap( tmp );
-}
 
 //
 EventAction::~EventAction() {
