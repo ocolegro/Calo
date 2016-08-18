@@ -172,8 +172,7 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 	FreeAll(hitvec_);
 	//targetPartEngs.clear();
 	FreeAll(targetPartEngs);
-	//novelPartEngs.clear();
-	FreeAll(novelPartEngs);
+
 
 	hadronicInts = 0;
 
