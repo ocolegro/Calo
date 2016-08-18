@@ -51,6 +51,9 @@ public:
 		return doFast_;
 	}
 	;
+	template <typename T>
+	void FreeAll( T & t )
+	;
 	HGCSSGenParticleVec genvec_,hadvec_,incvec_,escapevec_,novelVec_;
 	G4int evtNb_;
 	G4int hadronicInts;
