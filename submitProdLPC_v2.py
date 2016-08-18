@@ -36,12 +36,11 @@ myqueue=opt.queue
 
 print 'creating the job'
 outDir = '/uscms_data/d1/ocolegro/'
-eosDir = '/store/user/ocolegro/'
-
-outDir='%s/'%(opt.out)
+outDir='%s/%s'%(outDir,opt.out)
 outDir='%s/run_%d/'%(outDir,opt.run)
 
-eosDir='%s/'%(opt.out)
+eosDir = '/store/user/ocolegro/'
+eosDir='%s/%s/'%(eosDir,opt.out)
 eosDir='%s/run_%d/'%(eosDir,opt.run)
 
 '''
