@@ -43,7 +43,7 @@ if opt.fast>0 : outDir='%s/fast_%3.3f/'%(outDir,opt.fast)
 if (opt.run>=0) : outDir='%s/run_%d/'%(outDir,opt.run)
 
 print 'xrdfs root://cmseos.fnal.gov mkdir %s'%outDir
-os.system('xrdfs root://cmseos.fnal.gov rm %s'%outDir)
+#os.system('xrdfs root://cmseos.fnal.gov rm %s'%outDir)
 os.system('xrdfs root://cmseos.fnal.gov mkdir %s'%outDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/PFCalEE' % outDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/g4env4lpc.sh' % outDir)
@@ -52,13 +52,15 @@ os.system('xrdfs root://cmseos.fnal.gov rm  /%s/libPFCalEEuserlib.so' % outDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/runJob.sh' % outDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/g4steer.mac' % outDir)
 os.system('xrdfs root://cmseos.fnal.gov rm  /%s/submit.jdl' % outDir)
+os.system('xrdfs root://cmseos.fnal.gov rm  /%s/b18d36.dat' % outDir)
 
 
-os.system('eosmkdir -p %s'%outDir)
+#os.system('eosmkdir -p %s'%outDir)
 os.system('xrdcp $HOME/geant4_workdir/bin/Linux-g++/PFCalEE root://cmseos.fnal.gov/%s/' % outDir)
 os.system('xrdcp g4env4lpc.sh root://cmseos.fnal.gov/%s/' % outDir)
 os.system('xrdcp $HOME/geant4_workdir/tmp/Linux-g++/PFCalEE/libPFCalEE.so root://cmseos.fnal.gov/%s/' % outDir)
 os.system('xrdcp userlib/lib/libPFCalEEuserlib.so root://cmseos.fnal.gov/%s/' % outDir)
+os.system('xrdcp b18d36.dat root://cmseos.fnal.gov/%s/' % outDir)
 
 
 #wrapper
@@ -89,7 +91,7 @@ scriptFile.write('rm core.*\n')
 #scriptFile.write('cp HGcal_%s.root %s/\n'%(outTag,outDir))
 scriptFile.write('echo "All done"\n')
 scriptFile.close()
-os.system('echo xrdcp %s root://cmseos.fnal.gov/%s/' % ('runJob.sh',outDir))
+#os.system('echo xrdcp %s root://cmseos.fnal.gov/%s/' % ('runJob.sh',outDir))
 os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('runJob.sh',outDir))
 
 print 'submitting to the cluster'
@@ -126,9 +128,9 @@ else:
     f2.write("request_memory = 1000\n");
     f2.write("Should_Transfer_Files = YES \n");
     if (opt.pass_ == 0):
-        f2.write("Transfer_Input_Files = g4env4lpc.sh,libPFCalEE.so,libPFCalEEuserlib.so,PFCalEE,g4steer.mac \n" );
+        f2.write("Transfer_Input_Files = b18d36.dat,g4env4lpc.sh,libPFCalEE.so,libPFCalEEuserlib.so,PFCalEE,g4steer.mac \n" );
     else:
-        f2.write("Transfer_Input_Files = g4env4lpc.sh,libPFCalEE.so,libPFCalEEuserlib.so,PFCalEE,g4steer.mac,HGcal_%s.root \n" %(outTag) );
+        f2.write("Transfer_Input_Files = b18d36.dat,g4env4lpc.sh,libPFCalEE.so,libPFCalEEuserlib.so,PFCalEE,g4steer.mac,HGcal_%s.root \n" %(outTag) );
     f2.write("WhenToTransferOutput  = ON_EXIT_OR_EVICT \n");
     f2.write("Output = "+outtag+".stdout \n");
     f2.write("Error = "+outtag+".stderr \n");
