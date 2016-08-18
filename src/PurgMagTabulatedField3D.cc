@@ -157,7 +157,7 @@ void PurgMagTabulatedField3D::GetFieldValue(const G4double point[4],
   G4double fieldUnit = gauss;
   G4double x = point[0]/lenUnit;
   G4double y = point[1]/lenUnit;
-  G4double z = 1e6/lenUnit;
+  G4double z = 1e6*lenUnit;
   if (point[2] < 0 && fabs(point[2]) < fZoffset ){
   	z = (point[2] + fZoffset)/lenUnit ;
   }
