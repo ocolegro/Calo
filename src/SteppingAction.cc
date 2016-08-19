@@ -29,7 +29,7 @@ SteppingAction::~SteppingAction() {
 
 //
 void SteppingAction::UserSteppingAction(const G4Step* aStep) {
-
+	G4cout << "Starting to take a step now " << G4endl;
 	// get PreStepPoint
 	const G4StepPoint *thePreStepPoint = aStep->GetPreStepPoint();
 	const G4StepPoint *thePostStepPoint = aStep->GetPostStepPoint();
@@ -130,6 +130,8 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 			}
 		}
 	}
+	G4cout << "Finishing taking a step now " << G4endl;
+
 }
 
 void SteppingAction::printParticle(G4Track* aTrack)
