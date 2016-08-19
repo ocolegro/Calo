@@ -58,7 +58,6 @@ StackingAction::~StackingAction()
 G4ClassificationOfNewTrack
 StackingAction::ClassifyNewTrack(const G4Track* lTrack)
 {
-	G4cout << "Stacking Action is now beginning" << G4endl;
 	G4double kinEng = lTrack->GetKineticEnergy() *MeV;
 	G4int pdgID = lTrack->GetDefinition()->GetPDGEncoding();
 	/*
