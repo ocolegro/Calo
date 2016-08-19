@@ -71,11 +71,13 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		eventAction_->escapevec_.push_back(escapePart);
 	}
 	G4cout << "Looking for photonuclear processes now" << G4endl;
+	bool photoNuclear = false;
 
-	G4String theProcessName=secondaries->at(0)->GetCreatorProcess()->GetProcessName();
-
-	bool photoNuclear = ((secondaries->size() > 0) && (theProcessName == "PhotonInelastic") && (kinEng > eventAction_->minEng));
+	if (secondaries->size() > 0){
+		G4String theProcessName=secondaries->at(0)->GetCreatorProcess()->GetProcessName();
+		photoNuclear = ((theProcessName == "PhotonInelastic") && (kinEng > eventAction_->minEng));
 				//|| theProcessName == "ElectroNuclear" || theProcessName == "PositronNuclear")
+	}
 
 
 	if (photoNuclear){
