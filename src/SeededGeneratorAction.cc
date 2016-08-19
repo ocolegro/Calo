@@ -132,13 +132,13 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	particleGun->SetParticleDefinition(particle);
 	int currentEvt = anEvent->GetEventID();
 	tree_->GetEntry(currentEvt);
-	G4double et = 0.0 * MeV;
+	G4double et = eventAction_->initEng * MeV;
 	CLHEP::HepRandom::restoreEngineStatus ("temp.rndm");
 	PipeData();
 
-	if (inc_->size() >  0){
+	/*if (inc_->size() >  0){
 		et = eventAction_->initEng * MeV;
-	}
+	}*/
 
 	particleGun->SetParticleEnergy(et);
 	particleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
