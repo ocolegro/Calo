@@ -89,7 +89,7 @@ void EventAction::Detect(G4double eDepRaw, G4VPhysicalVolume *volume,G4Track* lT
 
 
 void EventAction::EndOfEventAction(const G4Event* g4evt) {
-	//return;
+	G4cout << "Starting end of event Action" << G4endl;
 	event_.eventNumber(evtNb_);
 	G4String fileN = "currentEvent.rndm";
 	CLHEP::HepRandom::saveEngineStatus(fileN);
@@ -173,6 +173,7 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 	//targetPartEngs.clear();
 	FreeAll(targetPartEngs);
 
+	G4cout << "Succeeded in end of event Action" << G4endl;
 
 	hadronicInts = 0;
 
