@@ -132,8 +132,7 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 
 	int currentEvt = anEvent->GetEventID();
 	tree_->GetEntry(currentEvt);
-	CLHEP::HepRandom::restoreEngineStatus ("temp.rndm");
-	PipeData();
+
 
 	G4double et = 0;
 
@@ -159,7 +158,8 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 		G4Exception("PrimaryGeneratorAction::GeneratePrimaries",
 				"PrimaryGeneratorAction001", FatalException,
 				"generator is not instanciated.");
-
+	CLHEP::HepRandom::restoreEngineStatus ("temp.rndm");
+	PipeData();
 }
 
 /*
