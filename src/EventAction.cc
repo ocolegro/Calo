@@ -89,6 +89,7 @@ void EventAction::Detect(G4double eDepRaw, G4VPhysicalVolume *volume,G4Track* lT
 
 
 void EventAction::EndOfEventAction(const G4Event* g4evt) {
+	G4cout << "EndofEventAction now occuring " << G4endl;
 	event_.eventNumber(evtNb_);
 	G4String fileN = "currentEvent.rndm";
 	CLHEP::HepRandom::saveEngineStatus(fileN);
@@ -174,5 +175,6 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 
 
 	hadronicInts = 0;
+	G4cout << "EndofEventAction now finished " << G4endl;
 
 }
