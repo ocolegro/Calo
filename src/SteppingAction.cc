@@ -30,6 +30,8 @@ SteppingAction::~SteppingAction() {
 //
 void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	// get PreStepPoint
+	G4cout << "Stepping Action is now beginning" << G4endl;
+
 	const G4StepPoint *thePreStepPoint = aStep->GetPreStepPoint();
 	const G4StepPoint *thePostStepPoint = aStep->GetPostStepPoint();
 
@@ -134,6 +136,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 			}
 		}
 	}
+	G4cout << "Stepping Action is now finished" << G4endl;
 
 }
 
