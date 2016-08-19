@@ -137,8 +137,10 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 
 	G4double et = 0;
 
-	if (currentEvt != 0)
+	if (currentEvt != 0){
 	G4double et = eventAction_->initEng * MeV;
+	G4cout << "The current event is " << currentEvt << G4endl;
+	}
 
 	particleGun->SetParticleEnergy(et);
 	particleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
