@@ -29,7 +29,6 @@ SteppingAction::~SteppingAction() {
 
 //
 void SteppingAction::UserSteppingAction(const G4Step* aStep) {
-	G4cout << "Starting to take a step now " << G4endl;
 	// get PreStepPoint
 	const G4StepPoint *thePreStepPoint = aStep->GetPreStepPoint();
 	const G4StepPoint *thePostStepPoint = aStep->GetPostStepPoint();
@@ -70,7 +69,6 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		escapePart.mass(lTrack->GetDefinition()->GetPDGMass());
 		eventAction_->escapevec_.push_back(escapePart);
 	}
-	G4cout << "Looking for photonuclear processes now" << G4endl;
 	bool photoNuclear = false;
 
 	if (secondaries->size() > 0){
@@ -135,7 +133,6 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 			}
 		}
 	}
-	G4cout << "Finishing taking a step now " << G4endl;
 
 }
 
