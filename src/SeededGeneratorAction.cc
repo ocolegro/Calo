@@ -130,7 +130,7 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	G4ParticleDefinition* particle = particleTable->FindParticle(eventAction_->initPdgid);
 	particleGun->SetParticleDefinition(particle);
 
-	//int currentEvt = anEvent->GetEventID();
+	int currentEvt = anEvent->GetEventID();
 	//CLHEP::HepRandom::restoreEngineStatus ("temp.rndm");
 	//PipeData();
 
