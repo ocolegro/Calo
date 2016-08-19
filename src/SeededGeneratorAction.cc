@@ -129,8 +129,18 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	G4String particleName;
 	G4ParticleDefinition* particle = particleTable->FindParticle(eventAction_->initPdgid);
 	particleGun->SetParticleDefinition(particle);
+
+	int currentEvt = anEvent->GetEventID();
+
+
+	CLHEP::HepRandom::restoreEngineStatus ("temp.rndm");
+	PipeData();
+
 	G4double et = eventAction_->initEng* MeV;
 
+	if (inc_->size() >  0){
+		et = eventAction_->initEng * MeV;
+	}
 
 	particleGun->SetParticleEnergy(et);
 	particleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
@@ -140,12 +150,7 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	G4double z0 = -0.5 * (Detector->GetWorldSizeZ());
 
 	particleGun->SetParticlePosition(G4ThreeVector(x0, y0, z0));
-	HGCSSGenParticle genPart;
-	genPart.vertexKE(et);
 	TVector3 vec(x0,y0,z0);
-	genPart.vertexPos(vec);
-	int pdgid = particle->GetPDGEncoding();
-	genPart.pdgid(pdgid);
 
 	if (currentGenerator) {
 		currentGenerator->GeneratePrimaryVertex(anEvent);
