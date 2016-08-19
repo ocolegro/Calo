@@ -132,8 +132,9 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 
 	int currentEvt = anEvent->GetEventID();
 	tree_->GetEntry(currentEvt);
-	PipeData();
 	CLHEP::HepRandom::restoreEngineStatus ("temp.rndm");
+	PipeData();
+
 	G4double et = 0;
 
 	if (currentEvt != 0)
