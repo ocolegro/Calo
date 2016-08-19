@@ -131,7 +131,9 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	G4ParticleDefinition* particle = particleTable->FindParticle(eventAction_->initPdgid);
 	particleGun->SetParticleDefinition(particle);
 	int currentEvt = anEvent->GetEventID();
-	tree_->GetEntry(currentEvt);
+	G4cout << "Seeded event generator is getting event " << currentEvt << G4endl;
+
+	//tree_->GetEntry(currentEvt);
 	G4double et = eventAction_->initEng * MeV;
 	CLHEP::HepRandom::restoreEngineStatus ("temp.rndm");
 	PipeData();
