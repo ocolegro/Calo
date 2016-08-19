@@ -3,7 +3,6 @@
 //
 
 SamplingSection::SamplingSection(std::vector<std::pair <G4double,std::string>> iEle) {
-			G4cout << "We are in the samplign section" << G4endl;
 
 			std::vector<G4double> aThicknessVec;std::vector<std::string> aMaterialVec;
 				for (unsigned i = 0; i < iEle.size(); i++)
@@ -55,7 +54,6 @@ std::pair<G4bool,G4bool> SamplingSection::add(G4double depositRawE,G4VPhysicalVo
 	std::string lstr = vol->GetName();
 	bool breakSwitch = false;
 	bool isSens = false;
-	G4cout << "We are in the samplign section" << G4endl;
 	for (unsigned ie(0); ie < n_elements * n_sectors; ++ie) {
 			if (breakSwitch) return std::make_pair(breakSwitch,isSens);
 		if (sublayer_vol[ie] && lstr == sublayer_vol[ie]->GetName()) {
