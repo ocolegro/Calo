@@ -154,7 +154,7 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 
 
 	//reset vectors
-	if (!doFast_ || incvec_.size() > 0)
+	if ( (!doFast_) || (incvec_.size() > 0))
 		tree_->Fill();
 
 	//genvec_.clear();

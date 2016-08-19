@@ -47,7 +47,6 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		eventAction_->Detect(eRawDep, volume,lTrack,position);
 
 	const G4TrackVector* secondaries= aStep->GetSecondary();
-	G4cout << "Looking for escaping trakcs now" << G4endl;
 
 	bool trackEscapes = ((lTrack->GetTrackStatus()!=fAlive
 			&& (lTrack->GetKineticEnergy() > 10)
