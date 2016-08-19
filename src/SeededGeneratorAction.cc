@@ -131,7 +131,13 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	particleGun->SetParticleDefinition(particle);
 
 	int currentEvt = anEvent->GetEventID();
-	tree_->GetEntry(currentEvt);
+	if (currentEvt < tree_->GetEntries() ){
+		tree_->GetEntry(currentEvt);
+
+	}
+	else{
+		G4RunManager::GetRunManager()->RunTermination();
+	}
 
 	PipeData();
 	CLHEP::HepRandom::restoreEngineStatus ("temp.rndm");
