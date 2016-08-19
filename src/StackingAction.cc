@@ -79,14 +79,12 @@ StackingAction::ClassifyNewTrack(const G4Track* lTrack)
 
 	if ( (abs(pdgID) != 22) && (kinEng < eventAction_->minEng)) {
 			if (eventAction_->doFast()){
-				G4cout << "Stacking Action is now finishing, returning Kill" << G4endl;
 				return fKill;
-
 			}
 			else{
-				return ((data_ == "") ? (fUrgent) : (fWaiting));
-				//if (data_ == "") { return fUrgent;}
-				//else{  return fWaiting;}
+				//return ((data_ == "") ? (fUrgent) : (fWaiting));
+				if (data_ == "") { return fUrgent;}
+				else{  return fWaiting;}
 
 			}
 	}
