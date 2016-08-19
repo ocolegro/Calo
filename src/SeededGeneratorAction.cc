@@ -133,13 +133,15 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	int currentEvt = anEvent->GetEventID();
 	tree_->GetEntry(currentEvt);
 
+	PipeData();
+	CLHEP::HepRandom::restoreEngineStatus ("temp.rndm");
 
-	G4double et = 0;
+	//G4double et = 0;
 
-	if (currentEvt != 0){
-	et = eventAction_->initEng * MeV;
-	G4cout << "The current event is " << currentEvt << G4endl;
-	}
+	//if (currentEvt != 0){
+		G4double et = eventAction_->initEng * MeV;
+		G4cout << "The current event is " << currentEvt << G4endl;
+	//}
 	G4cout << "creating a particle with energy " << et <<G4endl;
 	particleGun->SetParticleEnergy(et);
 	particleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
@@ -158,8 +160,7 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 		G4Exception("PrimaryGeneratorAction::GeneratePrimaries",
 				"PrimaryGeneratorAction001", FatalException,
 				"generator is not instanciated.");
-	PipeData();
-	CLHEP::HepRandom::restoreEngineStatus ("temp.rndm");
+
 
 }
 

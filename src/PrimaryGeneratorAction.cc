@@ -130,6 +130,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	particleGun->SetParticleDefinition(particle);
 	G4double et = eventAction_->initEng* MeV;
 
+	G4String fileN = "currentEvent.rndm";
+	CLHEP::HepRandom::saveEngineStatus(fileN);
 
 	particleGun->SetParticleEnergy(et);
 	particleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
