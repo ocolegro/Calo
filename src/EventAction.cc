@@ -114,6 +114,19 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 	if(!doFast_){
 		for (size_t i =  ((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->initLayer()
 				; i < detector_->size(); i++) {
+			double totalSens = 0;
+			double wgtTotalSens = 0;
+
+			for (size_t i = ((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->initLayer()
+					; i < detector_->size(); i++) {
+				Double_t weight = (i < 8) ? .8 : 1. ;
+				totalSens += (*detector_)[i].getTotalSensE();
+				wgtTotalSens += weight*(*detector_)[i].getTotalSensE();
+
+				}
+			event_.dep(totalSens);
+			event_.wgtDep(wgtTotalSens);
+
 			for (unsigned idx(0); idx < (*detector_)[i].n_sens_elements; ++idx) {
 						std::map<unsigned, HGCSSSimHit> lHitMap;
 						std::pair<std::map<unsigned, HGCSSSimHit>::iterator, bool> isInserted;
@@ -136,18 +149,7 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 				}
 			(*detector_)[i].resetCounters();
 		}
-		double totalSens = 0;
-		double wgtTotalSens = 0;
 
-		for (size_t i = ((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->initLayer()
-				; i < detector_->size(); i++) {
-			Double_t weight = (i < 8) ? .8 : 1. ;
-			totalSens += (*detector_)[i].getTotalSensE();
-			wgtTotalSens += weight*(*detector_)[i].getTotalSensE();
-
-			}
-		event_.dep(totalSens);
-		event_.wgtDep(wgtTotalSens);
 	}
 
 
