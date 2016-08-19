@@ -139,12 +139,6 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	G4double z0 = -0.5 * (Detector->GetWorldSizeZ());
 
 	particleGun->SetParticlePosition(G4ThreeVector(x0, y0, z0));
-	HGCSSGenParticle genPart;
-	genPart.vertexKE(et);
-	TVector3 vec(x0,y0,z0);
-	genPart.vertexPos(vec);
-	int pdgid = particle->GetPDGEncoding();
-	genPart.pdgid(pdgid);
 
 	if (currentGenerator) {
 		currentGenerator->GeneratePrimaryVertex(anEvent);
