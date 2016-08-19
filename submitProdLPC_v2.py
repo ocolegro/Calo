@@ -91,12 +91,14 @@ outTag='%s_run%d'%(outTag,opt.run)
 if (opt.pass_ == 0):
     scriptFile.write('./PFCalEE g4steer.mac %d %d %d %d | tee g4.log\n'%(opt.version,opt.model,opt.generator,opt.speed))
 else:
+    scriptFile.write('xrdcp -f root://cmseos.fnal.gov/%s/HGcal_%s.root . \n'%(eosDir,outTag))
     scriptFile.write('./PFCalEE g4steer.mac %d %d %d %d HGcal_%s.root | tee g4.log\n'%(opt.version,opt.model,opt.generator,opt.speed,outTag))
 
 if (opt.pass_ == 0):
     scriptFile.write('xrdcp -f PFcal.root root://cmseos.fnal.gov/%s/HGcal_%s.root\n'%(eosDir,outTag))
 else:
     scriptFile.write('xrdcp -f PFcal.root root://cmseos.fnal.gov/%s/HGcal_%s_second.root\n'%(eosDir,outTag))
+    scriptFile.write('rm HGcal_%s_second.root\n'%(outTag))
 
 scriptFile.write('rm PFcal.root' )
 scriptFile.write('localdir=`pwd`\n')
