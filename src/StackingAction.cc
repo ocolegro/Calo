@@ -77,7 +77,7 @@ StackingAction::ClassifyNewTrack(const G4Track* lTrack)
 		eventAction_->novelVec_.push_back(genPart);
 	}*/
 
-	if ( (abs(pdgID) != 22) && kinEng < eventAction_->minEng) {
+	if ( (abs(pdgID) != 22) && (kinEng < eventAction_->minEng) && (lTrack->GetParentID() != 0)) {
 			if (eventAction_->doFast()){
 				return fKill;
 			}
