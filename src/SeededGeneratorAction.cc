@@ -123,6 +123,40 @@ SeededGeneratorAction::~SeededGeneratorAction() {
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+
+void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
+	G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+	G4String particleName;
+	G4ParticleDefinition* particle = particleTable->FindParticle(eventAction_->initPdgid);
+	particleGun->SetParticleDefinition(particle);
+	G4double et = eventAction_->initEng* MeV;
+
+
+	particleGun->SetParticleEnergy(et);
+	particleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
+
+	G4double x0 = 0.0;
+	G4double y0 = 0.0;
+	G4double z0 = -0.5 * (Detector->GetWorldSizeZ());
+
+	particleGun->SetParticlePosition(G4ThreeVector(x0, y0, z0));
+	HGCSSGenParticle genPart;
+	genPart.vertexKE(et);
+	TVector3 vec(x0,y0,z0);
+	genPart.vertexPos(vec);
+	int pdgid = particle->GetPDGEncoding();
+	genPart.pdgid(pdgid);
+
+	if (currentGenerator) {
+		currentGenerator->GeneratePrimaryVertex(anEvent);
+	} else
+		G4Exception("PrimaryGeneratorAction::GeneratePrimaries",
+				"PrimaryGeneratorAction001", FatalException,
+				"generator is not instanciated.");
+
+}
+
+/*
 void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 
 	G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
@@ -138,9 +172,9 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	CLHEP::HepRandom::restoreEngineStatus ("temp.rndm");
 	PipeData();
 
-	/*if (inc_->size() >  0){
+	if (inc_->size() >  0){
 		et = eventAction_->initEng * MeV;
-	}*/
+	}
 
 	particleGun->SetParticleEnergy(et);
 	particleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
@@ -167,6 +201,6 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 
 
 }
-
+*/
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
