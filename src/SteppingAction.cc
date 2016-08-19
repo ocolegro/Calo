@@ -39,6 +39,8 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 	G4Track* lTrack = aStep->GetTrack();
 	G4double kinEng = lTrack->GetKineticEnergy();
+	G4double incEng = kinEng - aStep->GetDeltaEnergy();
+
 	G4int pdgID = lTrack->GetDefinition()->GetPDGEncoding();
 	G4double eRawDep = aStep->GetTotalEnergyDeposit()  * MeV;
 
@@ -72,15 +74,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 	if (secondaries->size() > 0){
 		G4String theProcessName=secondaries->at(0)->GetCreatorProcess()->GetProcessName();
-		if (theProcessName == "PhotonInelastic"){
-			G4cout << "A photonuclear collision occured with kinEng == " << kinEng << " and the minEng is == " << eventAction_->minEng << G4endl;
-			G4cout << "The kinetic energy is " << lTrack->GetKineticEnergy() <<G4endl;
-			G4cout << "The  energy is " << lTrack->GetTotalEnergy() <<G4endl;
-			G4cout << "The  zpos is " << lTrack->GetVertexPosition()[0]  << G4endl;
-			G4cout << "The delta energy is " << - aStep->GetDeltaEnergy() << G4endl;
-
-		}
-		photoNuclear = ((theProcessName == "PhotonInelastic") && (kinEng > eventAction_->minEng));
+		photoNuclear = ((theProcessName == "PhotonInelastic") && (incEng > eventAction_->minEng));
 				//|| theProcessName == "ElectroNuclear" || theProcessName == "PositronNuclear")
 	}
 
