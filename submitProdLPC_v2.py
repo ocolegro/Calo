@@ -98,7 +98,7 @@ if (opt.pass_ == 0):
     scriptFile.write('xrdcp -f PFcal.root root://cmseos.fnal.gov/%s/HGcal_%s.root\n'%(eosDir,outTag))
 else:
     scriptFile.write('xrdcp -f PFcal.root root://cmseos.fnal.gov/%s/HGcal_%s_second.root\n'%(eosDir,outTag))
-    scriptFile.write('rm HGcal_%s_second.root\n'%(outTag))
+    scriptFile.write('rm HGcal_%s.root\n'%(outTag))
 
 scriptFile.write('rm PFcal.root' )
 scriptFile.write('localdir=`pwd`\n')
