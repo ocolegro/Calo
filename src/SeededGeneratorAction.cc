@@ -136,7 +136,7 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 
 	}
 	else{
-		G4RunManager::GetRunManager()->RunTermination();
+		G4RunManager::GetRunManager()->AbortRun();
 	}
 
 	PipeData();
