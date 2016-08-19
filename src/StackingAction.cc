@@ -92,7 +92,6 @@ StackingAction::ClassifyNewTrack(const G4Track* lTrack)
 			}
 	}
 	else{
-		G4cout << "Stacking Action is now done, returning urgent c" << G4endl;
 		return fUrgent;
 	}
 
