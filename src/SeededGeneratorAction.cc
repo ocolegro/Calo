@@ -138,7 +138,7 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 
 	if (inc_->size() >  0){
 		et = eventAction_->initEng * MeV;
-
+	}
 
 	particleGun->SetParticleEnergy(et );
 	particleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
@@ -162,7 +162,7 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 				"PrimaryGeneratorAction001", FatalException,
 				"generator is not instanciated.");
 
-	}
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
