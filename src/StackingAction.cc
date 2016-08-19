@@ -84,7 +84,7 @@ StackingAction::ClassifyNewTrack(const G4Track* lTrack)
 			else{
 					//return ((data_ == "") ? (fUrgent) : (fWaiting));
 				if (data_ == "") return fUrgent;
-				if (data_ != "") return fWaiting;
+				if (data_ != "") return fUrgent;
 			}
 	}
 	else
