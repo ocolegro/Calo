@@ -138,7 +138,7 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	G4double et = 0;
 
 	if (currentEvt != 0){
-	G4double et = eventAction_->initEng * MeV;
+	et = eventAction_->initEng * MeV;
 	G4cout << "The current event is " << currentEvt << G4endl;
 	}
 	G4cout << "creating a particle with energy " << et <<G4endl;
