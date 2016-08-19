@@ -141,7 +141,7 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	G4double et = eventAction_->initEng * MeV;
 	G4cout << "The current event is " << currentEvt << G4endl;
 	}
-
+	G4cout << "creating a particle with energy " << et <<G4endl;
 	particleGun->SetParticleEnergy(et);
 	particleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
 
@@ -153,6 +153,7 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	TVector3 vec(x0,y0,z0);
 
 	if (currentGenerator) {
+		G4cout << "Generating an event " <<G4endl;
 		currentGenerator->GeneratePrimaryVertex(anEvent);
 	} else
 		G4Exception("PrimaryGeneratorAction::GeneratePrimaries",
