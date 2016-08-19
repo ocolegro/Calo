@@ -158,6 +158,7 @@ void SeededGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	genPart.pdgid(pdgid);
 
 	if (currentGenerator) {
+		G4cout << "We are in currentGenerator section of SeededGen" << G4endl;
 		currentGenerator->GeneratePrimaryVertex(anEvent);
 	} else
 		G4Exception("SeededGeneratorAction::GeneratePrimaries",
