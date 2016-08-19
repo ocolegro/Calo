@@ -90,8 +90,7 @@ void EventAction::Detect(G4double eDepRaw, G4VPhysicalVolume *volume,G4Track* lT
 
 void EventAction::EndOfEventAction(const G4Event* g4evt) {
 	event_.eventNumber(evtNb_);
-	G4String fileN = "currentEvent.rndm";
-	CLHEP::HepRandom::saveEngineStatus(fileN);
+
 	std::ifstream input(fileN);
 	std::string currentLine;
 	Double_t stat_x = 0,stat_y = 0,seed_x = 0,seed_y = 0;
