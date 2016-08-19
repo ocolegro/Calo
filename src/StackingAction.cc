@@ -78,7 +78,7 @@ StackingAction::ClassifyNewTrack(const G4Track* lTrack)
 		eventAction_->novelVec_.push_back(genPart);
 	}*/
 
-	if ( (abs(pdgID) != 22) && (kinEng < eventAction_->minEng) && (lTrack->GetParentID() > 10)) {
+	if ( (abs(pdgID) != 22) && (kinEng < eventAction_->minEng)) {
 			if (eventAction_->doFast()){
 				G4cout << "Stacking Action is now finishing, returning Kill" << G4endl;
 				return fKill;
@@ -86,15 +86,15 @@ StackingAction::ClassifyNewTrack(const G4Track* lTrack)
 			}
 			else{
 					//return ((data_ == "") ? (fUrgent) : (fWaiting));
-				G4cout << "Stacking Action is now finishing, returning urgent" << G4endl;
 
-				if (data_ == "") { return fUrgent;}
-				else{ return fUrgent;}
+
+				if (data_ == "") { G4cout << "Stacking Action is now finishing, returning urgent a" << G4endl; return fUrgent;}
+				else{ G4cout << "Stacking Action is now finishing, returning urgent b " << G4endl; return fUrgent;}
 
 			}
 	}
 	else{
-		G4cout << "Stacking Action is now done, returning urgent" << G4endl;
+		G4cout << "Stacking Action is now done, returning urgent c" << G4endl;
 		return fUrgent;
 	}
 
