@@ -45,8 +45,10 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 	HGCSSGenParticle genPart;
 	if(!eventAction_->doFast())
-	eventAction_->Detect(eRawDep, volume,lTrack,position);
+		eventAction_->Detect(eRawDep, volume,lTrack,position);
+
 	const G4TrackVector* secondaries= aStep->GetSecondary();
+	G4cout << "Looking for escaping trakcs now" << G4endl;
 
 	bool trackEscapes = ((lTrack->GetTrackStatus()!=fAlive
 			&& (lTrack->GetKineticEnergy() > 10)
@@ -68,6 +70,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		escapePart.mass(lTrack->GetDefinition()->GetPDGMass());
 		eventAction_->escapevec_.push_back(escapePart);
 	}
+	G4cout << "Looking for photonuclear processes now" << G4endl;
 
 	G4String theProcessName=secondaries->at(0)->GetCreatorProcess()->GetProcessName();
 
