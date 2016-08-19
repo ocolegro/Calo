@@ -132,36 +132,33 @@ os.system('cp %s /%s/' % ('g4steer.mac',outDir))
 
 os.system('chmod 777 %s/PFCalEE' % (outDir))
 os.system('chmod 777 %s/runJob.sh' % (outDir))
-
-if opt.nosubmit : os.system('see %s'%(outDir))
+name = "submitRun%s" % (opt.run)
+f2n = "submit.jdl" ;
+outtag = "out_%s_$(Cluster)" % (name)
+f2=open(f2n, 'w')
+f2.write("universe = vanilla \n");
+#f2.write("Executable = %s \n" % ('//eos/uscms%s/runJob.sh'%(outDir)) );
+f2.write("Executable = %s \n" % ('%s/runJob.sh'%(outDir)) );
+f2.write('Requirements = OpSys == "LINUX" && (Arch != "DUMMY" )\n');
+f2.write("request_disk = 100000\n");
+f2.write("request_memory = 1250\n");
+f2.write("Should_Transfer_Files = YES \n");
+if (opt.pass_ == 0):
+    f2.write("Transfer_Input_Files = b18d36.dat,g4env4lpc.sh,libPFCalEE.so,libPFCalEEuserlib.so,PFCalEE,g4steer.mac \n" );
 else:
-    name = "submitRun%s" % (opt.run)
-    f2n = "submit.jdl" ;
-    outtag = "out_%s_$(Cluster)" % (name)
-    f2=open(f2n, 'w')
-    f2.write("universe = vanilla \n");
-    #f2.write("Executable = %s \n" % ('//eos/uscms%s/runJob.sh'%(outDir)) );
-    f2.write("Executable = %s \n" % ('%s/runJob.sh'%(outDir)) );
-    f2.write('Requirements = OpSys == "LINUX" && (Arch != "DUMMY" )\n');
-    f2.write("request_disk = 100000\n");
-    f2.write("request_memory = 1250\n");
-    f2.write("Should_Transfer_Files = YES \n");
-    if (opt.pass_ == 0):
-        f2.write("Transfer_Input_Files = b18d36.dat,g4env4lpc.sh,libPFCalEE.so,libPFCalEEuserlib.so,PFCalEE,g4steer.mac \n" );
-    else:
-        f2.write("Transfer_Input_Files = b18d36.dat,g4env4lpc.sh,libPFCalEE.so,libPFCalEEuserlib.so,PFCalEE,g4steer.mac,HGcal_%s.root \n" %(outTag) );
-    f2.write("WhenToTransferOutput  = ON_EXIT_OR_EVICT \n");
-    f2.write("Output = "+outtag+".stdout \n");
-    f2.write("Error = "+outtag+".stderr \n");
-    f2.write("Log = "+outtag+".log \n");
-    f2.write("Notification    = Error \n");
-    f2.write("x509userproxy = $ENV(X509_USER_PROXY) \n")
-    f2.write("Queue 1 \n");
-    f2.close();
-    #os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('submit.jdl',outDir))
-    os.system('cp %s /%s/' % ('submit.jdl',outDir))
+    f2.write("Transfer_Input_Files = b18d36.dat,g4env4lpc.sh,libPFCalEE.so,libPFCalEEuserlib.so,PFCalEE,g4steer.mac,HGcal_%s.root \n" %(outTag) );
+f2.write("WhenToTransferOutput  = ON_EXIT_OR_EVICT \n");
+f2.write("Output = "+outtag+".stdout \n");
+f2.write("Error = "+outtag+".stderr \n");
+f2.write("Log = "+outtag+".log \n");
+f2.write("Notification    = Error \n");
+f2.write("x509userproxy = $ENV(X509_USER_PROXY) \n")
+f2.write("Queue 1 \n");
+f2.close();
+#os.system('xrdcp %s root://cmseos.fnal.gov/%s/' % ('submit.jdl',outDir))
+os.system('cp %s /%s/' % ('submit.jdl',outDir))
 
-    print 'Changing dir to %s' % (outDir)
-    #os.chdir("//eos/uscms%s" % (outDir));
-    os.chdir("%s" % (outDir));
-    os.system("condor_submit submit.jdl");
+print 'Changing dir to %s' % (outDir)
+#os.chdir("//eos/uscms%s" % (outDir));
+os.chdir("%s" % (outDir));
+os.system("condor_submit submit.jdl");
