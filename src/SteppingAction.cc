@@ -77,6 +77,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 			G4cout << "The kinetic energy is " << lTrack->GetKineticEnergy() <<G4endl;
 			G4cout << "The  energy is " << lTrack->GetTotalEnergy() <<G4endl;
 			G4cout << "The  zpos is " << lTrack->GetVertexPosition()[0]  << G4endl;
+			G4cout << "The delta energy is " << - aStep->GetDeltaEnergy() << G4endl;
 
 		}
 		photoNuclear = ((theProcessName == "PhotonInelastic") && (kinEng > eventAction_->minEng));
